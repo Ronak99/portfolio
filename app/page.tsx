@@ -94,6 +94,45 @@ export default function Home() {
     },
   ];
 
+  const ongoing = [
+    {
+      title: "UI components for Flutter",
+      description:
+        "Shadcn UI /  Aceternity UI components equivalent for Flutter",
+      date: "In the works",
+      link: "#",
+    },
+    {
+      title: "Podcast / Interviews",
+      description:
+        "Interview a bunch of Flutter developers on The CS Guy youtube channel.",
+      date: "Brainstorming",
+      link: "#",
+    },
+    {
+      title: "pub-preview.dev",
+      description:
+        "A project where users can see the preview of a bunch of plugins without even installing them.",
+      date: "Brainstorming",
+      link: "#",
+    },
+  ];
+
+  const socials = [
+    {
+      icon: <GithubIcon className="h-5 w-5" />,
+      link: "https://www.linkedin.com/in/ronak-punase/",
+    },
+    {
+      icon: <LinkedinIcon className="h-5 w-5" />,
+      link: "https://www.linkedin.com/in/ronak-punase/",
+    },
+    {
+      icon: <Mail className="h-5 w-5" />,
+      link: "mailto:punase.ronak99@gmail.com",
+    },
+  ];
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -125,9 +164,11 @@ export default function Home() {
             Flutter Developer & Content Creator
           </p>
           <div className="flex justify-center gap-4">
-            <Button variant="default" size="lg">
-              Contact Me <Mail className="ml-2 h-4 w-4" />
-            </Button>
+            <Link href="/expandable">
+              <Button variant="default" size="lg">
+                Contact Me <Mail className="ml-2 h-4 w-4" />
+              </Button>
+            </Link>
             <Link href="/resume.pdf" target="_blank">
               <Button variant="outline" size="lg">
                 View Resume <FileText className="ml-2 h-4 w-4" />
@@ -146,16 +187,39 @@ export default function Home() {
             transition={{ duration: 0.5 }}
           >
             <h2 className="text-3xl font-bold mb-8">Currently Working On</h2>
-            <Card className="p-6">
-              <h3 className="text-xl font-semibold mb-4">Latest Project</h3>
-              <p className="text-muted-foreground mb-4">
-                Building a next-generation web application using cutting-edge
-                technologies.
-              </p>
-              <Button variant="link" className="p-0">
-                Learn more <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Card>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {ongoing.map((item, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                >
+                  <Card className="h-full flex flex-col">
+                    <div className="p-6 flex-1">
+                      <h3 className="text-xl font-semibold mb-2">
+                        {item.title}
+                      </h3>
+                      <p className="text-muted-foreground mb-4">
+                        {item.description}
+                      </p>
+                      <p className="text-sm text-muted-foreground mb-4">
+                        {item.date}
+                      </p>
+                      <Button variant="link" className="p-0" asChild>
+                        <a
+                          href={item.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Learn more <ArrowRight className="ml-2 h-4 w-4" />
+                        </a>
+                      </Button>
+                    </div>
+                  </Card>
+                </motion.div>
+              ))}
+            </div>
           </motion.div>
         </div>
       </section>
@@ -333,15 +397,17 @@ export default function Home() {
       {/* Footer */}
       <footer className="container mx-auto px-4 py-8">
         <div className="flex justify-center space-x-4">
-          <Button variant="ghost" size="icon">
-            <GithubIcon className="h-5 w-5" />
-          </Button>
-          <Button variant="ghost" size="icon">
-            <LinkedinIcon className="h-5 w-5" />
-          </Button>
-          <Button variant="ghost" size="icon">
-            <Mail className="h-5 w-5" />
-          </Button>
+          {socials.map((social) => (
+            <Link href={social.link} target="_blank">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="text-neutral-700 hover:text-white transition-colors"
+              >
+                {social.icon}
+              </Button>
+            </Link>
+          ))}
         </div>
       </footer>
 
