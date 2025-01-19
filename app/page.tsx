@@ -18,120 +18,11 @@ import { Header } from "@/components/ui/header";
 import { useTypewriter } from "@/hooks/useTypewriter";
 import { VideoModal } from "@/components/ui/video-modal";
 import Link from "next/link";
+import { articles, ongoing, projects, socials, videos } from "./util/data";
+import { VideoSection } from "@/components/section/video-section";
 
 export default function Home() {
   const typedText = useTypewriter("Hi, I'm Ronak");
-  const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
-
-  const projects = [
-    {
-      title: "Skype Clone",
-      description: "Fully functional skype clone in flutter.",
-      image:
-        "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1000",
-      link: "https://github.com/Ronak99/Skype-Clone",
-    },
-    {
-      title: "QuickBytes",
-      description: "Mobile-first news platform",
-      image:
-        "https://images.unsplash.com/photo-1552308995-2baac1ad5490?q=80&w=1000",
-      link: "https://github.com/Ronak99/QuickBytes",
-    },
-    {
-      title: "Inquirely",
-      description: "Bring the power of AI to your venture.",
-      image:
-        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1000",
-      link: "https://github.com/Ronak99/Inquirely-Web",
-    },
-  ];
-
-  const videos = [
-    {
-      title: "How to make Pixel Perfect UIs in Flutter",
-      description: "Tutorial on Web Development",
-      thumbnail:
-        "https://i9.ytimg.com/vi_webp/wWH66F9y63U/maxresdefault.webp?v=66537f3f&sqp=CNzKrbwG&rs=AOn4CLBYxSu-e0YeE7z2l9BpB48dHdKfuw",
-      videoId: "wWH66F9y63U?start=30",
-    },
-    {
-      title: "Video Calling in Flutter",
-      description: "Code Review Session",
-      thumbnail:
-        "https://i9.ytimg.com/vi_webp/v9ngriCV0J0/maxresdefault.webp?v=6653833e&sqp=CNzKrbwG&rs=AOn4CLBHHa828tbogKDNoPgy-3Bi6PFKjw",
-      videoId: "dQw4w9WgXcQ",
-    },
-    {
-      title: "Thanos Snap Effect in Flutter",
-      description: "Code Review Session",
-      thumbnail:
-        "https://i9.ytimg.com/vi_webp/uIw9K6ix4c0/maxresdefault.webp?v=5d6bab42&sqp=CNjDrbwG&rs=AOn4CLD3CTeR_ABu3ZdEnwdMzT5xZy5RSg",
-      videoId: "uIw9K6ix4c0",
-    },
-    {
-      title: "Interview with Linus Trovalds",
-      description: "Talking with the legendary developer of Linux",
-      thumbnail: "",
-      videoId: "dQw4w9WgXcQ",
-    },
-  ];
-
-  const articles = [
-    {
-      title: "Migrate from Dynamic Links.",
-      description:
-        "The most straightforward guide to migrating away from Dynamic Links.",
-      date: "Dec 19, 2024",
-      link: "https://medium.com/@punase.ronak99/migrate-from-dynamic-links-c6e35982d84b",
-    },
-    {
-      title: "Machine Learning using PyTorch",
-      description:
-        "Curation of resources to get started with Machine Learning.",
-      date: "Oct 23, 2024",
-      link: "https://medium.com/@punase.ronak99/machine-learning-using-pytorch-what-worked-for-me-12f2c71e2871",
-    },
-  ];
-
-  const ongoing = [
-    {
-      title: "UI components for Flutter",
-      description:
-        "Shadcn UI /  Aceternity UI components equivalent for Flutter",
-      date: "In the works",
-      link: "#",
-    },
-    {
-      title: "Podcast / Interviews",
-      description:
-        "Interview a bunch of Flutter developers on The CS Guy youtube channel.",
-      date: "Brainstorming",
-      link: "#",
-    },
-    {
-      title: "pub-preview.dev",
-      description:
-        "A project where users can see the preview of a bunch of plugins without even installing them.",
-      date: "Brainstorming",
-      link: "#",
-    },
-  ];
-
-  const socials = [
-    {
-      icon: <GithubIcon className="h-5 w-5" />,
-      link: "https://www.linkedin.com/in/ronak-punase/",
-    },
-    {
-      icon: <LinkedinIcon className="h-5 w-5" />,
-      link: "https://www.linkedin.com/in/ronak-punase/",
-    },
-    {
-      icon: <Mail className="h-5 w-5" />,
-      link: "mailto:punase.ronak99@gmail.com",
-    },
-  ];
 
   return (
     <div className="min-h-screen bg-background">
@@ -305,41 +196,7 @@ export default function Home() {
             </div>
           </TabsContent>
           <TabsContent value="videos">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              {videos.map((video, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                >
-                  <Card className="overflow-hidden">
-                    <AspectRatio ratio={16 / 9}>
-                      <img
-                        src={video.thumbnail}
-                        alt={video.title}
-                        className="object-cover w-full h-full"
-                      />
-                    </AspectRatio>
-                    <div className="p-4">
-                      <h3 className="text-xl font-semibold mb-2">
-                        {video.title}
-                      </h3>
-                      <p className="text-muted-foreground mb-4">
-                        {video.description}
-                      </p>
-                      <Button
-                        variant="link"
-                        className="p-0"
-                        onClick={() => setSelectedVideo(video.videoId)}
-                      >
-                        Watch Video <ArrowRight className="ml-2 h-4 w-4" />
-                      </Button>
-                    </div>
-                  </Card>
-                </motion.div>
-              ))}
-            </div>
+            <VideoSection videos={videos} />
           </TabsContent>
         </Tabs>
       </section>
@@ -398,27 +255,24 @@ export default function Home() {
       <footer className="container mx-auto px-4 py-8">
         <div className="flex justify-center space-x-4">
           {socials.map((social) => (
-            <Link href={social.link} target="_blank">
+            <Link key={social.link} href={social.link} target="_blank">
               <Button
                 variant="ghost"
                 size="icon"
                 className="text-neutral-700 hover:text-white transition-colors"
               >
-                {social.icon}
+                {social.type === "linkedin" ? (
+                  <LinkedinIcon className="h-5 w-5" />
+                ) : social.type === "github" ? (
+                  <GithubIcon className="h-5 w-5" />
+                ) : (
+                  <Mail className="h-5 w-5" />
+                )}
               </Button>
             </Link>
           ))}
         </div>
       </footer>
-
-      {/* Video Modal */}
-      {selectedVideo && (
-        <VideoModal
-          isOpen={!!selectedVideo}
-          onClose={() => setSelectedVideo(null)}
-          videoId={selectedVideo}
-        />
-      )}
     </div>
   );
 }
