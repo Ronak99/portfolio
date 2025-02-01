@@ -5,7 +5,7 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   images: { unoptimized: true },
-  basePath: "/Portfolio",
+  basePath: "/portfolio",
 };
 
 module.exports = nextConfig;
