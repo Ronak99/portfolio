@@ -5,6 +5,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import useOutsideClick from "@/hooks/useOutsideClick";
 import { Video } from "@/app/util/types";
 import { Play } from "lucide-react";
+import { Card } from "../ui/card";
+import { AspectRatio } from "../ui/aspect-ratio";
 
 export function VideoSection({ videos }: { videos: Video[] }) {
   const [active, setActive] = useState<Video | null>(null);
@@ -131,7 +133,7 @@ export function VideoSection({ videos }: { videos: Video[] }) {
                     target="_blank"
                     className="px-4 py-2 text-sm rounded-full font-semibold bg-red-600 text-white"
                   >
-                    Open
+                    Play on YouTube
                   </motion.a>
                 </div>
                 <div className="pt-4 relative px-4">
@@ -150,45 +152,51 @@ export function VideoSection({ videos }: { videos: Video[] }) {
           </div>
         ) : null}
       </AnimatePresence>
-      <ul className="max-w-2xl mx-auto w-full gap-4">
+      <ul className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {videos.map((video, index) => (
           <motion.div
             layoutId={`card-${video.title}-${id}`}
             key={`card-${video.title}-${id}`}
             onClick={() => setActive(video)}
-            className="p-4 flex flex-col md:flex-row justify-between items-center hover:bg-neutral-50 dark:hover:bg-neutral-800 rounded-xl cursor-pointer"
+            className="flex cursor-pointer rounded-xl"
           >
-            <div className="flex gap-4 flex-col md:flex-row ">
-              <motion.div layoutId={`image-${video.title}-${id}`}>
-                <Image
-                  width={100}
-                  height={100}
-                  src={video.thumbnail}
-                  alt={video.title}
-                  className="h-40 w-40 md:h-14 md:w-14 rounded-lg object-cover object-top"
-                />
+            <Card className="flex flex-col w-full h-full rounded-xl">
+              <motion.div
+                className="relative "
+                layoutId={`image-${video.title}-${id}`}
+              >
+                <AspectRatio ratio={16 / 9}>
+                  <img
+                    src={video.thumbnail}
+                    alt={video.title}
+                    className="object-cover w-full h-full rounded-t-xl"
+                  />
+                </AspectRatio>
               </motion.div>
-              <div className="">
-                <motion.h3
-                  layoutId={`title-${video.title}-${id}`}
-                  className="font-medium text-neutral-800 dark:text-neutral-200 text-center md:text-left"
+              <div className="px-4 py-4 flex justify-between items-center">
+                <div>
+                  <motion.h3
+                    layoutId={`title-${video.title}-${id}`}
+                    className="font-medium text-neutral-800 dark:text-neutral-200 text-center md:text-left"
+                  >
+                    {video.title}
+                  </motion.h3>
+                  <motion.p
+                    layoutId={`subtitle-${video.subtitle}-${id}`}
+                    className="text-muted-foreground text-center md:text-left"
+                  >
+                    {video.subtitle}
+                  </motion.p>
+                </div>
+
+                <motion.button
+                  layoutId={`button-${video.title}-${id}`}
+                  className="px-4 py-2 text-sm rounded-full font-bold hover:bg-red-700 bg-red-600 text-white mt-4 md:mt-0 transition-colors"
                 >
-                  {video.title}
-                </motion.h3>
-                <motion.p
-                  layoutId={`subtitle-${video.subtitle}-${id}`}
-                  className="text-neutral-600 dark:text-neutral-400 text-center md:text-left"
-                >
-                  {video.subtitle}
-                </motion.p>
+                  Play
+                </motion.button>
               </div>
-            </div>
-            <motion.button
-              layoutId={`button-${video.title}-${id}`}
-              className="px-4 py-2 text-sm rounded-full font-bold bg-gray-100 hover:bg-green-500 hover:text-white text-black mt-4 md:mt-0"
-            >
-              View
-            </motion.button>
+            </Card>
           </motion.div>
         ))}
       </ul>

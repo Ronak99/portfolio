@@ -20,9 +20,23 @@ import { VideoModal } from "@/components/ui/video-modal";
 import Link from "next/link";
 import { articles, ongoing, projects, socials, videos } from "./util/data";
 import { VideoSection } from "@/components/section/video-section";
+import { TypewriterEffect } from "@/components/ui/typewriter-effect";
+import ContentSection from "@/components/section/content-section";
 
 export default function Home() {
   const typedText = useTypewriter("Hi, I'm Ronak");
+  // const words = [
+  //   {
+  //     text: "Hi,",
+  //   },
+  //   {
+  //     text: "I'm",
+  //   },
+  //   {
+  //     text: "Ronak",
+  //     className: "text-blue-500 dark:text-blue-500",
+  //   },
+  // ];
 
   return (
     <div className="min-h-screen bg-background">
@@ -41,7 +55,7 @@ export default function Home() {
               initial={{ opacity: 0, scale: 0.5 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5 }}
-              className="relative w-40 h-40 rounded-full overflow-hidden border-4 border-primary"
+              className="relative w-[200px] h-[200px] rounded-full overflow-hidden border-4 border-primary"
             >
               <img
                 src="/me.jpg"
@@ -50,12 +64,17 @@ export default function Home() {
               />
             </motion.div>
           </div>
-          <h1 className="text-4xl md:text-6xl font-bold mb-6">{typedText}</h1>
+
+          {/* <TypewriterEffect words={words} cursorClassName="bg-transparent" /> */}
+          <h1 className="text-4xl md:text-6xl font-bold mb-6">
+            Hi, I'm{" "}
+            <span className="text-blue-600 dark:text-blue-500">Ronak.</span>
+          </h1>
           <p className="text-xl md:text-2xl text-muted-foreground mb-8">
-            Flutter Developer & Content Creator
+            Flutter Developer, React Developer and Content Creator.
           </p>
           <div className="flex justify-center gap-4">
-            <Link href="/expandable">
+            <Link href="mailto:punase.ronak99@gmail.com" target="_">
               <Button variant="default" size="lg">
                 Contact Me <Mail className="ml-2 h-4 w-4" />
               </Button>
@@ -69,15 +88,61 @@ export default function Home() {
         </motion.div>
       </section>
 
+      {/* My Projects Section */}
+      <ContentSection
+        id="projects"
+        title="My Projects"
+        subtitle="I've been exploring Flutter since 2019 and have been working on Flutter projects in professional capacity since 2020. After building projects and documenting them for fellow Flutter developers on my YouTube channel, I started getting freelancing opportunities and I continued that route till I finally got a job at PuStack. I like to explore and experiment with different technologies to learn and incorporate them in my projects rather than using what I know repeatedly."
+        isMuted={true}
+      >
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {projects.map((project, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+            >
+              <Card className="overflow-hidden">
+                <AspectRatio ratio={16 / 9}>
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="object-cover w-full h-full"
+                  />
+                </AspectRatio>
+                <div className="p-4">
+                  <h3 className="text-xl font-semibold mb-2">
+                    {project.title}
+                  </h3>
+                  <p className="text-muted-foreground mb-4">
+                    {project.description}
+                  </p>
+                  <Link href={project.link} target="_blank">
+                    <Button variant="link" className="p-0">
+                      View Project <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </Link>
+                </div>
+              </Card>
+            </motion.div>
+          ))}
+        </div>
+      </ContentSection>
+
       {/* Current Work Section */}
-      <section className="bg-muted py-16" id="projects">
+      <ContentSection
+        id="working-on"
+        title="Currently working on"
+        subtitle="A little bit of this, a little bit of that."
+        isMuted={false}
+      >
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
           >
-            <h2 className="text-3xl font-bold mb-8">Currently Working On</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {ongoing.map((item, index) => (
                 <motion.div
@@ -113,11 +178,15 @@ export default function Home() {
             </div>
           </motion.div>
         </div>
-      </section>
+      </ContentSection>
 
       {/* Articles Section */}
-      <section className="container mx-auto px-4 py-16" id="articles">
-        <h2 className="text-3xl font-bold mb-8">Latest Articles</h2>
+      <ContentSection
+        id="articles"
+        title="Articles"
+        subtitle="I publish articles on Medium every once in a while on topics such as Machine Learning or Flutter."
+        isMuted={true}
+      >
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {articles.map((article, index) => (
             <motion.div
@@ -151,58 +220,25 @@ export default function Home() {
             </motion.div>
           ))}
         </div>
-      </section>
+      </ContentSection>
 
       {/* Projects & Videos Section */}
-      <section className="container mx-auto px-4 py-16" id="videos">
-        <Tabs defaultValue="projects" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 mb-8">
-            <TabsTrigger value="projects">Projects</TabsTrigger>
-            <TabsTrigger value="videos">Videos</TabsTrigger>
-          </TabsList>
-          <TabsContent value="projects">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {projects.map((project, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                >
-                  <Card className="overflow-hidden">
-                    <AspectRatio ratio={16 / 9}>
-                      <img
-                        src={project.image}
-                        alt={project.title}
-                        className="object-cover w-full h-full"
-                      />
-                    </AspectRatio>
-                    <div className="p-4">
-                      <h3 className="text-xl font-semibold mb-2">
-                        {project.title}
-                      </h3>
-                      <p className="text-muted-foreground mb-4">
-                        {project.description}
-                      </p>
-                      <Link href={project.link} target="_blank">
-                        <Button variant="link" className="p-0">
-                          View Project <ArrowRight className="ml-2 h-4 w-4" />
-                        </Button>
-                      </Link>
-                    </div>
-                  </Card>
-                </motion.div>
-              ))}
-            </div>
-          </TabsContent>
-          <TabsContent value="videos">
-            <VideoSection videos={videos} />
-          </TabsContent>
-        </Tabs>
-      </section>
+      <ContentSection
+        id="videos"
+        title="Videos"
+        subtitle="I've uploaded approximately 53 videos, which have collectively garnered over 100,000 views, resulting in a subscriber count of 16,000."
+        isMuted={false}
+      >
+        <VideoSection videos={videos} />
+      </ContentSection>
 
       {/* Resume Section */}
-      <section className="bg-muted py-16" id="resume">
+      <ContentSection
+        id="resume"
+        title="Resume"
+        subtitle="My resume."
+        isMuted={true}
+      >
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0 }}
@@ -210,7 +246,6 @@ export default function Home() {
             transition={{ duration: 0.5 }}
             className="text-center"
           >
-            <h2 className="text-3xl font-bold mb-8">Resume</h2>
             <Card className="p-6 max-w-2xl mx-auto">
               <div className="space-y-4">
                 <div>
@@ -249,7 +284,7 @@ export default function Home() {
             </Card>
           </motion.div>
         </div>
-      </section>
+      </ContentSection>
 
       {/* Footer */}
       <footer className="container mx-auto px-4 py-8">
@@ -259,7 +294,7 @@ export default function Home() {
               <Button
                 variant="ghost"
                 size="icon"
-                className="text-neutral-700 hover:text-white transition-colors"
+                className="text-neutral-700 hover:text-foreground transition-colors"
               >
                 {social.type === "linkedin" ? (
                   <LinkedinIcon className="h-5 w-5" />

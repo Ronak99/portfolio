@@ -3,24 +3,63 @@ import { Article, OngoingProject, Project, Social, Video } from "./types";
 const projects: Project[] = [
   {
     title: "Skype Clone",
-    description: "Fully functional skype clone in flutter.",
-    image:
-      "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1000",
+    description:
+      "Fully functional skype clone in Flutter. | Flutter + Firebase",
+    image: "/projects/skype-clone.webp",
     link: "https://github.com/Ronak99/Skype-Clone",
   },
   {
     title: "QuickBytes",
-    description: "Mobile-first news platform",
+    description: "Mobile-first news platform | Flutter + Express + MongoDB",
     image:
       "https://images.unsplash.com/photo-1552308995-2baac1ad5490?q=80&w=1000",
     link: "https://github.com/Ronak99/QuickBytes",
   },
   {
     title: "Inquirely",
+    description:
+      "Bring the power of AI to your venture. | React + MongoDB + Langchain",
+    image:
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1000",
+    link: "https://github.com/Ronak99/Inquirely-Web",
+  },
+  {
+    title: "Majestic UI",
+    description: "ShadCN inspired UI component imports | NextJS + Flutter",
+    image:
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1000",
+    link: "https://github.com/Ronak99/Inquirely-Web",
+  },
+  {
+    title: "PuStack Tutor App",
+    description: "Bring the power of AI to your venture. ",
+    image:
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1000",
+    link: "https://github.com/Ronak99/Inquirely-Web",
+  },
+  {
+    title: "Minerva App",
     description: "Bring the power of AI to your venture.",
     image:
       "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1000",
     link: "https://github.com/Ronak99/Inquirely-Web",
+  },
+];
+
+const packagesPublished: Project[] = [
+  {
+    title: "Persistent TextField",
+    description: "Fully functional skype clone in flutter.",
+    image:
+      "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1000",
+    link: "https://pub.dev/packages/persistent_textfield",
+  },
+  {
+    title: "Majestic UI",
+    description: "Mobile-first news platform",
+    image:
+      "https://images.unsplash.com/photo-1552308995-2baac1ad5490?q=80&w=1000",
+    link: "https://pub.dev/packages/majestic_ui",
   },
 ];
 

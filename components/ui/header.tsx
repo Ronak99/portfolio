@@ -4,6 +4,7 @@ import { motion, useScroll } from "framer-motion";
 import { Button } from "./button";
 import { Mail, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
+import Link from "next/link";
 
 export function Header() {
   const { scrollY } = useScroll();
@@ -76,9 +77,12 @@ export function Header() {
                 <Moon className="h-5 w-5" />
               )}
             </Button>
-            <Button size="sm">
-              Contact <Mail className="ml-2 h-4 w-4" />
-            </Button>
+            <Link href={"mailto:punase.ronak99@gmail.com"} target="_">
+              {" "}
+              <Button size="sm">
+                Contact <Mail className="ml-2 h-4 w-4" />
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
