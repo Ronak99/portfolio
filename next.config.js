@@ -5,7 +5,10 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   images: { unoptimized: true },
-  basePath: "/portfolio",
+  basePath:
+    process.env.NODE_ENV === "production"
+      ? "https://ronak99.github.io/portfolio"
+      : undefined,
 };
 
 module.exports = nextConfig;
