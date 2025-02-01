@@ -58,7 +58,7 @@ export default function Home() {
               className="relative w-[200px] h-[200px] rounded-full overflow-hidden border-4 border-primary"
             >
               <img
-                src="/me.jpg"
+                src={`${basePath}/me.jpg`}
                 alt="Ronak"
                 className="object-cover w-full h-full"
               />

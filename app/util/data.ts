@@ -5,7 +5,7 @@ const projects: Project[] = [
     title: "Skype Clone",
     description:
       "Fully functional skype clone in Flutter. | Flutter + Firebase",
-    image: "/projects/skype-clone.webp",
+    image: `${basePath}/projects/skype-clone.webp`,
     link: "https://github.com/Ronak99/Skype-Clone",
   },
   {
@@ -67,7 +67,7 @@ const videos: Video[] = [
   {
     title: "How to make Pixel Perfect UIs in Flutter",
     subtitle: "Subtitle 1",
-    thumbnail: "/thumbnails/pixel-perfect.webp",
+    thumbnail: `${basePath}/thumbnails/pixel-perfect.webp`,
     ctaLink: "",
     videoId: "wWH66F9y63U?start=30",
     description: `This video is an introduction a flutter course, where we'll build a skype clone. I am gonna cover all important topics like: Firebase Authentication, Firestore Database, Sqlite, State Management, and Video Calling in flutter.
@@ -81,7 +81,7 @@ If you are new to this channel then make sure to hit the subscribe button in ord
   {
     title: "Video Calling in Flutter",
     subtitle: "Subtitle 2",
-    thumbnail: "/thumbnails/video-calling.webp",
+    thumbnail: `${basePath}/thumbnails/video-calling.webp`,
     ctaLink: "",
     videoId: "dQw4w9WgXcQ",
     description: `This video is an introduction a flutter course, where we'll build a skype clone. I am gonna cover all important topics like: Firebase Authentication, Firestore Database, Sqlite, State Management, and Video Calling in flutter.
@@ -95,7 +95,7 @@ If you are new to this channel then make sure to hit the subscribe button in ord
   {
     title: "Thanos Snap Effect in Flutter 1",
     subtitle: "Subtitle 3",
-    thumbnail: "/thumbnails/thanos-snap.webp",
+    thumbnail: `${basePath}/thumbnails/thanos-snap.webp`,
     ctaLink: "",
     videoId: "uIw9K6ix4c0",
     description: `This video is an introduction a flutter course, where we'll build a skype clone. I am gonna cover all important topics like: Firebase Authentication, Firestore Database, Sqlite, State Management, and Video Calling in flutter.
@@ -109,7 +109,7 @@ If you are new to this channel then make sure to hit the subscribe button in ord
   {
     title: "Thanos Snap Effect in Flutter 2",
     subtitle: "Subtitle 4",
-    thumbnail: "/thumbnails/tts-flutter.webp",
+    thumbnail: `${basePath}/thumbnails/tts-flutter.webp`,
     ctaLink: "",
     videoId: "uIw9K6ix4c0",
     description: `This video is an introduction a flutter course, where we'll build a skype clone. I am gonna cover all important topics like: Firebase Authentication, Firestore Database, Sqlite, State Management, and Video Calling in flutter.
@@ -123,7 +123,7 @@ If you are new to this channel then make sure to hit the subscribe button in ord
   {
     title: "Thanos Snap Effect in Flutter 3",
     subtitle: "Subtitle 5",
-    thumbnail: "/thumbnails/drag-and-drop.webp",
+    thumbnail: `${basePath}/thumbnails/drag-and-drop.webp`,
     ctaLink: "",
     videoId: "uIw9K6ix4c0",
     description: `This video is an introduction a flutter course, where we'll build a skype clone. I am gonna cover all important topics like: Firebase Authentication, Firestore Database, Sqlite, State Management, and Video Calling in flutter.

@@ -5,7 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 export const metadata: Metadata = {
   title: "Ronak Punase",
   description: "AKA The CS Guy",
-  icons: "/logo.png",
+  icons: `${basePath}/logo.png`,
 };
 
 export default function RootLayout({
