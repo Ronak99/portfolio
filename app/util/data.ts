@@ -1,3 +1,4 @@
+import { basePath } from "./constants";
 import { Article, OngoingProject, Project, Social, Video } from "./types";
 
 const projects: Project[] = [

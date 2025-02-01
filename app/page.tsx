@@ -22,6 +22,7 @@ import { articles, ongoing, projects, socials, videos } from "./util/data";
 import { VideoSection } from "@/components/section/video-section";
 import { TypewriterEffect } from "@/components/ui/typewriter-effect";
 import ContentSection from "@/components/section/content-section";
+import { basePath } from "./util/constants";
 
 export default function Home() {
   const typedText = useTypewriter("Hi, I'm Ronak");

@@ -1,6 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { ThemeProvider } from "@/components/theme-provider";
+import { basePath } from "./util/constants";
 
 export const metadata: Metadata = {
   title: "Ronak Punase",
