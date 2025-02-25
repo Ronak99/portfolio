@@ -10,33 +10,29 @@ const projects: Project[] = [
     link: "https://github.com/Ronak99/Skype-Clone",
   },
   {
+    title: "Majestic UI",
+    description: "ShadCN inspired UI component imports | NextJS + Flutter",
+    image: `${basePath}/projects/majestic-ui.png`,
+    link: "https://www.majesticui.com",
+  },
+  {
     title: "QuickBytes",
     description: "Mobile-first news platform | Flutter + Express + MongoDB",
-    image:
-      "https://images.unsplash.com/photo-1552308995-2baac1ad5490?q=80&w=1000",
+    image: `${basePath}/projects/quickbytes.png`,
     link: "https://github.com/Ronak99/QuickBytes",
   },
   {
     title: "Inquirely",
     description:
       "Bring the power of AI to your venture. | React + MongoDB + Langchain",
-    image:
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1000",
+    image: `${basePath}/projects/inquirely.png`,
     link: "https://github.com/Ronak99/Inquirely-Web",
-  },
-  {
-    title: "Majestic UI",
-    description: "ShadCN inspired UI component imports | NextJS + Flutter",
-    image:
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1000",
-    link: "https://www.majesticui.com",
   },
   {
     title: "PuStack Tutor App",
     description: "Bring the power of AI to your venture. ",
-    image:
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1000",
-    link: "https://github.com/Ronak99/Inquirely-Web",
+    image: `${basePath}/projects/pustack-tutor.png`,
+    link: "https://play.google.com/store/apps/details?id=com.pustack.android.pustacktutor&hl=en",
   },
   {
     title: "Minerva App",
