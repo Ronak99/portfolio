@@ -33,3 +33,15 @@ export interface Social {
   icon?: string;
   link: string;
 }
+
+export interface LinkItemProps {
+  label: string;
+  link: string;
+  text: string;
+}
+
+export interface ExperienceItemProps {
+  period: string;
+  title: string;
+  items: string[];
+}

@@ -3,7 +3,8 @@ import { TextSection } from "@/components/base/TextSection";
 import { LinkSection } from "@/components/base/LinkSection";
 import { ExperienceSection } from "@/components/base/ExperienceSection";
 import { ProfileHeader } from "@/components/base/ProfileHeader";
-import { ExperienceItemProps, LinkItemProps } from "./util/types";
+
+import { ExperienceItemProps, LinkItemProps } from "../../util/types";
 
 const Page: React.FC = () => {
   // Contact links data
