@@ -22,8 +22,13 @@ export const MediaSection: React.FC<MediaSectionProps> = ({
       <SectionHeader title={title} link={link} linkLabel={linkLabel} />
       <div className="flex text-sm text-muted-foreground overflow-x-scroll gap-2">
         {items.map((item) => (
-          <Link href={item.link} target="_" className="flex-shrink-0 ">
-            <div key={item.link} className="flex flex-col gap-2 items-center">
+          <Link
+            key={item.link}
+            href={item.link}
+            target="_"
+            className="flex-shrink-0 "
+          >
+            <div className="flex flex-col gap-2 items-center">
               <img
                 src={item.image}
                 className="rounded-lg h-[120px] w-[225px] object-cover"

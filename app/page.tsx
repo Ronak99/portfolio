@@ -162,7 +162,7 @@ const Page: React.FC = () => {
     {
       title: "Video Calling in Flutter",
       image: `${basePath}/thumbnails/video-calling.webp`,
-      link: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      link: "https://www.youtube.com/watch?v=v9ngriCV0J0",
     },
     {
       title: "Making Pixel Perfect UIs in Flutter",
@@ -242,7 +242,7 @@ const Page: React.FC = () => {
               linkLabel="View All"
             />
 
-            {/* Videos Section */}
+            {/* Articles Section */}
             <MediaSection
               title="Articles"
               items={articles}

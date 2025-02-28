@@ -1,4 +1,1 @@
-export const basePath =
-  process.env.NODE_ENV === "production"
-    ? "https://ronak99.github.io/portfolio"
-    : "";
+export const basePath = "https://ronak99.github.io/portfolio";
