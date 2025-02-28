@@ -21,6 +21,7 @@ export const ExperienceSection: React.FC<ExperienceSectionProps> = ({
           period={exp.period}
           title={exp.title}
           items={exp.items}
+          more={exp.more}
         />
       ))}
     </div>

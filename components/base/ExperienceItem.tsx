@@ -7,6 +7,7 @@ export const ExperienceItem: React.FC<ExperienceItemProps> = ({
   period,
   title,
   items,
+  more,
 }) => {
   return (
     <div className="flex">
@@ -16,7 +17,14 @@ export const ExperienceItem: React.FC<ExperienceItemProps> = ({
       <div className="flex flex-grow flex-col gap-4 text-zinc-100 text-sm text-muted-foreground">
         <div className="flex w-full justify-between">
           {title}
-          <Link href={"/archive/pustack"}>Read More</Link>
+          {more && (
+            <Link
+              href={more}
+              className="underline underline-offset-4 text-xs text-muted-foreground hover:text-zinc-300 transition-colors"
+            >
+              Read More
+            </Link>
+          )}
         </div>
         <ul className="flex flex-col gap-2">
           {items.map((item, index) => (

@@ -1,6 +1,24 @@
 import Link from "next/link";
+import React from "react";
 
 export function parseMarkdownLinks(text: string): React.ReactNode {
+  // Handle newlines by splitting the text and processing each line
+  if (text.includes("\n")) {
+    const lines = text.split("\n");
+    return lines.map((line, index) => (
+      <React.Fragment key={index}>
+        {index > 0 && <br />}
+        {parseMarkdownLinksInLine(line)}
+      </React.Fragment>
+    ));
+  }
+
+  // If no newlines, process the entire text as a single line
+  return parseMarkdownLinksInLine(text);
+}
+
+// Helper function to parse markdown links in a single line
+function parseMarkdownLinksInLine(text: string): React.ReactNode {
   // Regular expression to match markdown-style links: [text](url)
   const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
 

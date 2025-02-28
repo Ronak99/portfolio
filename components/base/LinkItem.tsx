@@ -8,7 +8,11 @@ export const LinkItem: React.FC<LinkItemProps> = ({ label, link, text }) => {
     <div className="flex">
       <span className="w-[120px] text-sm text-muted-foreground">{label}</span>
       <span className="text-zinc-100 flex gap-1 items-center text-sm text-muted-foreground">
-        <Link href={link} target="_blank" className="hover:underline">
+        <Link
+          href={link}
+          target="_blank"
+          className="hover:underline underline-offset-4"
+        >
           {text}
         </Link>{" "}
         <ArrowUpRight size={14} />

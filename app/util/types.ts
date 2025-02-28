@@ -44,4 +44,11 @@ export interface ExperienceItemProps {
   period: string;
   title: string;
   items: string[];
+  more?: string;
+}
+
+export interface MediaItemProps {
+  image: string;
+  title: string;
+  link: string;
 }

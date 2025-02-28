@@ -3,7 +3,13 @@ import { TextSection } from "@/components/base/TextSection";
 import { LinkSection } from "@/components/base/LinkSection";
 import { ExperienceSection } from "@/components/base/ExperienceSection";
 import { ProfileHeader } from "@/components/base/ProfileHeader";
-import { ExperienceItemProps, LinkItemProps } from "./util/types";
+import {
+  ExperienceItemProps,
+  LinkItemProps,
+  MediaItemProps,
+} from "./util/types";
+import { MediaSection } from "@/components/base/MediaSection";
+import { basePath } from "./util/constants";
 
 const Page: React.FC = () => {
   // Contact links data
@@ -34,7 +40,7 @@ const Page: React.FC = () => {
     },
     {
       label: "Github",
-      link: "https://www.linkedin.com/in/ronak-punase/",
+      link: "https://github.com/Ronak99/",
       text: "Ronak99",
     },
   ];
@@ -44,6 +50,7 @@ const Page: React.FC = () => {
     {
       period: "2021 — Now",
       title: "PuStack",
+      more: "/archive/pustack",
       items: [
         "Worked on the [PuStack](https://apps.apple.com/us/app/pustack/id6444080075), [PuStack Tutor](https://apps.apple.com/in/app/pustack-tutor/id6444847124) and [PuStack Gives](https://apps.apple.com/in/app/pustack-gives/id6449460885) app.",
         "Engineered extremely reliable video calling mechanism.",
@@ -145,6 +152,44 @@ const Page: React.FC = () => {
     },
   ];
 
+  // Videos
+  const videos: MediaItemProps[] = [
+    {
+      title: "Introducing Majestic UI for Flutter",
+      image: `${basePath}/thumbnails/majesticui.webp`,
+      link: "https://www.youtube.com/watch?v=wWH66F9y63U&t=30",
+    },
+    {
+      title: "Video Calling in Flutter",
+      image: `${basePath}/thumbnails/video-calling.webp`,
+      link: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    },
+    {
+      title: "Making Pixel Perfect UIs in Flutter",
+      image: `${basePath}/thumbnails/pixel-perfect.webp`,
+      link: "https://www.youtube.com/watch?v=wWH66F9y63U&t=30",
+    },
+    {
+      title: "How to add Text to Speech",
+      image: `${basePath}/thumbnails/tts-flutter.webp`,
+      link: "https://www.youtube.com/watch?v=WnJZOi57oTY",
+    },
+  ];
+
+  // Medium articles
+  const articles: MediaItemProps[] = [
+    {
+      title: "Migrate from Dynamic Links",
+      image: `${basePath}/thumbnails/article-2.webp`,
+      link: "https://medium.com/@punase.ronak99/migrate-from-dynamic-links-c6e35982d84b",
+    },
+    {
+      title: "PyTorch for Machine Learning",
+      image: `${basePath}/thumbnails/article-1.webp`,
+      link: "https://medium.com/@punase.ronak99/machine-learning-using-pytorch-what-worked-for-me-12f2c71e2871",
+    },
+  ];
+
   // Education data
   const education: ExperienceItemProps[] = [
     {
@@ -189,20 +234,24 @@ const Page: React.FC = () => {
               experiences={projects}
             />
 
-            {/* Education Section */}
-            <ExperienceSection title="Education" experiences={education} />
+            {/* Videos Section */}
+            <MediaSection
+              title="Videos"
+              items={videos}
+              link="https://www.youtube.com/@TheCSGuy"
+              linkLabel="View All"
+            />
 
             {/* Videos Section */}
-            <TextSection
-              title="Videos"
-              content="I am a passionate Flutter developer with over 4 years of experience and there's a lot more about you that you ought to know."
+            <MediaSection
+              title="Articles"
+              items={articles}
+              link="https://medium.com/@punase.ronak99"
+              linkLabel="Read on Medium"
             />
 
-            {/* Articles Section */}
-            <TextSection
-              title="Articles"
-              content="I am a passionate Flutter developer with over 4 years of experience and there's a lot more about you that you ought to know."
-            />
+            {/* Education Section */}
+            <ExperienceSection title="Education" experiences={education} />
           </div>
         </div>
       </main>
