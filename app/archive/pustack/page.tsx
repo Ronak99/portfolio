@@ -55,25 +55,13 @@ const Page: React.FC = () => {
               ]}
             />
             {/* About Section */}
-            <TextSection
-              title="My Time at PuStack"
-              content="I am a passionate Flutter developer with over 4 years of experience and there's a lot more about you that you ought to know."
-            />
+            <TextSection title="My Time at PuStack" content="To be added." />
 
-            <TextSection
-              title="PuStack Student App"
-              content="This was my first project. PuStack needed a platform from where their teacher's could schedule daily live sessions, the live sessions are then consumed by the student app. "
-            />
+            <TextSection title="PuStack Student App" content="To be added." />
 
-            <TextSection
-              title="PuStack Tutor App"
-              content="This was my first project. PuStack needed a platform from where their teacher's could schedule daily live sessions, the live sessions are then consumed by the student app. "
-            />
+            <TextSection title="PuStack Tutor App" content="To be added." />
 
-            <TextSection
-              title="PuStack Gives App"
-              content="This was my first project. PuStack needed a platform from where their teacher's could schedule daily live sessions, the live sessions are then consumed by the student app. "
-            />
+            <TextSection title="PuStack Gives App" content="To be added." />
 
             <TextSection
               title="Internship at PuStack"

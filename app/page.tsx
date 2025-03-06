@@ -216,7 +216,7 @@ const Page: React.FC = () => {
             {/* About Section */}
             <TextSection
               title="About"
-              content="I am a passionate Flutter developer with over 4 years of experience and there's a lot more about you that you ought to know."
+              content="Flutter dev with over 4 years of experience, love working on challenging projects with people that have great attention to detail."
             />
 
             {/* Contact Section */}
