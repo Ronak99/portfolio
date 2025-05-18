@@ -48,7 +48,13 @@ const Page: React.FC = () => {
   // Experience data
   const experiences: ExperienceItemProps[] = [
     {
-      period: "2021 — Now",
+      period: "2025 — Now",
+      title: "Farmako",
+      more: "/archive/farmako",
+      items: ["Figuring things out..."],
+    },
+    {
+      period: "2021 — 2025",
       title: "PuStack",
       more: "/archive/pustack",
       items: [
