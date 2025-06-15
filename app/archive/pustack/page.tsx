@@ -55,13 +55,25 @@ const Page: React.FC = () => {
               ]}
             />
             {/* About Section */}
-            <TextSection title="My Time at PuStack" content="To be added." />
+            <TextSection
+              title="My Time at PuStack"
+              content="It was fun while it lasted. Learnt a lot."
+            />
 
-            <TextSection title="PuStack Student App" content="To be added." />
+            <TextSection
+              title="PuStack Student App"
+              content="I have a lot of challenges that I faced and overcome which I can pen down here."
+            />
 
-            <TextSection title="PuStack Tutor App" content="To be added." />
+            <TextSection
+              title="PuStack Tutor App"
+              content="This was really fun as this was the first app based project that I worked on from scratch and man, I love the way this turned out. I can just keep writing about this one."
+            />
 
-            <TextSection title="PuStack Gives App" content="To be added." />
+            <TextSection
+              title="PuStack Gives App"
+              content="This was a fun little experiment, never meant to be used by a large number of people, but I am mentioning it here nonetheless."
+            />
 
             <TextSection
               title="Internship at PuStack"
@@ -70,7 +82,12 @@ const Page: React.FC = () => {
 
             <TextSection
               title="Live Session Manager"
-              content="This was my first project. PuStack needed a platform from where their teacher's could schedule daily live sessions, the live sessions are then consumed by the student app. "
+              content="This was my first project. PuStack needed a platform from where their teacher's could schedule daily live sessions, the live sessions were then consumed by the student app. I got started with building this on Flutter Web. A big challenge in this project was defining what LIVE actually meant. A teacher had the ability to create a session for the next second, minute or they could plan ahead upto 2 months. Since our backend was in [Firebase](https://console.firebase.google.com/), I had to map the same data using two separate data points as anchor points in order to ensure that the queries are optimized. In one collection, everything is mapped by the date on which a particular session is supposed to go live, this allowed me to quickly query and display available sessions within a calendar view, making it easier to navigate for the teachers. On the other hand, we had the student app which didn't care for these things, so here everything was maintained using the regular firebase document id based structure. It was a real challenge to prevent a single data point to go out of sync with another one, now that we were maintaining two source of truths, especially when user changes the essential data like the date on which a particular session is meant to go live."
+            />
+
+            <TextSection
+              title="Content Management System"
+              content="This was my first project. PuStack needed a platform from where their teacher's could schedule daily live sessions, the live sessions were then consumed by the student app. I got started with building this on Flutter Web. A big challenge in this project was defining what LIVE actually meant. A teacher had the ability to create a session for the next second, minute or they could plan ahead upto 2 months. Since our backend was in [Firebase](https://console.firebase.google.com/), I had to map the same data using two separate data points as anchor points in order to ensure that the queries are optimized. In one collection, everything is mapped by the date on which a particular session is supposed to go live, this allowed me to quickly query and display available sessions within a calendar view, making it easier to navigate for the teachers. On the other hand, we had the student app which didn't care for these things, so here everything was maintained using the regular firebase document id based structure. It was a real challenge to prevent a single data point to go out of sync with another one, now that we were maintaining two source of truths, especially when user changes the essential data like the date on which a particular session is meant to go live."
             />
           </div>
         </div>

@@ -34,44 +34,23 @@ const Page: React.FC = () => {
               links={[
                 {
                   label: "Webite",
-                  link: "pustack.com",
-                  text: "pustack.com",
+                  link: "farmako.ai",
+                  text: "farmako.ai",
                 },
                 {
-                  label: "Student App",
-                  link: "pustack.com",
-                  text: "PuStack on App Store",
+                  label: "Android",
+                  link: "https://play.google.com/store/apps/details?id=in.farmako.users_app_mv2&hl=en_IN",
+                  text: "Farmako App on Play Store",
                 },
                 {
-                  label: "Tutor App",
-                  link: "pustack.com",
-                  text: "PuStack Tutor on App Store",
-                },
-                {
-                  label: "Gives App",
-                  link: "pustack.com",
-                  text: "PuStack Gives on App Store",
+                  label: "iOS",
+                  link: "https://apps.apple.com/in/app/farmako-medicines-in-30-min/id1639113676",
+                  text: "Farmako App on App Store",
                 },
               ]}
             />
             {/* About Section */}
-            <TextSection title="My Time at PuStack" content="To be added." />
-
-            <TextSection title="PuStack Student App" content="To be added." />
-
-            <TextSection title="PuStack Tutor App" content="To be added." />
-
-            <TextSection title="PuStack Gives App" content="To be added." />
-
-            <TextSection
-              title="Internship at PuStack"
-              content={`[Shivam Gupta](https://www.linkedin.com/in/shivamsf/) reached out to me in 2020 after seeing my content on YouTube and explained his vision for PuStack and how I would fit into the role as a Flutter Developer. I really like the idea and as a 20 year old, really needed work experience. I was already working as a freelancer at this point, but I figured it would be better to take up full-time work experience.\n\nAfter a brief interview, I was given the offer letter, man was I thrilled.`}
-            />
-
-            <TextSection
-              title="Live Session Manager"
-              content="This was my first project. PuStack needed a platform from where their teacher's could schedule daily live sessions, the live sessions are then consumed by the student app. "
-            />
+            <TextSection title="My Time at Farmako" content="To be added." />
           </div>
         </div>
       </main>

@@ -81,10 +81,10 @@ const Page: React.FC = () => {
       period: "2020 — 2021",
       title: "Intern",
       items: [
-        "Developed [Live Session Controller](#lsc).",
-        "Developed [Content Management System](#cms).",
-        "Developed [Customer Care Platform](#ccp).",
-        "Developed [Central Auth Mechnanism](#cam) like Google for all things PuStack.",
+        "Developed [Live Session Controller](/archive/pustack/#live_session_controller).",
+        "Developed [Content Management System](/archive/pustack/#content_management_system).",
+        "Developed [Customer Care Platform](#customer_care_platform).",
+        "Developed [Central Auth Mechnanism](#central_auth_mechanism) like Google for all things PuStack.",
       ],
     },
   ];
