@@ -2,6 +2,9 @@ import React from "react";
 import { TextSection } from "@/components/base/TextSection";
 import { LinkSection } from "@/components/base/LinkSection";
 import { ExperienceSection } from "@/components/base/ExperienceSection";
+import { ProjectsSection } from "@/components/base/ProjectsSection";
+import { WorkingOnSection } from "@/components/base/WorkingOnSection";
+import { EducationSection } from "@/components/base/EducationSection";
 import { ProfileHeader } from "@/components/base/ProfileHeader";
 import {
   ExperienceItemProps,
@@ -12,6 +15,13 @@ import { MediaSection } from "@/components/base/MediaSection";
 import { basePath } from "./util/constants";
 
 const Page: React.FC = () => {
+  const currentYear = new Date().getFullYear();
+  const startYear = 2020;
+  const yearsOfExperience = currentYear - startYear;
+
+  const aboutContent = `**Competitive when learning**, **collaborative when building**. 
+\nI am a mobile dev with more than ${yearsOfExperience} years of experience, well versed in Flutter and the ins and outs of the various caveats presented by both Android and iOS.`
+
   // Contact links data
   const contactLinks: LinkItemProps[] = [
     {
@@ -89,11 +99,28 @@ const Page: React.FC = () => {
     },
   ];
 
+
+  // Projects data
+  const workingOn: ExperienceItemProps[] = [
+    {
+      period: "Jan 2025",
+      title: "Majestic UI",
+      items: [
+        "[Shadcn](https://ui.shadcn.com/) equivalent for Flutter.",
+        "Developed an [advanced CLI](https://pub.dev/packages/majestic_ui) tool for direct delivery to the user.",
+        "Built a beautiful ReactJS website with hosted Flutter webview.",
+        "Integrate Github's [Octokit](https://github.com/octokit) SDK for the [Publish](https://majesticui.com/publish) feature.",
+        "Tech Stack — Next.js, Tailwind CSS, Dart, Supabase.",
+      ],
+    },
+  ];
+
   // Projects data
   const projects: ExperienceItemProps[] = [
     {
       period: "Jan 2025",
       title: "Majestic UI",
+      image: `${basePath}/projects/majestic-ui.png`,
       items: [
         "[Shadcn](https://ui.shadcn.com/) equivalent for Flutter.",
         "Developed an [advanced CLI](https://pub.dev/packages/majestic_ui) tool for direct delivery to the user.",
@@ -114,6 +141,7 @@ const Page: React.FC = () => {
     {
       period: "2024",
       title: "Inquirely",
+      image: `${basePath}/projects/inquirely.png`,
       items: [
         "Implemented ETL + Retrieval Augmented Generation pipeline.",
         "ETL Techniques such as: Normalization",
@@ -129,6 +157,7 @@ const Page: React.FC = () => {
     {
       period: "2020",
       title: "Quickbytes",
+      image: `${basePath}/projects/quickbytes.png`,
       items: [
         "InShorts inspired News application in Flutter.",
         "Beautiful UI, minimalistic vision.",
@@ -148,6 +177,7 @@ const Page: React.FC = () => {
     {
       period: "2021",
       title: "Skype Clone",
+      image: `${basePath}/projects/skype-clone.webp`,
       items: [
         "Fully functional Skype Clone in Flutter.",
         "Features: Auth, Search, Chat, Video-Call.",
@@ -215,29 +245,28 @@ const Page: React.FC = () => {
           {/* Profile Header */}
           <ProfileHeader
             name="Ronak Punase"
-            title="Flutter and React Developer."
+            title="Flutter / iOS (Swift) Developer."
           />
 
-          <div className="flex flex-col gap-12 mt-10">
+          <div className="flex flex-col gap-12 mt-4">
             {/* About Section */}
             <TextSection
-              title="About"
-              content="Flutter dev with over 4 years of experience, love working on challenging projects with people that have great attention to detail."
+              content={aboutContent}
             />
 
-            {/* Contact Section */}
-            <LinkSection title="Contact" links={contactLinks} />
-
-            {/* Socials Section */}
-            <LinkSection title="Socials" links={socialLinks} />
+            {/* Currently Working On Section */}
+            <WorkingOnSection
+              title="Currently Working On"
+              items={workingOn}
+            />
 
             {/* Experience Section */}
-            <ExperienceSection title="Experience" experiences={experiences} />
-
+            <ExperienceSection title="Professional Experience" experiences={experiences} />
+            
             {/* Projects Section */}
-            <ExperienceSection
+            <ProjectsSection
               title="Personal Projects"
-              experiences={projects}
+              projects={projects}
             />
 
             {/* Videos Section */}
@@ -257,7 +286,15 @@ const Page: React.FC = () => {
             />
 
             {/* Education Section */}
-            <ExperienceSection title="Education" experiences={education} />
+            <EducationSection title="Education" education={education} />
+
+
+            {/* Contact Section */}
+            <LinkSection title="Contact" links={contactLinks} />
+
+            {/* Socials Section */}
+            <LinkSection title="Socials" links={socialLinks} />
+
           </div>
         </div>
       </main>

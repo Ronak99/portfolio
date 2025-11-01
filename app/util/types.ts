@@ -45,6 +45,7 @@ export interface ExperienceItemProps {
   title: string;
   items: string[];
   more?: string;
+  image?: string;
 }
 
 export interface MediaItemProps {

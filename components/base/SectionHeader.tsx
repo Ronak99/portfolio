@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 interface SectionHeaderProps {
-  title: string;
+  title?: string;
   link?: string;
   linkLabel?: string;
 }
@@ -14,7 +14,8 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
   return (
     <>
       <div className="flex w-full justify-between">
-        <span className="text-sm text-zinc-100">{title}</span>
+        {title && (
+        <span className="text-md font-semibold text-zinc-100">{title}</span>)}
         {link && (
           <Link
             href={link}
