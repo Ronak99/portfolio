@@ -27,6 +27,7 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
   const [currentIndex, setCurrentIndex] = React.useState(0);
   const [timeRemaining, setTimeRemaining] = React.useState(10000); // 10 seconds in milliseconds
   const [isPlaying, setIsPlaying] = React.useState(true);
+  const [isMobile, setIsMobile] = React.useState(false);
   const autoScrollIntervalRef = React.useRef<NodeJS.Timeout | null>(null);
   const countdownIntervalRef = React.useRef<NodeJS.Timeout | null>(null);
   const AUTO_SCROLL_DURATION = 10000; // 10 seconds
@@ -71,6 +72,11 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
 
   // Auto-scroll function
   const startAutoScroll = React.useCallback(() => {
+    // Don't start auto-scroll on mobile
+    if (isMobile) {
+      return;
+    }
+
     // Clear any existing interval
     if (autoScrollIntervalRef.current) {
       clearInterval(autoScrollIntervalRef.current);
@@ -92,7 +98,7 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
         api.scrollTo(0);
       }
     }, AUTO_SCROLL_DURATION);
-  }, [api, startCountdown]);
+  }, [api, startCountdown, isMobile]);
 
   // Stop auto-scroll function
   const stopAutoScroll = React.useCallback(() => {
@@ -147,6 +153,23 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
     api?.scrollNext();
   };
 
+  // Detect mobile viewport
+  React.useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 640); // sm breakpoint
+    };
+
+    // Check on mount
+    checkMobile();
+
+    // Listen for resize events
+    window.addEventListener("resize", checkMobile);
+
+    return () => {
+      window.removeEventListener("resize", checkMobile);
+    };
+  }, []);
+
   React.useEffect(() => {
     if (!api) {
       return;
@@ -160,45 +183,54 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
       setCanScrollPrev(api.canScrollPrev());
       setCanScrollNext(api.canScrollNext());
       setCurrentIndex(api.selectedScrollSnap());
-      // Reset countdown when slide changes
-      startCountdown();
+      // Reset countdown when slide changes (only if not mobile)
+      if (!isMobile) {
+        startCountdown();
+      }
     };
 
     api.on("select", handleSelect);
 
-    // Start auto-scroll when api is ready
-    startAutoScroll();
+    // Start auto-scroll when api is ready (only on desktop)
+    if (!isMobile) {
+      startAutoScroll();
+    } else {
+      // On mobile, ensure auto-scroll is stopped
+      stopAutoScroll();
+    }
 
     // Cleanup on unmount
     return () => {
       stopAutoScroll();
       stopCountdown();
     };
-  }, [api, startAutoScroll, stopAutoScroll, startCountdown, stopCountdown]);
+  }, [api, startAutoScroll, stopAutoScroll, startCountdown, stopCountdown, isMobile]);
 
   return (
     <div
       className="flex flex-col gap-6"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      onMouseEnter={!isMobile ? handleMouseEnter : undefined}
+      onMouseLeave={!isMobile ? handleMouseLeave : undefined}
     >
       {/* Header with title and navigation buttons */}
       <div className="flex w-full justify-between items-center gap-2 sm:gap-4 flex-wrap">
         <span className="text-md font-semibold text-zinc-100">{title}</span>
 
           <div className="flex gap-2 items-center flex-shrink-0">
-             {/* Circular Progress Indicator */}
-      <CircularProgressIndicator
-        timeRemaining={timeRemaining}
-        totalTime={AUTO_SCROLL_DURATION}
-        CIRCLE_SIZE={CIRCLE_SIZE}
-        CIRCLE_RADIUS={CIRCLE_RADIUS}
-        CIRCLE_STROKE_WIDTH={CIRCLE_STROKE_WIDTH}
-        CIRCLE_CIRCUMFERENCE={CIRCLE_CIRCUMFERENCE}
-        handleTogglePlayPause={handleTogglePlayPause}
-        AUTO_SCROLL_DURATION={AUTO_SCROLL_DURATION}
-        isPlaying={isPlaying}
-      />
+             {/* Circular Progress Indicator - Hidden on mobile */}
+      {!isMobile && (
+        <CircularProgressIndicator
+          timeRemaining={timeRemaining}
+          totalTime={AUTO_SCROLL_DURATION}
+          CIRCLE_SIZE={CIRCLE_SIZE}
+          CIRCLE_RADIUS={CIRCLE_RADIUS}
+          CIRCLE_STROKE_WIDTH={CIRCLE_STROKE_WIDTH}
+          CIRCLE_CIRCUMFERENCE={CIRCLE_CIRCUMFERENCE}
+          handleTogglePlayPause={handleTogglePlayPause}
+          AUTO_SCROLL_DURATION={AUTO_SCROLL_DURATION}
+          isPlaying={isPlaying}
+        />
+      )}
             <Button
               variant="ghost"
               size="icon"

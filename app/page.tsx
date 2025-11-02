@@ -78,15 +78,15 @@ const Page: React.FC = () => {
         "Led the revision and publication of the official PuStack and PuStack tutor apps on Play Store and App Store.",
       ],
     },
-    {
-      period: "Tech Stack",
-      title: "Extensive",
-      items: [
-        "Flutter — Provider | Riverpod.",
-        "Firebase — Auth | Storage | RTDB | Firestore | Cloud Functions.",
-        "Native — Android (Java, Kotlin) | iOS (Swift)",
-      ],
-    },
+    // {
+    //   period: "Tech Stack",
+    //   title: "Extensive",
+    //   items: [
+    //     "Flutter — Provider | Riverpod.",
+    //     "Firebase — Auth | Storage | RTDB | Firestore | Cloud Functions.",
+    //     "Native — Android (Java, Kotlin) | iOS (Swift)",
+    //   ],
+    // },
     {
       period: "2020 — 2021",
       title: "Intern",
@@ -104,13 +104,12 @@ const Page: React.FC = () => {
   const workingOn: ExperienceItemProps[] = [
     {
       period: "Jan 2025",
-      title: "Majestic UI",
+      title: "MyMoney",
+      image: `${basePath}/projects/my-money.png`,
       items: [
-        "[Shadcn](https://ui.shadcn.com/) equivalent for Flutter.",
-        "Developed an [advanced CLI](https://pub.dev/packages/majestic_ui) tool for direct delivery to the user.",
-        "Built a beautiful ReactJS website with hosted Flutter webview.",
-        "Integrate Github's [Octokit](https://github.com/octokit) SDK for the [Publish](https://majesticui.com/publish) feature.",
-        "Tech Stack — Next.js, Tailwind CSS, Dart, Supabase.",
+        "Industry ready expense tracker in Flutter.",
+        "Features: Dynamic local bank statement parsers, Income, Expense, Category, Bank Accounts",
+        "Built using: Floor DB, Bloc, Get",
       ],
     },
   ];

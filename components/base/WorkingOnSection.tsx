@@ -1,5 +1,5 @@
 import React from "react";
-import { ExperienceItem } from "./ExperienceItem";
+import { WorkingOnItem } from "./WorkingOnItem";
 import { ExperienceItemProps } from "@/app/util/types";
 import { SectionHeader } from "./SectionHeader";
 
@@ -16,12 +16,13 @@ export const WorkingOnSection: React.FC<WorkingOnSectionProps> = ({
     <div className="flex flex-col gap-6">
       <SectionHeader title={title} />
       {items.map((item, index) => (
-        <ExperienceItem
+        <WorkingOnItem
           key={index}
           period={item.period}
           title={item.title}
           items={item.items}
           more={item.more}
+          image={item.image}
         />
       ))}
     </div>
