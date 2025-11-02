@@ -241,14 +241,14 @@ const Page: React.FC = () => {
   return (
     <>
       <main className="flex w-full">
-        <div className="flex flex-col px-8 py-12 w-[640px] h-full mx-auto">
+        <div className="flex flex-col px-4 sm:px-8 py-8 sm:py-12 w-full max-w-[640px] h-full mx-auto">
           {/* Profile Header */}
           <ProfileHeader
             name="Ronak Punase"
             title="Flutter / iOS (Swift) Developer."
           />
 
-          <div className="flex flex-col gap-12 mt-4">
+          <div className="flex flex-col gap-8 sm:gap-12 mt-4">
             {/* About Section */}
             <TextSection
               content={aboutContent}

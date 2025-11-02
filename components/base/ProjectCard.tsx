@@ -13,7 +13,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   image = "https://picsum.photos/500",
 }) => {
   return (
-    <div className="flex gap-6">
+    <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
       {/* Image/Logo */}
       <div className="flex-shrink-0">
         <img
@@ -21,7 +21,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           alt={title}
           width={120}
           height={120}
-          className="rounded-lg object-cover w-[120px] h-[120px]"
+          className="rounded-lg object-cover w-full sm:w-[120px] h-auto sm:h-[120px] max-w-[120px] mx-auto sm:mx-0"
         />
       </div>
 

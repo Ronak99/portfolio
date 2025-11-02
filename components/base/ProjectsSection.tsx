@@ -183,12 +183,10 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
       onMouseLeave={handleMouseLeave}
     >
       {/* Header with title and navigation buttons */}
-      <div className="flex w-full justify-between items-center">
+      <div className="flex w-full justify-between items-center gap-2 sm:gap-4 flex-wrap">
         <span className="text-md font-semibold text-zinc-100">{title}</span>
-        
-        
 
-          <div className="flex gap-2 items-center">
+          <div className="flex gap-2 items-center flex-shrink-0">
              {/* Circular Progress Indicator */}
       <CircularProgressIndicator
         timeRemaining={timeRemaining}
