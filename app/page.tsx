@@ -61,7 +61,13 @@ const Page: React.FC = () => {
       period: "2025 — Now",
       title: "Farmako",
       more: "/archive/farmako",
-      items: ["Figuring things out..."],
+      items: [
+        "Built a new, dynamic UI using advanced Dart features (mixins, factory constructors, detailed enums), improving overall project code-quality.",
+        "Developed and stabilized multiple CI/CD workflows, reducing build failures by 40%.",
+        "Implemented a unified CI/CD pipeline for Android, iOS, Firebase Distribution, and Shorebird, cutting distribution time by several hours (≈60–70%).",
+        "Replaced GitHub-hosted runners with local runners, reducing infrastructure costs by 150% and speeding up builds by 25%.",
+        "Re-implemented the cart as a local-first system, improving add-to-cart speed and delivering a noticeably smoother UX.",
+      ],
     },
     {
       period: "2021 — 2025",
@@ -105,6 +111,7 @@ const Page: React.FC = () => {
     {
       period: "Jan 2025",
       title: "MyMoney",
+      more: "https://github.com/Ronak99/MyMoney",
       image: `${basePath}/projects/my-money.png`,
       items: [
         "Industry ready expense tracker in Flutter.",
