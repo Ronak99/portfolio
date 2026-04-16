@@ -119,7 +119,7 @@ function parseMarkdownInLine(text: string): React.ReactNode {
     switch (token.type) {
       case 'bold':
         parts.push(
-          <strong key={`token-${keyCounter++}`} className="font-semibold text-zinc-300">
+          <strong key={`token-${keyCounter++}`} className="font-syne font-semibold text-white/90">
             {parseMarkdownInLine(token.content)}
           </strong>
         );
@@ -138,7 +138,7 @@ function parseMarkdownInLine(text: string): React.ReactNode {
             href={token.url!}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-zinc-300 underline-offset-4 decoration-1 hover:underline inline-flex items-center"
+            className="text-white/70 underline-offset-4 decoration-1 hover:text-white hover:underline inline-flex items-center transition-colors duration-300"
           >
             {token.content}
           </Link>

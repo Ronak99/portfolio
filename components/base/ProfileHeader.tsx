@@ -13,15 +13,19 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   imageSrc,
 }) => {
   return (
-    <div className="flex items-center gap-3 sm:gap-4">
+    <div className="flex flex-col gap-8 pt-4 pb-2">
       <img
         src={imageSrc || `${basePath}/me.jpg`}
         alt={name}
-        className="object-cover rounded-full h-[64px] w-[64px] sm:h-[92px] sm:w-[92px] flex-shrink-0"
+        className="object-cover rounded-2xl h-[88px] w-[88px] grayscale hover:grayscale-0 transition-all duration-700"
       />
-      <div className="flex flex-col min-w-0">
-        <span className="text-xl sm:text-2xl truncate">{name}</span>
-        <span className="text-xs sm:text-sm text-ronak-foreground truncate">{title}</span>
+      <div className="flex flex-col gap-1">
+        <h1 className="font-syne text-3xl sm:text-4xl font-bold tracking-tight text-white leading-tight">
+          {name}
+        </h1>
+        <span className="font-inter text-sm text-white/40 tracking-wide">
+          {title}
+        </span>
       </div>
     </div>
   );

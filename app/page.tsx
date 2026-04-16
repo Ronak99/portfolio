@@ -12,17 +12,15 @@ import {
   MediaItemProps,
 } from "./util/types";
 import { MediaSection } from "@/components/base/MediaSection";
+import { FadeIn } from "@/components/base/FadeIn";
 import { basePath } from "./util/constants";
 
 const Page: React.FC = () => {
   const currentYear = new Date().getFullYear();
-  const startYear = 2020;
-  const yearsOfExperience = currentYear - startYear;
+  const yearsOfExperience = currentYear - 2020;
 
-  const aboutContent = `**Competitive when learning**, **collaborative when building**. 
-\nI am a mobile dev with more than ${yearsOfExperience} years of experience, well versed in Flutter and the ins and outs of the various caveats presented by both Android and iOS.`
+  const aboutContent = `**Competitive when learning**, **collaborative when building**.\n\nI am a mobile dev with more than ${yearsOfExperience} years of experience, well versed in Flutter and the ins and outs of the various caveats presented by both Android and iOS.`;
 
-  // Contact links data
   const contactLinks: LinkItemProps[] = [
     {
       label: "Email",
@@ -36,7 +34,6 @@ const Page: React.FC = () => {
     },
   ];
 
-  // Social links data
   const socialLinks: LinkItemProps[] = [
     {
       label: "YouTube",
@@ -55,7 +52,6 @@ const Page: React.FC = () => {
     },
   ];
 
-  // Experience data
   const experiences: ExperienceItemProps[] = [
     {
       period: "2025 — Now",
@@ -77,36 +73,25 @@ const Page: React.FC = () => {
         "Worked on the [PuStack](https://apps.apple.com/us/app/pustack/id6444080075), [PuStack Tutor](https://apps.apple.com/in/app/pustack-tutor/id6444847124) and [PuStack Gives](https://apps.apple.com/in/app/pustack-gives/id6449460885) app.",
         "Engineered extremely reliable video calling mechanism.",
         "Implemented [Agora](https://www.agora.io/en)'s native Android and iOS SDK into a Flutter plugin.",
-        "Extracted [Whiteboard SDK](d) native functionality into Flutter plugin.",
+        "Extracted Whiteboard SDK native functionality into Flutter plugin.",
         "Built pixel-perfect UIs with dynamic layouts for mobile, tablet and iPad.",
         "Added feature inspired by Instagram Stories with advanced caching techniques in the tutor app.",
         "Designed and implemented a resilient call billing infrastructure.",
         "Led the revision and publication of the official PuStack and PuStack tutor apps on Play Store and App Store.",
       ],
     },
-    // {
-    //   period: "Tech Stack",
-    //   title: "Extensive",
-    //   items: [
-    //     "Flutter — Provider | Riverpod.",
-    //     "Firebase — Auth | Storage | RTDB | Firestore | Cloud Functions.",
-    //     "Native — Android (Java, Kotlin) | iOS (Swift)",
-    //   ],
-    // },
     {
       period: "2020 — 2021",
       title: "Intern",
       items: [
         "Developed [Live Session Controller](/archive/pustack/#live_session_controller).",
         "Developed [Content Management System](/archive/pustack/#content_management_system).",
-        "Developed [Customer Care Platform](#customer_care_platform).",
-        "Developed [Central Auth Mechnanism](#central_auth_mechanism) like Google for all things PuStack.",
+        "Developed Customer Care Platform.",
+        "Developed Central Auth Mechanism like Google for all things PuStack.",
       ],
     },
   ];
 
-
-  // Projects data
   const workingOn: ExperienceItemProps[] = [
     {
       period: "Jan 2025",
@@ -121,7 +106,6 @@ const Page: React.FC = () => {
     },
   ];
 
-  // Projects data
   const projects: ExperienceItemProps[] = [
     {
       period: "Jan 2025",
@@ -136,27 +120,15 @@ const Page: React.FC = () => {
       ],
     },
     {
-      period: "2025",
-      title: "Packages Published",
-      items: [
-        "Published on pub.dev [Persistent Textfield](https://pub.dev/packages/persistent_textfield).",
-        "Published on pub.dev [majestic_ui](https://pub.dev/packages/majestic_ui).",
-        "Published on npm [inquirely_chat](https://www.npmjs.com/package/inquirely-chat).",
-      ],
-    },
-    {
       period: "2024",
       title: "Inquirely",
       image: `${basePath}/projects/inquirely.png`,
       items: [
         "Implemented ETL + Retrieval Augmented Generation pipeline.",
-        "ETL Techniques such as: Normalization",
-        "Supbase Vectorestore to store vector embeddings.",
+        "Supabase Vectorstore to store vector embeddings.",
         "OpenAIEmbeddings model to create and parse vector embeddings.",
         "Langchain to perform augmentation of user query.",
-        "Next.js platform to create beautiful UI with a playground.",
-        "Published inquirely-chat for businesses to incorporate.",
-        "Watch a [demo](https://www.npmjs.com/package/inquirely-chat).",
+        "Published [inquirely-chat](https://www.npmjs.com/package/inquirely-chat) for businesses to incorporate.",
         "Tech Stack — Next.js, Tailwind CSS, Langchain, Supabase.",
       ],
     },
@@ -167,8 +139,29 @@ const Page: React.FC = () => {
       items: [
         "InShorts inspired News application in Flutter.",
         "Beautiful UI, minimalistic vision.",
-        "Onpoint news with custom native notification design.",
+        "On-point news with custom native notification design.",
         "Tech Stack — Flutter, Firebase, Cloud Function, Kotlin.",
+      ],
+    },
+    {
+      period: "2021",
+      title: "Skype Clone",
+      image: `${basePath}/projects/skype-clone.webp`,
+      items: [
+        "Fully functional Skype Clone in Flutter.",
+        "Features: Auth, Search, Chat, Video-Call.",
+        "Video call facilitated via [Agora SDK](https://www.agora.io).",
+        "Demo on [YouTube](https://www.youtube.com/watch?v=01PUYvVoLa8&list=PLTHrJfrjCyJDlOLSIT3bm2xCCuPanUNX4&t=62s).",
+        "[Github Repository](https://github.com/Ronak99/Skype-Clone) with 300+ stars.",
+      ],
+    },
+    {
+      period: "2025",
+      title: "Packages Published",
+      items: [
+        "Published on pub.dev [Persistent Textfield](https://pub.dev/packages/persistent_textfield).",
+        "Published on pub.dev [majestic_ui](https://pub.dev/packages/majestic_ui).",
+        "Published on npm [inquirely_chat](https://www.npmjs.com/package/inquirely-chat).",
       ],
     },
     {
@@ -180,21 +173,8 @@ const Page: React.FC = () => {
         "Tech Stack — Flutter, Firebase",
       ],
     },
-    {
-      period: "2021",
-      title: "Skype Clone",
-      image: `${basePath}/projects/skype-clone.webp`,
-      items: [
-        "Fully functional Skype Clone in Flutter.",
-        "Features: Auth, Search, Chat, Video-Call.",
-        "Video call is faciliated via [Agora SDK](https://www.agora.io).",
-        "Take a look at the demo on [YouTube](https://www.youtube.com/watch?v=01PUYvVoLa8&list=PLTHrJfrjCyJDlOLSIT3bm2xCCuPanUNX4&t=62s).",
-        "[Github Repository](https://github.com/Ronak99/Skype-Clone) with 300+ stars.",
-      ],
-    },
   ];
 
-  // Videos
   const videos: MediaItemProps[] = [
     {
       title: "Introducing Majestic UI for Flutter",
@@ -218,7 +198,6 @@ const Page: React.FC = () => {
     },
   ];
 
-  // Medium articles
   const articles: MediaItemProps[] = [
     {
       title: "Migrate from Dynamic Links",
@@ -232,79 +211,84 @@ const Page: React.FC = () => {
     },
   ];
 
-  // Education data
   const education: ExperienceItemProps[] = [
     {
       period: "2018 — 2021",
       title: "RGPV University",
       items: [
-        "Pursued Bachelors of Technology in Computer Science.",
-        "Maintained a decent score of 8.5 CGPA",
+        "Bachelors of Technology in Computer Science.",
+        "8.5 CGPA",
       ],
     },
   ];
 
   return (
-    <>
-      <main className="flex w-full">
-        <div className="flex flex-col px-4 sm:px-8 py-8 sm:py-12 w-full max-w-[640px] h-full mx-auto">
-          {/* Profile Header */}
+    <main className="flex w-full min-h-screen">
+      <div className="flex flex-col px-5 sm:px-8 py-10 sm:py-16 w-full max-w-[600px] mx-auto">
+
+        <FadeIn delay={0}>
           <ProfileHeader
             name="Ronak Punase"
             title="Flutter / iOS (Swift) Developer."
           />
+        </FadeIn>
 
-          <div className="flex flex-col gap-8 sm:gap-12 mt-4">
-            {/* About Section */}
-            <TextSection
-              content={aboutContent}
-            />
+        <div className="flex flex-col gap-10 sm:gap-14 mt-10 sm:mt-14">
 
-            {/* Currently Working On Section */}
-            <WorkingOnSection
-              title="Currently Working On"
-              items={workingOn}
-            />
+          <FadeIn delay={0.05}>
+            <TextSection content={aboutContent} large />
+          </FadeIn>
 
-            {/* Experience Section */}
-            <ExperienceSection title="Professional Experience" experiences={experiences} />
-            
-            {/* Projects Section */}
-            <ProjectsSection
-              title="Personal Projects"
-              projects={projects}
-            />
+          <FadeIn delay={0.1}>
+            <WorkingOnSection title="Currently Building" items={workingOn} />
+          </FadeIn>
 
-            {/* Videos Section */}
+          <FadeIn delay={0.15}>
+            <ExperienceSection title="Experience" experiences={experiences} />
+          </FadeIn>
+
+          <FadeIn delay={0.2}>
+            <ProjectsSection title="Projects" projects={projects} />
+          </FadeIn>
+
+          <FadeIn delay={0.25}>
             <MediaSection
               title="Videos"
               items={videos}
               link="https://www.youtube.com/@TheCSGuy"
-              linkLabel="View All"
+              linkLabel="All videos →"
             />
+          </FadeIn>
 
-            {/* Articles Section */}
+          <FadeIn delay={0.3}>
             <MediaSection
-              title="Articles"
+              title="Writing"
               items={articles}
               link="https://medium.com/@punase.ronak99"
-              linkLabel="Read on Medium"
+              linkLabel="Read on Medium →"
             />
+          </FadeIn>
 
-            {/* Education Section */}
+          <FadeIn delay={0.35}>
             <EducationSection title="Education" education={education} />
+          </FadeIn>
 
-
-            {/* Contact Section */}
+          <FadeIn delay={0.4}>
             <LinkSection title="Contact" links={contactLinks} />
+          </FadeIn>
 
-            {/* Socials Section */}
-            <LinkSection title="Socials" links={socialLinks} />
+          <FadeIn delay={0.45}>
+            <LinkSection title="Elsewhere" links={socialLinks} />
+          </FadeIn>
 
+          <div className="pt-4 pb-2">
+            <span className="font-inter text-[10px] text-white/15">
+              © {currentYear} Ronak Punase
+            </span>
           </div>
         </div>
-      </main>
-    </>
+      </div>
+    </main>
   );
 };
 

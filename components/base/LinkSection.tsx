@@ -1,5 +1,4 @@
 import React from "react";
-
 import { SectionHeader } from "./SectionHeader";
 import { LinkItemProps } from "@/app/util/types";
 import { LinkItem } from "./LinkItem";
@@ -11,8 +10,10 @@ interface LinkSectionProps {
 
 export const LinkSection: React.FC<LinkSectionProps> = ({ title, links }) => {
   return (
-    <div className="flex flex-col gap-5">
-      <SectionHeader title={title} />
+    <div className="flex flex-col gap-0">
+      <div className="mb-3">
+        <SectionHeader title={title} />
+      </div>
       {links.map((link, index) => (
         <LinkItem
           key={index}

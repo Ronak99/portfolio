@@ -13,8 +13,10 @@ export const ExperienceSection: React.FC<ExperienceSectionProps> = ({
   experiences,
 }) => {
   return (
-    <div className="flex flex-col gap-6">
-      <SectionHeader title={title} />
+    <div className="flex flex-col gap-0">
+      <div className="mb-5">
+        <SectionHeader title={title} />
+      </div>
       {experiences.map((exp, index) => (
         <ExperienceItem
           key={index}
