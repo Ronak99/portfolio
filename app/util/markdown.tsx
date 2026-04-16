@@ -1,24 +1,30 @@
 import Link from "next/link";
 import React from "react";
 
-export function parseMarkdownLinks(text: string): React.ReactNode {
+const defaultBoldClassName = "font-syne font-semibold text-white/90";
+
+export function parseMarkdownLinks(
+  text: string,
+  boldClassName?: string
+): React.ReactNode {
+  const bold = boldClassName ?? defaultBoldClassName;
   // Handle newlines by splitting the text and processing each line
   if (text.includes("\n")) {
     const lines = text.split("\n");
     return lines.map((line, index) => (
       <React.Fragment key={index}>
         {index > 0 && <br />}
-        {parseMarkdownInLine(line)}
+        {parseMarkdownInLine(line, bold)}
       </React.Fragment>
     ));
   }
 
   // If no newlines, process the entire text as a single line
-  return parseMarkdownInLine(text);
+  return parseMarkdownInLine(text, bold);
 }
 
 // Helper function to parse markdown (bold, italic, links) in a single line
-function parseMarkdownInLine(text: string): React.ReactNode {
+function parseMarkdownInLine(text: string, boldClassName: string): React.ReactNode {
   // Create a token array to store all markdown elements
   interface Token {
     type: 'text' | 'bold' | 'italic' | 'link';
@@ -119,15 +125,15 @@ function parseMarkdownInLine(text: string): React.ReactNode {
     switch (token.type) {
       case 'bold':
         parts.push(
-          <strong key={`token-${keyCounter++}`} className="font-syne font-semibold text-white/90">
-            {parseMarkdownInLine(token.content)}
+          <strong key={`token-${keyCounter++}`} className={boldClassName}>
+            {parseMarkdownInLine(token.content, boldClassName)}
           </strong>
         );
         break;
       case 'italic':
         parts.push(
           <em key={`token-${keyCounter++}`} className="italic">
-            {parseMarkdownInLine(token.content)}
+            {parseMarkdownInLine(token.content, boldClassName)}
           </em>
         );
         break;

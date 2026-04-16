@@ -4,7 +4,6 @@ import { LinkSection } from "@/components/base/LinkSection";
 import { ExperienceSection } from "@/components/base/ExperienceSection";
 import { ProjectsSection } from "@/components/base/ProjectsSection";
 import { WorkingOnSection } from "@/components/base/WorkingOnSection";
-import { EducationSection } from "@/components/base/EducationSection";
 import { ProfileHeader } from "@/components/base/ProfileHeader";
 import {
   ExperienceItemProps,
@@ -211,17 +210,6 @@ const Page: React.FC = () => {
     },
   ];
 
-  const education: ExperienceItemProps[] = [
-    {
-      period: "2018 — 2021",
-      title: "RGPV University",
-      items: [
-        "Bachelors of Technology in Computer Science.",
-        "8.5 CGPA",
-      ],
-    },
-  ];
-
   return (
     <main className="flex w-full min-h-screen">
       <div className="flex flex-col px-5 sm:px-8 py-10 sm:py-16 w-full max-w-[600px] mx-auto">
@@ -236,7 +224,11 @@ const Page: React.FC = () => {
         <div className="flex flex-col gap-10 sm:gap-14 mt-10 sm:mt-14">
 
           <FadeIn delay={0.05}>
-            <TextSection content={aboutContent} large />
+            <TextSection
+              content={aboutContent}
+              large
+              markdownBoldClassName="font-inter font-medium text-white/65"
+            />
           </FadeIn>
 
           <FadeIn delay={0.1}>
@@ -270,14 +262,10 @@ const Page: React.FC = () => {
           </FadeIn>
 
           <FadeIn delay={0.35}>
-            <EducationSection title="Education" education={education} />
-          </FadeIn>
-
-          <FadeIn delay={0.4}>
             <LinkSection title="Contact" links={contactLinks} />
           </FadeIn>
 
-          <FadeIn delay={0.45}>
+          <FadeIn delay={0.4}>
             <LinkSection title="Elsewhere" links={socialLinks} />
           </FadeIn>
 
