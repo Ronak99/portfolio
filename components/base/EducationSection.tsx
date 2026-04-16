@@ -13,8 +13,10 @@ export const EducationSection: React.FC<EducationSectionProps> = ({
   education,
 }) => {
   return (
-    <div className="flex flex-col gap-6">
-      <SectionHeader title={title} />
+    <div className="flex flex-col gap-0">
+      <div className="mb-5">
+        <SectionHeader title={title} />
+      </div>
       {education.map((item, index) => (
         <ExperienceItem
           key={index}
@@ -27,4 +29,3 @@ export const EducationSection: React.FC<EducationSectionProps> = ({
     </div>
   );
 };
-

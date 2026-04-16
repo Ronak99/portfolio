@@ -13,7 +13,7 @@ export const WorkingOnSection: React.FC<WorkingOnSectionProps> = ({
   items,
 }) => {
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-4">
       <SectionHeader title={title} />
       {items.map((item, index) => (
         <WorkingOnItem
@@ -28,4 +28,3 @@ export const WorkingOnSection: React.FC<WorkingOnSectionProps> = ({
     </div>
   );
 };
-

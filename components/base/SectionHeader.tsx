@@ -12,20 +12,21 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
   linkLabel,
 }) => {
   return (
-    <>
-      <div className="flex w-full justify-between">
-        {title && (
-        <span className="text-md font-semibold text-zinc-100">{title}</span>)}
-        {link && (
-          <Link
-            href={link}
-            target="_"
-            className="underline underline-offset-4 text-xs text-muted-foreground hover:text-zinc-300 transition-colors"
-          >
-            {linkLabel}
-          </Link>
-        )}
-      </div>
-    </>
+    <div className="flex w-full justify-between items-center">
+      {title && (
+        <span className="font-syne text-[10px] uppercase tracking-[0.18em] text-white/30 font-semibold">
+          {title}
+        </span>
+      )}
+      {link && (
+        <Link
+          href={link}
+          target="_blank"
+          className="text-[10px] uppercase tracking-[0.12em] text-white/25 hover:text-white/60 transition-colors duration-300"
+        >
+          {linkLabel}
+        </Link>
+      )}
+    </div>
   );
 };
