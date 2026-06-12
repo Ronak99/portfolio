@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en" data-lamp-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>lamp toggle — pull-cord theme switch</title>
+<script>
+try { document.documentElement.setAttribute("data-lamp-theme", localStorage.getItem("lamp-theme") || "light"); } catch (e) {}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+/* ── theme tokens ────────────────────────── */
+:root[data-lamp-theme="light"] {
+  --bg: #f5f1e8;
+  --fg: #1a1a1a;
+  --dim: rgba(26, 26, 26, 0.5);
+  --halo: rgba(255, 214, 140, 0.55);
+  --wire: #9b9183;
+  --cap: #a89e8e;
+  --cap-ridge: rgba(26, 26, 26, 0.25);
+  --cord: #8a8174;
+  --knob: #7d7568;
+  --filament: rgba(26, 26, 26, 0.45);
+}
+
+:root[data-lamp-theme="dark"] {
+  --bg: #0e0e12;
+  --fg: #e8e8ea;
+  --dim: rgba(232, 232, 234, 0.45);
+  --halo: rgba(120, 140, 200, 0.12);
+  --wire: #565c6a;
+  --cap: #3a3d46;
+  --cap-ridge: rgba(232, 232, 234, 0.18);
+  --cord: #5d6370;
+  --knob: #6a7080;
+  --filament: rgba(232, 232, 234, 0.28);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  min-height: 100svh;
+  transition: background-color 0.4s ease, color 0.4s ease;
+  overflow-x: hidden;
+}
+
+::selection { background: var(--fg); color: var(--bg); }
+
+/* ambient light pool beneath the bulb — two layers crossfade */
+.pool { position: fixed; inset: 0; pointer-events: none; z-index: 0; transition: opacity 0.4s ease; }
+.pool-light { background: radial-gradient(circle 58vmax at calc(100% - var(--lamp-right, 120px) - 70px) 230px, rgba(255, 214, 140, 0.38), transparent 62%); opacity: 0; }
+.pool-dark  { background: radial-gradient(circle 50vmax at calc(100% - var(--lamp-right, 120px) - 70px) 230px, rgba(120, 140, 200, 0.10), transparent 62%); opacity: 0; }
+:root[data-lamp-theme="light"] .pool-light { opacity: 1; }
+:root[data-lamp-theme="dark"] .pool-dark { opacity: 1; }
+
+/* ── demo copy ───────────────────────────── */
+.demo {
+  position: relative;
+  z-index: 1;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 620px;
+  padding: 96px clamp(24px, 6vw, 72px);
+}
+
+.mono {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  color: var(--dim);
+  transition: color 0.4s ease;
+}
+
+.demo h1 {
+  font-size: clamp(52px, 9vw, 110px);
+  font-weight: 500;
+  letter-spacing: -0.05em;
+  line-height: 0.98;
+  margin: 18px 0 26px;
+}
+
+.demo-sub {
+  font-size: clamp(16px, 1.5vw, 19px);
+  line-height: 1.55;
+  color: var(--dim);
+  max-width: 440px;
+  text-wrap: pretty;
+  transition: color 0.4s ease;
+}
+
+.demo-foot { margin-top: 40px; }
+
+.demo-back {
+  display: inline-block;
+  margin-top: 14px;
+  color: var(--fg);
+  text-decoration: none;
+  border-bottom: 1px solid var(--dim);
+  transition: color 0.4s ease, border-color 0.25s ease;
+  width: fit-content;
+}
+
+.demo-back:hover { border-color: var(--fg); }
+
+a:focus-visible, button:focus-visible {
+  outline: 1.5px dashed var(--fg);
+  outline-offset: 4px;
+}
+
+/* ── lamp component ──────────────────────── */
+:root { --lamp-right: clamp(28px, 13vw, 200px); }
+
+.lamp-root {
+  position: fixed;
+  top: 0;
+  right: var(--lamp-right);
+  width: 140px;
+  height: 260px;
+  z-index: 50;
+  pointer-events: none;
+}
+
+.lamp-swing {
+  position: absolute;
+  inset: 0;
+  transform-origin: 70px 0;
+}
+
+.lamp-svg { display: block; overflow: visible; }
+
+/* halo behind the bulb — opacity/scale only, never box-shadow */
+.lamp-halo {
+  position: absolute;
+  left: -55px;
+  top: 75px;
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  transform: scale(0.92);
+}
+
+.lamp-halo-light { background: radial-gradient(circle, var(--halo) 0%, transparent 68%); opacity: 0; }
+.lamp-halo-dark { background: radial-gradient(circle, rgba(120, 140, 200, 0.14) 0%, transparent 66%); opacity: 0; }
+:root[data-lamp-theme="light"] .lamp-halo-light { opacity: 1; transform: scale(1); }
+:root[data-lamp-theme="dark"] .lamp-halo-dark { opacity: 1; transform: scale(1); }
+
+.lamp-wire { stroke: var(--wire); stroke-width: 1.8; transition: stroke 0.4s ease; }
+.lamp-cap { fill: var(--cap); transition: fill 0.4s ease; }
+.lamp-cap-ridge { stroke: var(--cap-ridge); stroke-width: 1.4; transition: stroke 0.4s ease; }
+.lamp-glass-off { stroke: rgba(255, 255, 255, 0.12); stroke-width: 1; }
+.lamp-filament { stroke: var(--filament); stroke-width: 1.6; fill: none; stroke-linecap: round; transition: stroke 0.4s ease; }
+
+.lamp-lit { transition: opacity 0.4s ease; }
+.lamp-filament-lit { stroke: #ff9d2e; stroke-width: 1.8; fill: none; stroke-linecap: round; }
+.lamp-filament-glow { stroke: rgba(255, 184, 77, 0.85); stroke-width: 5; fill: none; stroke-linecap: round; }
+
+.lamp-cord-group { will-change: transform; }
+.lamp-cord-arm { stroke: var(--cord); stroke-width: 1.6; transition: stroke 0.4s ease; }
+.lamp-cord { stroke: var(--cord); stroke-width: 1.6; stroke-dasharray: 3.5 2.2; transition: stroke 0.4s ease; }
+.lamp-bead { fill: var(--knob); transition: fill 0.4s ease; }
+.lamp-knob { fill: var(--knob); stroke: rgba(0, 0, 0, 0.18); stroke-width: 0.6; transition: fill 0.4s ease; }
+
+/* real control: button over the knob, ≥44px target */
+.lamp-knob-btn {
+  position: absolute;
+  left: 72px;
+  top: 204px;
+  width: 48px;
+  height: 52px;
+  pointer-events: auto;
+  appearance: none;
+  background: none;
+  border: 0;
+  cursor: grab;
+  border-radius: 12px;
+  touch-action: none;
+}
+
+.lamp-knob-btn:active { cursor: grabbing; }
+
+/* tuck in on small screens so it never collides with content */
+@media (max-width: 640px) {
+  :root { --lamp-right: 20px; }
+  .lamp-root { transform: scale(0.82); transform-origin: top right; }
+}
+</style>
+</head>
+<body>
+
+<div class="pool pool-light" aria-hidden="true"></div>
+<div class="pool pool-dark" aria-hidden="true"></div>
+
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="js/tweaks-panel.jsx"></script>
+<script type="text/babel" src="js/lamp-toggle.jsx"></script>
+
+</body>
+</html>
