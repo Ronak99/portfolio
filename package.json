@@ -1,13 +1,26 @@
 {
   "name": "portfolio-v2",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
-  "description": "Ronak Punase — personal portfolio. A static site (vanilla HTML/CSS/JS with in-browser Babel for the dev tweaks panel).",
+  "description": "Ronak Punase — personal portfolio (Next.js)",
   "scripts": {
-    "start": "serve --listen 3000 .",
-    "dev": "serve --listen 3000 ."
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "preview": "serve out --listen 3000"
+  },
+  "dependencies": {
+    "next": "^15.3.3",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
   },
   "devDependencies": {
-    "serve": "^14.2.4"
+    "@tailwindcss/postcss": "^4.1.8",
+    "@types/node": "^22.15.29",
+    "@types/react": "^19.1.6",
+    "@types/react-dom": "^19.1.5",
+    "serve": "^14.2.4",
+    "tailwindcss": "^4.1.8",
+    "typescript": "^5.8.3"
   }
 }

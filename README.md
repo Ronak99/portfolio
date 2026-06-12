@@ -1,49 +1,43 @@
-# portfolio-v2
+# Ronak Punase — personal portfolio (Next.js)
 
-Ronak Punase's personal portfolio — a static site built with plain HTML, CSS, and
-JavaScript. A small in-browser React layer (compiled at runtime with Babel
-standalone) powers an optional design "tweaks" panel.
+A static portfolio built with Next.js App Router, TypeScript, and Tailwind CSS v4. All content lives in a single JSON file for easy editing.
 
-## Pages
-
-- `index.html` — the portfolio (hero, works, experience, about, media, contact).
-- `lamp-toggle.html` — standalone demo of the pendant pull-cord theme switch.
-
-## Running it locally
-
-The pages load some scripts (`type="text/babel"` JSX files) over HTTP, so they must
-be served from a web server — opening the files directly with `file://` will not
-work because the browser blocks those fetches.
-
-### Option 1 — npm (recommended)
+## Quick start
 
 ```bash
 npm install
-npm start
+npm run dev
 ```
 
-Then open http://localhost:3000 in your browser.
+Open [http://localhost:3000](http://localhost:3000).
 
-### Option 2 — Python (no install)
+## Editing content
 
-```bash
-python3 -m http.server 3000
-```
+All portfolio content is in [`data/portfolio.json`](data/portfolio.json). Edit this file to update:
 
-Then open http://localhost:3000.
+- Hero text, works, experience, about, media links, socials, contact email
+- Project bullets use structured tokens (`text`, `strong`, `link`) — see [`data/types.ts`](data/types.ts)
+
+Preview images live in [`public/assets/previews/`](public/assets/previews/).
+
+## Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start development server |
+| `npm run build` | Build static export to `out/` |
+| `npm run preview` | Serve the `out/` folder locally |
+
+## Deploy to Vercel
+
+Push to GitHub and connect the repo in Vercel. Next.js is auto-detected — no extra config needed. The site uses `output: 'export'` for a fully static build.
 
 ## Project structure
 
 ```
-index.html          portfolio entry point
-lamp-toggle.html    lamp toggle component demo
-css/                site, menu, and lamp styles
-js/                 vanilla behavior + in-browser React (jsx) panels
-components/         LampToggle.tsx — the Next.js source of the lamp component
-assets/previews/    project preview images
+app/              layout, page, globals.css
+components/       React sections + interactive UI (menu, lamp)
+hooks/            Animation logic (scroll reveal, menu, lamp)
+data/             portfolio.json + TypeScript types
+public/assets/    Preview images
 ```
-
-> Note: `components/LampToggle.tsx` is the React/Next.js source component
-> (next-themes + framer-motion). It is reference source and is not loaded by the
-> static pages, which use the vanilla `js/portfolio-lamp.js` / `js/lamp-toggle.jsx`
-> implementations instead.
