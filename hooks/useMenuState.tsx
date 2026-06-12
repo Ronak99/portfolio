@@ -12,8 +12,10 @@ export type MenuView = "nav" | "works";
 
 type MenuStateContextValue = {
   isOpen: boolean;
+  isClosing: boolean;
   view: MenuView;
   setIsOpen: (open: boolean) => void;
+  setIsClosing: (closing: boolean) => void;
   setView: (view: MenuView) => void;
 };
 
@@ -21,11 +23,12 @@ const MenuStateContext = createContext<MenuStateContextValue | null>(null);
 
 export function MenuStateProvider({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
   const [view, setView] = useState<MenuView>("nav");
 
   const value = useMemo(
-    () => ({ isOpen, view, setIsOpen, setView }),
-    [isOpen, view]
+    () => ({ isOpen, isClosing, view, setIsOpen, setIsClosing, setView }),
+    [isOpen, isClosing, view]
   );
 
   return (

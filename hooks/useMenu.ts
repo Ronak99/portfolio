@@ -32,7 +32,7 @@ export function useMenu(
   incomingRef: React.RefObject<HTMLImageElement | null>,
   itemRefs: React.RefObject<(HTMLButtonElement | null)[]>
 ) {
-  const { isOpen, view, setView, setIsOpen } = useMenuState();
+  const { isOpen, view, setView, setIsOpen, setIsClosing } = useMenuState();
   const busyRef = useRef(false);
   const lastFocusedRef = useRef<HTMLElement | null>(null);
   const activeIndexRef = useRef(-1);
@@ -214,6 +214,7 @@ export function useMenu(
       if (!isOpen || busyRef.current) return;
       busyRef.current = true;
       isClosingRef.current = true;
+      setIsClosing(true);
       const overlay = overlayRef.current;
       if (overlay) {
         overlay.classList.add("is-closing");
@@ -229,13 +230,14 @@ export function useMenu(
         isClosingRef.current = false;
         busyRef.current = false;
         setIsOpen(false);
+        setIsClosing(false);
         setView("nav");
         if (lastFocusedRef.current?.focus)
           lastFocusedRef.current.focus({ preventScroll: true });
         if (after) after();
       }, delay);
     },
-    [isOpen, overlayRef, triggerRef, stopLoop, hideCard, setIsOpen]
+    [isOpen, overlayRef, triggerRef, stopLoop, hideCard, setIsOpen, setIsClosing]
   );
 
   const handleOpenMenu = useCallback(() => {

@@ -18,7 +18,7 @@ export function useLamp(
   litRef: React.RefObject<SVGGElement | null>,
   btnRef: React.RefObject<HTMLButtonElement | null>
 ) {
-  const { isOpen } = useMenuState();
+  const { isOpen, isClosing } = useMenuState();
   const themeRef = useRef<Theme>("light");
   const lockedRef = useRef(false);
   const rafRef = useRef<number | null>(null);
@@ -275,7 +275,7 @@ export function useLamp(
   }, [btnRef, cordRef, litRef, setCord, trigger, updateAria]);
 
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && !isClosing) {
       dropTimerRef.current = setTimeout(
         dropLamp,
         reducedRef.current ? 400 : 900
@@ -286,7 +286,7 @@ export function useLamp(
     return () => {
       if (dropTimerRef.current) clearTimeout(dropTimerRef.current);
     };
-  }, [isOpen, dropLamp, liftLamp]);
+  }, [isOpen, isClosing, dropLamp, liftLamp]);
 
   useEffect(() => {
     if (isOpen) {
