@@ -36,33 +36,6 @@ export default function RootLayout({
         </Script>
       </head>
       <body className={`${archivo.variable} ${ibmPlexMono.variable}`}>
-        {/* rgb channel isolation filters for the chromatic-aberration card */}
-        <svg
-          width="0"
-          height="0"
-          style={{ position: "absolute" }}
-          aria-hidden="true"
-        >
-          <filter id="isoR">
-            <feColorMatrix
-              type="matrix"
-              values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0"
-            />
-          </filter>
-          <filter id="isoG">
-            <feColorMatrix
-              type="matrix"
-              values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0"
-            />
-          </filter>
-          <filter id="isoB">
-            <feColorMatrix
-              type="matrix"
-              values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0"
-            />
-          </filter>
-        </svg>
-
         <div className="bg-grid" aria-hidden="true" />
         <div className="pf-lamp-pool" aria-hidden="true" />
 

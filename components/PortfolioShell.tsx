@@ -21,36 +21,10 @@ function PortfolioInner({ data }: { data: PortfolioData }) {
 
   const overlayRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
-  const logoRef = useRef<HTMLAnchorElement>(null);
   const navViewRef = useRef<HTMLElement>(null);
-  const worksViewRef = useRef<HTMLDivElement>(null);
-  const worksListRef = useRef<HTMLUListElement>(null);
-  const cardRef = useRef<HTMLDivElement>(null);
-  const cardInnerRef = useRef<HTMLDivElement>(null);
-  const glowRef = useRef<HTMLDivElement>(null);
-  const chRRef = useRef<HTMLImageElement>(null);
-  const chGRef = useRef<HTMLImageElement>(null);
-  const chBRef = useRef<HTMLImageElement>(null);
-  const incomingRef = useRef<HTMLImageElement>(null);
   const itemRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
-  const menu = useMenu(
-    data.works,
-    overlayRef,
-    triggerRef,
-    logoRef,
-    navViewRef,
-    worksViewRef,
-    worksListRef,
-    cardRef,
-    cardInnerRef,
-    glowRef,
-    chRRef,
-    chGRef,
-    chBRef,
-    incomingRef,
-    itemRefs
-  );
+  const menu = useMenu(data.works, overlayRef, triggerRef, navViewRef, itemRefs);
 
   const handleToggle = () => {
     if (isOpen) menu.handleCloseMenu();
@@ -78,15 +52,6 @@ function PortfolioInner({ data }: { data: PortfolioData }) {
         view={view}
         overlayRef={overlayRef}
         navViewRef={navViewRef}
-        worksViewRef={worksViewRef}
-        worksListRef={worksListRef}
-        cardRef={cardRef}
-        cardInnerRef={cardInnerRef}
-        glowRef={glowRef}
-        chRRef={chRRef}
-        chGRef={chGRef}
-        chBRef={chBRef}
-        incomingRef={incomingRef}
         itemRefs={itemRefs}
         menu={menu}
       />

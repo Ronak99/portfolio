@@ -21,7 +21,6 @@
   --menu-bg: var(--paper);
   --menu-fg: var(--ink);
   --grid-alpha: 0.5;
-  --glow-opacity: 0.65;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
   --pad: clamp(20px, 4vw, 56px);
   color-scheme: light;
@@ -110,6 +109,11 @@ html[data-theme="dark"] {
     mix-blend-mode: difference;
     color: #fafafa;
     pointer-events: none;
+    /* promote to a stable GPU layer so macOS momentum scroll
+       doesn't leave a stale mix-blend repaint over the bar */
+    transform: translateZ(0);
+    will-change: transform;
+    backface-visibility: hidden;
   }
 
   .topbar > * {
@@ -845,6 +849,18 @@ html[data-theme="dark"] {
     gap: clamp(2px, 1vh, 10px);
   }
 
+  /* hovered row rises above the preview card (z 2) so the
+     title cuts across it; the rv span carries the z-index
+     because its transform creates the stacking context */
+  .works-list .rv {
+    position: relative;
+  }
+
+  .works-list .rv:hover,
+  .works-list .rv:focus-within {
+    z-index: 3;
+  }
+
   .work-item {
     appearance: none;
     background: none;
@@ -855,30 +871,32 @@ html[data-theme="dark"] {
     font-weight: 500;
     letter-spacing: -0.04em;
     line-height: 1.18;
-    color: color-mix(in srgb, var(--menu-fg) 32%, transparent);
+    color: var(--menu-fg);
     padding: 0.04em 0.3em;
     display: flex;
     align-items: center;
     gap: 20px;
+    transition: color 0.25s ease;
+  }
+
+  /* dim siblings while any row is hovered */
+  .works-list:hover .work-item:not(:hover):not(:focus-visible) {
+    color: color-mix(in srgb, var(--menu-fg) 38%, transparent);
   }
 
   .wi-title {
     display: inline-block;
-    transition: color 0.25s ease, transform 0.25s var(--ease);
+    transition: transform 0.25s var(--ease);
     transform-origin: center center;
   }
 
-  .work-item.is-active .wi-title,
+  .work-item:hover .wi-title,
   .work-item:focus-visible .wi-title {
-    color: var(--menu-fg);
     transform: scale(1.06);
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .wi-title {
-      transition: color 0.25s ease;
-    }
-    .work-item.is-active .wi-title,
+    .work-item:hover .wi-title,
     .work-item:focus-visible .wi-title {
       transform: none;
     }
@@ -901,7 +919,7 @@ html[data-theme="dark"] {
       color: color-mix(in srgb, var(--menu-fg) 80%, transparent);
       text-align: left;
     }
-    .preview-card {
+    .preview {
       display: none !important;
     }
   }
@@ -935,85 +953,31 @@ html[data-theme="dark"] {
   }
 
   /* ── cursor-following preview card ───────── */
-  .preview-card {
+  .preview {
     position: fixed;
-    left: 0;
     top: 0;
-    width: min(330px, 30vw);
-    aspect-ratio: 16 / 10;
-    z-index: 35;
+    left: 0;
+    z-index: 2;
+    width: 270px;
+    height: 150px;
+    border-radius: 12px;
     pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    will-change: transform;
-  }
-
-  .preview-card.is-visible {
-    opacity: 1;
-  }
-
-  .pc-inner {
-    position: absolute;
-    inset: 0;
-    will-change: transform;
-  }
-
-  .pc-glow {
-    position: absolute;
-    inset: -16%;
-    border-radius: 50%;
-    filter: blur(34px);
-    opacity: var(--glow-opacity);
-    transition: background 0.4s ease;
-  }
-
-  .pc-imgs {
-    position: absolute;
-    inset: 0;
-    border-radius: 14px;
+    border: 2px solid var(--accent, var(--menu-fg));
+    box-shadow: 0 0 28px 2px
+      color-mix(in oklch, var(--accent, var(--menu-fg)) 40%, transparent);
+    visibility: hidden;
     overflow: hidden;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    will-change: transform;
     background: #000;
   }
 
-  .pc-imgs img {
+  .preview img {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-  }
-
-  .pc-imgs .ch {
-    mix-blend-mode: screen;
-    will-change: transform;
-  }
-
-  .ch-r {
-    filter: url(#isoR);
-  }
-  .ch-g {
-    filter: url(#isoG);
-  }
-  .ch-b {
-    filter: url(#isoB);
-  }
-
-  .pc-incoming {
-    opacity: 0;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .preview-card {
-      transition: opacity 0.2s ease;
-    }
-    .pc-imgs .ch-r,
-    .pc-imgs .ch-b {
-      display: none;
-    }
-    .pc-imgs .ch-g {
-      filter: none;
-      mix-blend-mode: normal;
-    }
   }
 
   /* ── pendant lamp ─────────────────────────── */

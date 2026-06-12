@@ -1,8 +1,10 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import type { PortfolioData, Work } from "@/data/types";
 import { useMenuState, type MenuView } from "@/hooks/useMenuState";
 import type { useMenu } from "@/hooks/useMenu";
+import { MenuHoverPreview } from "./MenuHoverPreview";
 
 type MenuHandlers = ReturnType<typeof useMenu>;
 
@@ -13,15 +15,6 @@ type OverlayMenuContentProps = {
   view: MenuView;
   overlayRef: React.RefObject<HTMLDivElement | null>;
   navViewRef: React.RefObject<HTMLElement | null>;
-  worksViewRef: React.RefObject<HTMLDivElement | null>;
-  worksListRef: React.RefObject<HTMLUListElement | null>;
-  cardRef: React.RefObject<HTMLDivElement | null>;
-  cardInnerRef: React.RefObject<HTMLDivElement | null>;
-  glowRef: React.RefObject<HTMLDivElement | null>;
-  chRRef: React.RefObject<HTMLImageElement | null>;
-  chGRef: React.RefObject<HTMLImageElement | null>;
-  chBRef: React.RefObject<HTMLImageElement | null>;
-  incomingRef: React.RefObject<HTMLImageElement | null>;
   itemRefs: React.RefObject<(HTMLButtonElement | null)[]>;
   menu: MenuHandlers;
 };
@@ -33,20 +26,29 @@ export function OverlayMenuContent({
   view,
   overlayRef,
   navViewRef,
-  worksViewRef,
-  worksListRef,
-  cardRef,
-  cardInnerRef,
-  glowRef,
-  chRRef,
-  chGRef,
-  chBRef,
-  incomingRef,
   itemRefs,
   menu,
 }: OverlayMenuContentProps) {
   const { setView } = useMenuState();
-  const defaultImage = works[0]?.image ?? "";
+  const [hovered, setHovered] = useState<number | null>(null);
+  const leaveTimer = useRef<number>(0);
+
+  const enter = (i: number) => {
+    if (menu.touchRef.current) return;
+    window.clearTimeout(leaveTimer.current);
+    setHovered(i);
+  };
+
+  // Leaving a row clears `hovered` after a 60ms grace period so that
+  // moving straight onto another row reads as a switch, not an exit.
+  const leave = () => {
+    window.clearTimeout(leaveTimer.current);
+    leaveTimer.current = window.setTimeout(() => setHovered(null), 60);
+  };
+
+  useEffect(() => {
+    if (view !== "works") setHovered(null);
+  }, [view]);
 
   return (
     <div
@@ -126,7 +128,6 @@ export function OverlayMenuContent({
         <div
           className="ov-view ov-view-works"
           id="worksView"
-          ref={worksViewRef}
           data-screen-label="menu — works list"
         >
           <span className="rv-mask">
@@ -141,7 +142,7 @@ export function OverlayMenuContent({
               </button>
             </span>
           </span>
-          <ul className="works-list" id="worksList" ref={worksListRef}>
+          <ul className="works-list" id="worksList">
             {works.map((work, i) => (
               <li key={work.id} className="rv-mask">
                 <span
@@ -154,19 +155,11 @@ export function OverlayMenuContent({
                     ref={(el) => {
                       itemRefs.current[i] = el;
                     }}
-                    data-image={work.image}
-                    data-glow={work.glow}
                     data-scroll-target={`#${work.id}`}
-                    onFocus={() => {
-                      if (menu.touchRef.current) return;
-                      menu.keyboardModeRef.current = true;
-                      menu.pxRef.current = innerWidth * 0.78;
-                      menu.pyRef.current = innerHeight * 0.5;
-                      if (!cardRef.current?.classList.contains("is-visible"))
-                        menu.showCard(menu.pxRef.current, menu.pyRef.current);
-                      menu.setActive(i);
-                      if (menu.reducedRef.current) menu.positionCardStatic();
-                    }}
+                    onMouseEnter={() => enter(i)}
+                    onMouseLeave={leave}
+                    onFocus={() => enter(i)}
+                    onBlur={leave}
                     onClick={() =>
                       menu.handleCloseMenu(() =>
                         menu.scrollToSection(`#${work.id}`)
@@ -210,27 +203,7 @@ export function OverlayMenuContent({
         </ul>
       </div>
 
-      <div
-        className="preview-card"
-        id="previewCard"
-        ref={cardRef}
-        aria-hidden="true"
-      >
-        <div className="pc-inner" ref={cardInnerRef}>
-          <div className="pc-glow" ref={glowRef} />
-          <div className="pc-imgs">
-            <img className="ch ch-r" ref={chRRef} src={defaultImage} alt="" />
-            <img className="ch ch-g" ref={chGRef} src={defaultImage} alt="" />
-            <img className="ch ch-b" ref={chBRef} src={defaultImage} alt="" />
-            <img
-              className="pc-incoming"
-              ref={incomingRef}
-              src={defaultImage}
-              alt=""
-            />
-          </div>
-        </div>
-      </div>
+      <MenuHoverPreview works={works} hoveredIndex={hovered} />
     </div>
   );
 }
