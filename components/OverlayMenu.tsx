@@ -75,9 +75,6 @@ export function OverlayMenuContent({
                   id="navWorks"
                   onClick={() => setView("works")}
                 >
-                  <span className="ov-ast" aria-hidden="true">
-                    ✲
-                  </span>
                   <span className="roll">
                     <span className="roll-a">works</span>
                     <span className="roll-b" aria-hidden="true">
@@ -96,9 +93,6 @@ export function OverlayMenuContent({
                     menu.handleCloseMenu(() => menu.scrollToSection("#about"))
                   }
                 >
-                  <span className="ov-ast" aria-hidden="true">
-                    ✲
-                  </span>
                   <span className="roll">
                     <span className="roll-a">about</span>
                     <span className="roll-b" aria-hidden="true">
@@ -117,9 +111,6 @@ export function OverlayMenuContent({
                     menu.handleCloseMenu(() => menu.scrollToSection("#contact"))
                   }
                 >
-                  <span className="ov-ast" aria-hidden="true">
-                    ✲
-                  </span>
                   <span className="roll">
                     <span className="roll-a">contact</span>
                     <span className="roll-b" aria-hidden="true">

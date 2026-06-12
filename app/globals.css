@@ -706,6 +706,11 @@ html[data-theme="dark"] {
     gap: clamp(8px, 2.4vh, 26px);
   }
 
+  .ov-nav .rv-mask {
+    padding-inline: 1.75rem;
+    margin-inline: -1.75rem;
+  }
+
   .ov-link {
     appearance: none;
     background: none;
@@ -717,7 +722,6 @@ html[data-theme="dark"] {
     font-weight: 500;
     letter-spacing: -0.045em;
     line-height: 1.04;
-    position: relative;
     padding: 0 0.2em;
     transition: opacity 0.35s ease;
   }
@@ -727,10 +731,13 @@ html[data-theme="dark"] {
   }
 
   .roll {
+    --roll-pad: 0.08em;
     display: inline-block;
     overflow: hidden;
     position: relative;
     vertical-align: top;
+    padding-inline: var(--roll-pad);
+    margin-inline: calc(-1 * var(--roll-pad));
   }
 
   .roll-a,
@@ -740,7 +747,7 @@ html[data-theme="dark"] {
 
   .roll-b {
     position: absolute;
-    left: 0;
+    left: var(--roll-pad);
     top: 100%;
   }
 
@@ -754,40 +761,6 @@ html[data-theme="dark"] {
     .ov-link:focus-visible .roll-a,
     .ov-link:focus-visible .roll-b {
       transform: translateY(-100%);
-    }
-  }
-
-  .ov-ast {
-    position: absolute;
-    left: -0.55em;
-    top: 50%;
-    margin-top: -0.5em;
-    font-size: 0.34em;
-    line-height: 1;
-    opacity: 0;
-    transform: scale(0.4);
-    transition: opacity 0.3s ease, transform 0.3s var(--ease);
-  }
-
-  .ov-link:hover .ov-ast,
-  .ov-link:focus-visible .ov-ast {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  @keyframes ast-spin {
-    from {
-      rotate: 0deg;
-    }
-    to {
-      rotate: 360deg;
-    }
-  }
-
-  @media (prefers-reduced-motion: no-preference) {
-    .ov-link:hover .ov-ast,
-    .ov-link:focus-visible .ov-ast {
-      animation: ast-spin 2.6s linear infinite;
     }
   }
 
