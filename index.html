@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ronak punase — mobile engineer</title>
+<script>
+  try { var _t = localStorage.getItem("portfolio-theme"); if (_t) document.documentElement.setAttribute("data-theme", _t); }
+  catch (e) {}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/site.css">
+<link rel="stylesheet" href="css/menu.css">
+<link rel="stylesheet" href="css/lamp.css">
+</head>
+<body>
+
+<!-- rgb channel isolation filters for the chromatic-aberration card -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="isoR"><feColorMatrix type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0"></feColorMatrix></filter>
+  <filter id="isoG"><feColorMatrix type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0"></feColorMatrix></filter>
+  <filter id="isoB"><feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0"></feColorMatrix></filter>
+</svg>
+
+<div class="bg-grid" aria-hidden="true"></div>
+<div class="pf-lamp-pool" aria-hidden="true"></div>
+
+<!-- ── pendant lamp: the page's light switch ─ -->
+<div class="pf-lamp" id="pfLamp">
+  <div class="pf-lamp-swing">
+    <div class="pf-lamp-halo"></div>
+    <svg class="pf-lamp-svg" viewBox="0 0 104 168" width="104" height="168" aria-hidden="true">
+      <defs>
+        <radialGradient id="pfGlassLit" cx="50%" cy="42%" r="64%">
+          <stop offset="0%" stop-color="#fbf3dd"></stop>
+          <stop offset="56%" stop-color="#f4e4c0"></stop>
+          <stop offset="100%" stop-color="#e6cc99"></stop>
+        </radialGradient>
+        <filter id="pfFilGlow" x="-60%" y="-60%" width="220%" height="220%">
+          <feGaussianBlur stdDeviation="2.2"></feGaussianBlur>
+        </filter>
+      </defs>
+
+      <!-- wire from ceiling to cap -->
+      <line class="pf-lamp-wire" x1="52" y1="0" x2="52" y2="86"></line>
+      <!-- socket cap -->
+      <rect class="pf-lamp-cap" x="44" y="84" width="16" height="18" rx="3"></rect>
+      <line class="pf-lamp-cap-ridge" x1="45" y1="90" x2="59" y2="90"></line>
+      <line class="pf-lamp-cap-ridge" x1="45" y1="96" x2="59" y2="96"></line>
+
+      <!-- glass (cold base) + filament -->
+      <circle class="pf-lamp-glass-off" cx="52" cy="122" r="19"></circle>
+      <path class="pf-lamp-filament" d="M46 109 V120 M58 109 V120 M46 120 q3 6 6 0 q3 -6 6 0"></path>
+
+      <!-- lit overlay -->
+      <g class="pf-lamp-lit">
+        <circle class="pf-lamp-glass-lit" cx="52" cy="122" r="19" fill="url(#pfGlassLit)" fill-opacity="0.85"></circle>
+        <path class="pf-lamp-filament-glow" filter="url(#pfFilGlow)" d="M46 109 V120 M58 109 V120 M46 120 q3 6 6 0 q3 -6 6 0"></path>
+        <path class="pf-lamp-filament-lit" d="M46 109 V120 M58 109 V120 M46 120 q3 6 6 0 q3 -6 6 0"></path>
+      </g>
+
+      <!-- pull cord (own group so it can yank independently) -->
+      <g class="pf-lamp-cord-group">
+        <line class="pf-lamp-cord-arm" x1="62" y1="94" x2="74" y2="94"></line>
+        <line class="pf-lamp-cord" x1="74" y1="94" x2="74" y2="132"></line>
+        <circle class="pf-lamp-bead" cx="74" cy="135" r="2.1"></circle>
+        <path class="pf-lamp-knob" d="M74 138 C78.5 142 78.5 149 74 152.5 C69.5 149 69.5 142 74 138 Z"></path>
+      </g>
+    </svg>
+  </div>
+  <button type="button" class="pf-lamp-btn" role="switch" aria-checked="false" aria-label="switch to dark mode"></button>
+</div>
+
+<!-- ── top bar ─────────────────────────── -->
+<header class="topbar">
+  <a class="logo" id="logoMark" href="#top" aria-label="home">✲</a>
+  <button class="trigger" id="menuTrigger" aria-expanded="false" aria-controls="overlay">
+    <span class="trigger-mask"><span class="trigger-track"><span class="t-word">menu</span><span class="t-word">close</span></span></span>
+  </button>
+</header>
+
+<!-- ── overlay menu ────────────────────── -->
+<div class="overlay" id="overlay" data-view="nav" role="dialog" aria-modal="true" aria-label="menu" data-screen-label="overlay menu">
+  <div class="ov-views">
+
+    <nav class="ov-view ov-view-nav" id="navView" data-screen-label="menu — nav">
+      <ul class="ov-nav">
+        <li class="rv-mask"><span class="rv" style="--d:0;--dr:2"><button class="ov-link" id="navWorks"><span class="ov-ast" aria-hidden="true">✲</span><span class="roll"><span class="roll-a">works</span><span class="roll-b" aria-hidden="true">works</span></span></button></span></li>
+        <li class="rv-mask"><span class="rv" style="--d:1;--dr:1"><button class="ov-link" data-scroll-target="#about"><span class="ov-ast" aria-hidden="true">✲</span><span class="roll"><span class="roll-a">about</span><span class="roll-b" aria-hidden="true">about</span></span></button></span></li>
+        <li class="rv-mask"><span class="rv" style="--d:2;--dr:0"><button class="ov-link" data-scroll-target="#contact"><span class="ov-ast" aria-hidden="true">✲</span><span class="roll"><span class="roll-a">contact</span><span class="roll-b" aria-hidden="true">contact</span></span></button></span></li>
+      </ul>
+    </nav>
+
+    <div class="ov-view ov-view-works" id="worksView" data-screen-label="menu — works list">
+      <span class="rv-mask"><span class="rv" style="--d:0"><button class="works-back" id="worksBack">✲ back</button></span></span>
+      <ul class="works-list" id="worksList">
+        <li class="rv-mask"><span class="rv" style="--d:1"><button class="work-item" data-image="assets/previews/majestic-ui.png" data-glow="hsl(268 70% 60%)" data-scroll-target="#majestic-ui"><img class="wi-thumb" src="assets/previews/majestic-ui.png" alt=""><span class="wi-title">majestic ui</span></button></span></li>
+        <li class="rv-mask"><span class="rv" style="--d:2"><button class="work-item" data-image="assets/previews/mymoney.png" data-glow="hsl(152 70% 55%)" data-scroll-target="#mymoney"><img class="wi-thumb" src="assets/previews/mymoney.png" alt=""><span class="wi-title">mymoney</span></button></span></li>
+        <li class="rv-mask"><span class="rv" style="--d:3"><button class="work-item" data-image="assets/previews/inquirely.png" data-glow="hsl(222 70% 60%)" data-scroll-target="#inquirely"><img class="wi-thumb" src="assets/previews/inquirely.png" alt=""><span class="wi-title">inquirely</span></button></span></li>
+        <li class="rv-mask"><span class="rv" style="--d:4"><button class="work-item" data-image="assets/previews/skype-clone.png" data-glow="hsl(198 70% 58%)" data-scroll-target="#skype-clone"><img class="wi-thumb" src="assets/previews/skype-clone.png" alt=""><span class="wi-title">skype clone</span></button></span></li>
+        <li class="rv-mask"><span class="rv" style="--d:5"><button class="work-item" data-image="assets/previews/quickbytes.png" data-glow="hsl(42 80% 58%)" data-scroll-target="#quickbytes"><img class="wi-thumb" src="assets/previews/quickbytes.png" alt=""><span class="wi-title">quickbytes</span></button></span></li>
+        <li class="rv-mask"><span class="rv" style="--d:6"><button class="work-item" data-image="assets/previews/omegle-clone.png" data-glow="hsl(338 70% 60%)" data-scroll-target="#omegle-clone"><img class="wi-thumb" src="assets/previews/omegle-clone.png" alt=""><span class="wi-title">omegle clone</span></button></span></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="ov-foot">
+    <span class="rv-mask"><a class="rv" style="--d:7;--dr:0" href="mailto:punase.ronak99@gmail.com">punase.ronak99@gmail.com</a></span>
+    <ul class="ov-socials">
+      <li class="rv-mask"><a class="rv" style="--d:8;--dr:0" href="https://www.youtube.com/@TheCSGuy" target="_blank" rel="noopener">youtube</a></li>
+      <li class="rv-mask"><a class="rv" style="--d:9;--dr:0" href="https://x.com/The_RonakPunase" target="_blank" rel="noopener">x</a></li>
+      <li class="rv-mask"><a class="rv" style="--d:10;--dr:0" href="https://github.com/Ronak99/" target="_blank" rel="noopener">github</a></li>
+      <li class="rv-mask"><a class="rv" style="--d:11;--dr:0" href="https://www.linkedin.com/in/ronak-punase/" target="_blank" rel="noopener">linkedin</a></li>
+    </ul>
+  </div>
+
+  <!-- cursor-following preview card -->
+  <div class="preview-card" id="previewCard" aria-hidden="true">
+    <div class="pc-inner">
+      <div class="pc-glow"></div>
+      <div class="pc-imgs">
+        <img class="ch ch-r" src="assets/previews/majestic-ui.png" alt="">
+        <img class="ch ch-g" src="assets/previews/majestic-ui.png" alt="">
+        <img class="ch ch-b" src="assets/previews/majestic-ui.png" alt="">
+        <img class="pc-incoming" src="assets/previews/majestic-ui.png" alt="">
+      </div>
+    </div>
+  </div>
+</div>
+
+<main id="top">
+
+  <!-- ── hero ──────────────────────────── -->
+  <section class="hero wrap" data-screen-label="hero">
+    <p class="mono hero-label"><span class="mask"><span class="mask-in" style="--d:0">✲ mobile engineer — flutter</span></span></p>
+    <h1>
+      <span class="mask"><span class="mask-in" style="--d:1">ronak</span></span>
+      <span class="mask"><span class="mask-in" style="--d:2">punase</span></span>
+    </h1>
+    <p class="hero-sub"><span class="mask"><span class="mask-in" style="--d:3">building polished mobile experiences for android &amp; ios — six years of shipping apps, plugins and pipelines.</span></span></p>
+    <div class="hero-foot">
+      <span class="mono"><span class="mask"><span class="mask-in" style="--d:4">currently at farmako</span></span></span>
+      <span class="mono"><span class="mask"><span class="mask-in" style="--d:5">scroll ↓</span></span></span>
+    </div>
+  </section>
+
+  <!-- ── works ─────────────────────────── -->
+  <section class="section wrap" id="works" data-screen-label="works">
+    <div class="section-head fade-up">
+      <h2 class="section-title">✲ works</h2>
+      <span class="mono">01</span>
+    </div>
+
+    <article class="project fade-up" id="majestic-ui">
+      <span class="mono">jan 2025</span>
+      <div>
+        <h3>majestic ui</h3>
+        <ul>
+          <li><a href="https://ui.shadcn.com/" target="_blank" rel="noopener">shadcn</a> equivalent for flutter.</li>
+          <li>developed an <a href="https://pub.dev/packages/majestic_ui" target="_blank" rel="noopener">advanced cli</a> tool for direct delivery to the user.</li>
+          <li>built a reactjs website with hosted flutter webview.</li>
+          <li>integrated github's <a href="https://github.com/octokit" target="_blank" rel="noopener">octokit</a> sdk for the <a href="https://majesticui.com/publish" target="_blank" rel="noopener">publish</a> feature.</li>
+          <li>next.js · tailwind css · dart · supabase</li>
+        </ul>
+      </div>
+      <img class="project-thumb" src="assets/previews/majestic-ui.png" alt="majestic ui preview">
+    </article>
+
+    <article class="project fade-up" id="mymoney">
+      <span class="mono">jan 2025</span>
+      <div>
+        <h3>mymoney</h3>
+        <ul>
+          <li>industry-ready expense tracker in flutter — <a href="https://github.com/Ronak99/MyMoney" target="_blank" rel="noopener">github</a>.</li>
+          <li>dynamic local bank-statement parsers; income, expense, categories, bank accounts.</li>
+          <li>floor db · bloc · get</li>
+        </ul>
+      </div>
+      <img class="project-thumb" src="assets/previews/mymoney.png" alt="mymoney preview">
+    </article>
+
+    <article class="project fade-up" id="inquirely">
+      <span class="mono">2024</span>
+      <div>
+        <h3>inquirely</h3>
+        <ul>
+          <li>etl + retrieval-augmented-generation pipeline.</li>
+          <li>supabase vectorstore for embeddings; openai embeddings to create and parse them.</li>
+          <li>langchain to augment user queries.</li>
+          <li>published <a href="https://www.npmjs.com/package/inquirely-chat" target="_blank" rel="noopener">inquirely-chat</a> for businesses to incorporate.</li>
+          <li>next.js · tailwind css · langchain · supabase</li>
+        </ul>
+      </div>
+      <img class="project-thumb" src="assets/previews/inquirely.png" alt="inquirely preview">
+    </article>
+
+    <article class="project fade-up" id="skype-clone">
+      <span class="mono">2021</span>
+      <div>
+        <h3>skype clone</h3>
+        <ul>
+          <li>fully functional skype clone in flutter — auth, search, chat, video-call.</li>
+          <li>video calls facilitated via <a href="https://www.agora.io" target="_blank" rel="noopener">agora sdk</a>.</li>
+          <li>demo on <a href="https://www.youtube.com/watch?v=01PUYvVoLa8&amp;list=PLTHrJfrjCyJDlOLSIT3bm2xCCuPanUNX4&amp;t=62s" target="_blank" rel="noopener">youtube</a>.</li>
+          <li><a href="https://github.com/Ronak99/Skype-Clone" target="_blank" rel="noopener">github repository</a> with 300+ stars.</li>
+        </ul>
+      </div>
+      <img class="project-thumb" src="assets/previews/skype-clone.png" alt="skype clone preview">
+    </article>
+
+    <article class="project fade-up" id="quickbytes">
+      <span class="mono">2020</span>
+      <div>
+        <h3>quickbytes</h3>
+        <ul>
+          <li>inshorts-inspired news application in flutter.</li>
+          <li>minimalistic ui; on-point news with custom native notification design.</li>
+          <li>flutter · firebase · cloud functions · kotlin</li>
+        </ul>
+      </div>
+      <img class="project-thumb" src="assets/previews/quickbytes.png" alt="quickbytes preview">
+    </article>
+
+    <article class="project fade-up" id="omegle-clone">
+      <span class="mono">2020</span>
+      <div>
+        <h3>omegle clone</h3>
+        <ul>
+          <li>matchmaking algorithm that connects two individuals actively searching.</li>
+          <li>once matched, ui updates to render two live video blocks.</li>
+          <li>flutter · firebase</li>
+        </ul>
+      </div>
+      <img class="project-thumb" src="assets/previews/omegle-clone.png" alt="omegle clone preview">
+    </article>
+  </section>
+
+  <!-- ── experience ────────────────────── -->
+  <section class="section wrap" id="experience" data-screen-label="experience">
+    <div class="section-head fade-up">
+      <h2 class="section-title">✲ experience</h2>
+      <span class="mono">02</span>
+    </div>
+
+    <article class="xp fade-up">
+      <span class="mono">2025 — now</span>
+      <div>
+        <h3>farmako</h3>
+        <ul>
+          <li>built a new dynamic ui using advanced dart features (mixins, factory constructors, detailed enums), improving overall code quality.</li>
+          <li>developed and stabilized multiple ci/cd workflows, reducing build failures by 40%.</li>
+          <li>unified ci/cd pipeline for android, ios, firebase distribution and shorebird — cutting distribution time by ≈60–70%.</li>
+          <li>replaced github-hosted runners with local runners, reducing infra costs and speeding up builds by 25%.</li>
+          <li>re-implemented the cart as a local-first system for a noticeably smoother ux.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="xp fade-up">
+      <span class="mono">2021 — 2025</span>
+      <div>
+        <h3>pustack</h3>
+        <ul>
+          <li>worked on the <a href="https://apps.apple.com/us/app/pustack/id6444080075" target="_blank" rel="noopener">pustack</a>, <a href="https://apps.apple.com/in/app/pustack-tutor/id6444847124" target="_blank" rel="noopener">pustack tutor</a> and <a href="https://apps.apple.com/in/app/pustack-gives/id6449460885" target="_blank" rel="noopener">pustack gives</a> apps.</li>
+          <li>engineered an extremely reliable video-calling mechanism; implemented <a href="https://www.agora.io/en" target="_blank" rel="noopener">agora</a>'s native android and ios sdk into a flutter plugin.</li>
+          <li>extracted whiteboard sdk native functionality into a flutter plugin.</li>
+          <li>built pixel-perfect uis with dynamic layouts for mobile, tablet and ipad.</li>
+          <li>stories-style feature with advanced caching in the tutor app.</li>
+          <li>designed and implemented a resilient call-billing infrastructure.</li>
+          <li>led revision and publication of the official apps on play store and app store.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="xp fade-up">
+      <span class="mono">2020 — 2021</span>
+      <div>
+        <h3>intern · pustack</h3>
+        <ul>
+          <li>developed the live session controller and content management system.</li>
+          <li>developed the customer care platform.</li>
+          <li>built a central auth mechanism — like google, for all things pustack.</li>
+        </ul>
+      </div>
+    </article>
+  </section>
+
+  <!-- ── about ─────────────────────────── -->
+  <section class="section wrap" id="about" data-screen-label="about">
+    <div class="section-head fade-up">
+      <h2 class="section-title">✲ about</h2>
+      <span class="mono">03</span>
+    </div>
+    <div class="about-grid">
+      <p class="about-copy fade-up"><strong>competitive when learning</strong>, <strong>collaborative when building</strong>. i am a mobile dev with more than 6 years of experience, well versed in flutter and the ins and outs of the various caveats presented by both android and ios.</p>
+      <div class="about-meta fade-up">
+        <div>
+          <h4>education</h4>
+          <p>rgpv university — b.tech in computer science, 8.5 cgpa (2018 — 2021)</p>
+        </div>
+        <div>
+          <h4>packages published</h4>
+          <p><a href="https://pub.dev/packages/persistent_textfield" target="_blank" rel="noopener">persistent_textfield</a> · <a href="https://pub.dev/packages/majestic_ui" target="_blank" rel="noopener">majestic_ui</a> · <a href="https://www.npmjs.com/package/inquirely-chat" target="_blank" rel="noopener">inquirely-chat</a></p>
+        </div>
+        <div>
+          <h4>elsewhere</h4>
+          <p>i teach flutter on youtube as <a href="https://www.youtube.com/@TheCSGuy" target="_blank" rel="noopener">the cs guy</a> and write on <a href="https://medium.com/@punase.ronak99" target="_blank" rel="noopener">medium</a>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── videos + writing ──────────────── -->
+  <section class="section wrap" id="media" data-screen-label="videos and writing">
+    <div class="section-head fade-up">
+      <h2 class="section-title">✲ videos &amp; writing</h2>
+      <span class="mono">04</span>
+    </div>
+    <ul class="media-list fade-up">
+      <li><a class="media-row" href="https://www.youtube.com/watch?v=wWH66F9y63U&amp;t=30" target="_blank" rel="noopener"><span class="mono">01</span><span>introducing majestic ui for flutter</span><span class="arrow">youtube ↗</span></a></li>
+      <li><a class="media-row" href="https://www.youtube.com/watch?v=v9ngriCV0J0" target="_blank" rel="noopener"><span class="mono">02</span><span>video calling in flutter</span><span class="arrow">youtube ↗</span></a></li>
+      <li><a class="media-row" href="https://www.youtube.com/watch?v=wWH66F9y63U&amp;t=30" target="_blank" rel="noopener"><span class="mono">03</span><span>making pixel perfect uis in flutter</span><span class="arrow">youtube ↗</span></a></li>
+      <li><a class="media-row" href="https://www.youtube.com/watch?v=WnJZOi57oTY" target="_blank" rel="noopener"><span class="mono">04</span><span>how to add text to speech</span><span class="arrow">youtube ↗</span></a></li>
+      <li><a class="media-row" href="https://medium.com/@punase.ronak99/migrate-from-dynamic-links-c6e35982d84b" target="_blank" rel="noopener"><span class="mono">05</span><span>migrate from dynamic links</span><span class="arrow">medium ↗</span></a></li>
+      <li><a class="media-row" href="https://medium.com/@punase.ronak99/machine-learning-using-pytorch-what-worked-for-me-12f2c71e2871" target="_blank" rel="noopener"><span class="mono">06</span><span>pytorch for machine learning</span><span class="arrow">medium ↗</span></a></li>
+    </ul>
+  </section>
+
+  <!-- ── contact ───────────────────────── -->
+  <section class="contact wrap" id="contact" data-screen-label="contact">
+    <h2 class="fade-up">let's build<br>something ✲</h2>
+    <a class="contact-email fade-up" href="mailto:punase.ronak99@gmail.com">punase.ronak99@gmail.com</a>
+    <div class="foot">
+      <span class="mono">✲ ronak punase — 2026</span>
+      <ul class="foot-links">
+        <li><a href="https://www.youtube.com/@TheCSGuy" target="_blank" rel="noopener">youtube</a></li>
+        <li><a href="https://x.com/The_RonakPunase" target="_blank" rel="noopener">x</a></li>
+        <li><a href="https://github.com/Ronak99/" target="_blank" rel="noopener">github</a></li>
+        <li><a href="https://www.linkedin.com/in/ronak-punase/" target="_blank" rel="noopener">linkedin</a></li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<script src="js/main.js"></script>
+<script src="js/menu.js"></script>
+<script src="js/portfolio-lamp.js"></script>
+
+<!-- tweaks panel -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="js/tweaks-panel.jsx"></script>
+<script type="text/babel" src="js/tweaks.jsx"></script>
+
+</body>
+</html>
