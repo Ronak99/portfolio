@@ -13,7 +13,7 @@ export const GAMES: GameDefinition[] = [
   {
     id: "wurdle",
     label: "wurdle",
-    status: "coming-soon",
+    status: "playable",
     Component: Wurdle,
   },
   {
