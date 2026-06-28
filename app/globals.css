@@ -489,6 +489,164 @@ html[data-theme="dark"] {
     outline-offset: -4px;
   }
 
+  /* ── wurdle ────────────────────────────────── */
+  .wurdle {
+    gap: 14px;
+  }
+
+  .wurdle-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .wurdle-status {
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: var(--dim);
+  }
+
+  .wurdle-reset {
+    appearance: none;
+    background: none;
+    border: 0;
+    padding: 0;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: var(--dim);
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+
+  .wurdle-reset:hover {
+    color: var(--ink);
+  }
+
+  .wurdle-board {
+    display: grid;
+    gap: 5px;
+    justify-content: center;
+  }
+
+  .wurdle-board.is-shaking {
+    animation: wurdle-shake 0.4s ease;
+  }
+
+  .wurdle-row {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+  }
+
+  .wurdle-tile {
+    width: clamp(34px, 7.5vw, 46px);
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--faint);
+    font-family: var(--font-sans);
+    font-size: clamp(16px, 3.4vw, 22px);
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--ink);
+    transition: border-color 0.18s ease, transform 0.12s ease;
+  }
+
+  .wurdle-tile.is-filled {
+    border-color: color-mix(in srgb, var(--ink) 35%, transparent);
+    transform: scale(1.02);
+  }
+
+  .wurdle-tile.is-correct {
+    background: #4c8a4a;
+    border-color: #4c8a4a;
+    color: #fff;
+  }
+
+  .wurdle-tile.is-present {
+    background: #c2a23a;
+    border-color: #c2a23a;
+    color: #fff;
+  }
+
+  .wurdle-tile.is-absent {
+    background: color-mix(in srgb, var(--ink) 22%, var(--paper));
+    border-color: color-mix(in srgb, var(--ink) 22%, var(--paper));
+    color: var(--paper);
+  }
+
+  .wurdle-message {
+    min-height: 16px;
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--soft);
+  }
+
+  .wurdle-keyboard {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .wurdle-key-row {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+  }
+
+  .wurdle-key {
+    appearance: none;
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: 34px;
+    height: 40px;
+    border: 1px solid var(--faint);
+    background: color-mix(in srgb, var(--ink) 5%, var(--paper));
+    font-family: var(--font-mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    color: var(--ink);
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  .wurdle-key.is-action {
+    flex: 1.5 1 auto;
+    max-width: 52px;
+    font-size: 10px;
+  }
+
+  .wurdle-key:hover {
+    background: color-mix(in srgb, var(--ink) 12%, var(--paper));
+  }
+
+  .wurdle-key.is-correct {
+    background: #4c8a4a;
+    border-color: #4c8a4a;
+    color: #fff;
+  }
+
+  .wurdle-key.is-present {
+    background: #c2a23a;
+    border-color: #c2a23a;
+    color: #fff;
+  }
+
+  .wurdle-key.is-absent {
+    background: color-mix(in srgb, var(--ink) 22%, var(--paper));
+    border-color: color-mix(in srgb, var(--ink) 22%, var(--paper));
+    color: var(--dim);
+  }
+
+  @keyframes wurdle-shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-6px); }
+    40% { transform: translateX(6px); }
+    60% { transform: translateX(-4px); }
+    80% { transform: translateX(4px); }
   .ttt-cell[data-mark="o"] {
     color: var(--soft);
   }
@@ -711,9 +869,15 @@ html[data-theme="dark"] {
     .game-selector-tab::after,
     .ttt-cell,
     .ttt-reset,
+    .wurdle-tile,
+    .wurdle-key,
     .ttt-toggle,
     .ttt-toggle::after {
       transition: none;
+    }
+
+    .wurdle-board.is-shaking {
+      animation: none;
     }
   }
 
