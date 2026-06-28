@@ -2,12 +2,12 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
-type Player = "X" | "O";
+type Player = "x" | "o";
 type Cell = Player | null;
 type Board = Cell[];
 
-const HUMAN: Player = "X";
-const CPU: Player = "O";
+const HUMAN: Player = "x";
+const CPU: Player = "o";
 
 const WIN_LINES = [
   [0, 1, 2],
@@ -22,15 +22,12 @@ const WIN_LINES = [
 
 const EMPTY_BOARD: Board = Array.from({ length: 9 }, () => null);
 
-const CPU_THINK_MS = 480;
+const CPU_THINK_MS = 420;
 
-type WinInfo = { player: Player; line: readonly number[] };
-
-function getWinInfo(board: Board): WinInfo | null {
-  for (const line of WIN_LINES) {
-    const [a, b, c] = line;
+function winnerOf(board: Board): Player | null {
+  for (const [a, b, c] of WIN_LINES) {
     if (board[a] && board[a] === board[b] && board[a] === board[c]) {
-      return { player: board[a] as Player, line };
+      return board[a] as Player;
     }
   }
   return null;
@@ -40,14 +37,10 @@ function isFull(board: Board): boolean {
   return board.every(Boolean);
 }
 
-/**
- * Minimax with depth weighting so the CPU prefers the quickest win and the
- * slowest loss. The CPU ("O") is the maximizing player — with perfect play it
- * can never be beaten, only held to a draw.
- */
+// Minimax — the CPU ("o") maximizes; with perfect play it can never be beaten.
 function minimax(board: Board, depth: number, cpuToMove: boolean): number {
-  const win = getWinInfo(board);
-  if (win) return win.player === CPU ? 10 - depth : depth - 10;
+  const win = winnerOf(board);
+  if (win) return win === CPU ? 10 - depth : depth - 10;
   if (isFull(board)) return 0;
 
   const mark = cpuToMove ? CPU : HUMAN;
@@ -81,42 +74,32 @@ function chooseCpuMove(board: Board): number {
     }
   }
 
-  // Tie-break randomly among equally optimal moves for variety between games.
   return candidates[Math.floor(Math.random() * candidates.length)];
 }
-
-type Scores = { you: number; draws: number; cpu: number };
-
-const EMPTY_SCORES: Scores = { you: 0, draws: 0, cpu: 0 };
 
 export function TicTacToe() {
   const [board, setBoard] = useState<Board>(EMPTY_BOARD);
   const [turn, setTurn] = useState<Player>(HUMAN);
-  const [firstPlayer, setFirstPlayer] = useState<Player>(HUMAN);
-  const [scores, setScores] = useState<Scores>(EMPTY_SCORES);
-
-  const win = getWinInfo(board);
-  const draw = !win && isFull(board);
-  const gameOver = Boolean(win) || draw;
-  const cpuThinking = turn === CPU && !gameOver;
-
-  const recordedRef = useRef(false);
   const cpuTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  const win = winnerOf(board);
+  const draw = !win && isFull(board);
+  const gameOver = Boolean(win) || draw;
+  const youWin = win === HUMAN;
+
   const status = win
-    ? win.player === HUMAN
-      ? "you win"
-      : "cpu wins"
+    ? youWin
+      ? "you win ✓"
+      : "ai wins"
     : draw
       ? "draw"
-      : cpuThinking
-        ? "cpu thinking…"
+      : turn === CPU
+        ? "thinking…"
         : "your move";
 
-  const handleCellClick = useCallback(
+  const move = useCallback(
     (index: number) => {
       if (gameOver || board[index] || turn !== HUMAN) return;
-
       setBoard((prev) => {
         const next = [...prev];
         next[index] = HUMAN;
@@ -127,49 +110,21 @@ export function TicTacToe() {
     [board, gameOver, turn],
   );
 
-  const handleCellKeyDown = useCallback(
-    (event: React.KeyboardEvent<HTMLButtonElement>, index: number) => {
-      if (event.key === "Enter" || event.key === " ") {
-        event.preventDefault();
-        handleCellClick(index);
-      }
-    },
-    [handleCellClick],
-  );
-
-  const startGame = useCallback((first: Player) => {
+  const reset = useCallback(() => {
     if (cpuTimerRef.current) clearTimeout(cpuTimerRef.current);
-    recordedRef.current = false;
     setBoard(EMPTY_BOARD);
-    setTurn(first);
+    setTurn(HUMAN);
   }, []);
 
-  const handleReset = useCallback(() => {
-    startGame(firstPlayer);
-  }, [firstPlayer, startGame]);
-
-  // Switching who opens the game starts a fresh round immediately so the choice
-  // always takes effect on the current board, never mid-game.
-  const handleSetFirst = useCallback(
-    (first: Player) => {
-      if (first === firstPlayer) return;
-      setFirstPlayer(first);
-      startGame(first);
-    },
-    [firstPlayer, startGame],
-  );
-
-  // CPU turn — respond after a short, deliberate pause.
   useEffect(() => {
     if (turn !== CPU || gameOver) return;
-
     cpuTimerRef.current = setTimeout(() => {
       setBoard((prev) => {
-        if (getWinInfo(prev) || isFull(prev)) return prev;
-        const move = chooseCpuMove(prev);
-        if (move === undefined) return prev;
+        if (winnerOf(prev) || isFull(prev)) return prev;
+        const spot = chooseCpuMove(prev);
+        if (spot === undefined) return prev;
         const next = [...prev];
-        next[move] = CPU;
+        next[spot] = CPU;
         return next;
       });
       setTurn(HUMAN);
@@ -180,106 +135,62 @@ export function TicTacToe() {
     };
   }, [turn, gameOver]);
 
-  // Tally the result exactly once per finished game.
-  useEffect(() => {
-    if (!gameOver || recordedRef.current) return;
-    recordedRef.current = true;
-
-    setScores((prev) => {
-      if (win?.player === HUMAN) return { ...prev, you: prev.you + 1 };
-      if (win?.player === CPU) return { ...prev, cpu: prev.cpu + 1 };
-      return { ...prev, draws: prev.draws + 1 };
-    });
-  }, [gameOver, win]);
-
   useEffect(() => {
     return () => {
       if (cpuTimerRef.current) clearTimeout(cpuTimerRef.current);
     };
   }, []);
 
-  const winningCells = win ? new Set(win.line) : null;
-
   return (
-    <div className="game-panel ttt">
-      <div className="ttt-head">
-        <p className="mono ttt-status" aria-live="polite">
-          {status}
-        </p>
-        <button type="button" className="mono ttt-reset" onClick={handleReset}>
-          {gameOver ? "play again" : "reset"}
-        </button>
-      </div>
-
+    <div>
       <div
-        className="mono ttt-controls"
-        role="group"
-        aria-label="who moves first"
-      >
-        <span className="ttt-controls-label">first</span>
-        <button
-          type="button"
-          className="ttt-toggle"
-          aria-pressed={firstPlayer === HUMAN}
-          onClick={() => handleSetFirst(HUMAN)}
-        >
-          you
-        </button>
-        <button
-          type="button"
-          className="ttt-toggle"
-          aria-pressed={firstPlayer === CPU}
-          onClick={() => handleSetFirst(CPU)}
-        >
-          cpu
-        </button>
-      </div>
-
-      <div
-        className="ttt-grid"
+        className="grid grid-cols-3 gap-px border border-hair bg-hair"
         role="grid"
-        aria-label="tic tac toe board"
-        data-disabled={cpuThinking || gameOver ? "true" : undefined}
+        aria-label="tic-tac-toe board"
       >
-        {board.map((cell, index) => {
-          const isWinning = winningCells?.has(index) ?? false;
-          return (
-            <button
-              key={index}
-              type="button"
-              className="ttt-cell"
-              role="gridcell"
-              data-mark={cell ? cell.toLowerCase() : undefined}
-              data-winning={isWinning ? "true" : undefined}
-              aria-label={
-                cell
-                  ? `${cell === HUMAN ? "you" : "cpu"} in cell ${index + 1}`
-                  : `empty cell ${index + 1}`
-              }
-              disabled={Boolean(cell) || gameOver || cpuThinking}
-              onClick={() => handleCellClick(index)}
-              onKeyDown={(event) => handleCellKeyDown(event, index)}
-            >
-              {cell?.toLowerCase()}
-            </button>
-          );
-        })}
+        {board.map((v, i) => (
+          <button
+            key={i}
+            type="button"
+            role="gridcell"
+            onClick={() => move(i)}
+            disabled={Boolean(v) || gameOver || turn !== HUMAN}
+            aria-label={
+              v
+                ? `${v === HUMAN ? "you" : "ai"} in cell ${i + 1}`
+                : `empty cell ${i + 1}`
+            }
+            className={[
+              "flex aspect-square items-center justify-center bg-cell",
+              "text-[34px] font-light leading-none",
+              v ? "cursor-default" : "cursor-pointer",
+              v === "x" ? "text-ink-2" : "text-accent",
+            ].join(" ")}
+          >
+            {v ? (v === "x" ? "×" : "○") : ""}
+          </button>
+        ))}
       </div>
 
-      <dl className="mono ttt-scores" aria-label="score">
-        <div className="ttt-score">
-          <dt>you</dt>
-          <dd>{scores.you}</dd>
-        </div>
-        <div className="ttt-score">
-          <dt>draws</dt>
-          <dd>{scores.draws}</dd>
-        </div>
-        <div className="ttt-score">
-          <dt>cpu</dt>
-          <dd>{scores.cpu}</dd>
-        </div>
-      </dl>
+      <div className="mt-[14px] flex justify-between font-mono text-[12px] text-status">
+        <span className={youWin ? "text-accent" : undefined} aria-live="polite">
+          {status}
+        </span>
+        <span
+          role="button"
+          tabIndex={0}
+          onClick={reset}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              reset();
+            }
+          }}
+          className="cursor-pointer text-muted-2 transition-colors hover:text-hover"
+        >
+          reset ↻
+        </span>
+      </div>
     </div>
   );
 }

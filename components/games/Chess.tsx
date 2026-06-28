@@ -1,13 +1,22 @@
 "use client";
 
-import { Chess, type Color, type PieceSymbol, type Square } from "chess.js";
+import {
+  Chess as ChessEngine,
+  type Color,
+  type PieceSymbol,
+  type Square,
+} from "chess.js";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { chooseMove, type Difficulty } from "./chess/ai";
 
-const HUMAN: Color = "w";
-const AI: Color = "b";
+const DEFAULT_MESSAGE = "white to mate in one";
 
-const AI_THINK_MS = 420;
+// Mate-in-one puzzles — white to move and deliver checkmate.
+const PUZZLES: string[] = [
+  "6k1/5ppp/8/8/8/8/8/R6K w - - 0 1", // Ra8#
+  "6k1/5ppp/8/8/8/8/5PPP/4Q1K1 w - - 0 1", // Qe8#
+  "7k/8/6QK/8/8/8/8/8 w - - 0 1", // Qg7#
+  "6k1/8/6K1/8/8/8/8/7R w - - 0 1", // Rh8#
+];
 
 const GLYPHS: Record<Color, Record<PieceSymbol, string>> = {
   w: { p: "♙", n: "♘", b: "♗", r: "♖", q: "♕", k: "♔" },
@@ -25,86 +34,54 @@ const PIECE_NAMES: Record<PieceSymbol, string> = {
 
 const FILES = ["a", "b", "c", "d", "e", "f", "g", "h"] as const;
 
-const DIFFICULTIES: Difficulty[] = ["easy", "normal", "hard"];
-
-type Scores = { you: number; draws: number; ai: number };
-
-const EMPTY_SCORES: Scores = { you: 0, draws: 0, ai: 0 };
-
-function squareName(row: number, col: number): Square {
+function squareName(r: number, c: number): Square {
   // board() rows run rank 8 -> rank 1, columns run file a -> h.
-  return `${FILES[col]}${8 - row}` as Square;
+  return `${FILES[c]}${8 - r}` as Square;
 }
 
-export function Chess_() {
-  const gameRef = useRef(new Chess());
-  const game = gameRef.current;
+function randomIndex(exclude?: number): number {
+  if (PUZZLES.length === 1) return 0;
+  let next = Math.floor(Math.random() * PUZZLES.length);
+  while (next === exclude) {
+    next = Math.floor(Math.random() * PUZZLES.length);
+  }
+  return next;
+}
 
-  const [fen, setFen] = useState(game.fen());
+function Chess_() {
+  const gameRef = useRef(new ChessEngine(PUZZLES[0]));
+
+  const [index, setIndex] = useState(0);
+  const [fen, setFen] = useState(PUZZLES[0]);
   const [selected, setSelected] = useState<Square | null>(null);
-  const [lastMove, setLastMove] = useState<{ from: Square; to: Square } | null>(
-    null,
-  );
-  const [thinking, setThinking] = useState(false);
-  const [difficulty, setDifficulty] = useState<Difficulty>("normal");
-  const [scores, setScores] = useState<Scores>(EMPTY_SCORES);
+  const [solved, setSolved] = useState(false);
+  const [message, setMessage] = useState(DEFAULT_MESSAGE);
 
-  const recordedRef = useRef(false);
-  const aiTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const workerRef = useRef<Worker | null>(null);
-  const requestIdRef = useRef(0);
+  const loadPuzzle = useCallback((i: number) => {
+    gameRef.current = new ChessEngine(PUZZLES[i]);
+    setIndex(i);
+    setFen(PUZZLES[i]);
+    setSelected(null);
+    setSolved(false);
+    setMessage(DEFAULT_MESSAGE);
+  }, []);
 
-  // `fen` is the source of truth that drives re-renders; everything else is
-  // derived from the live chess.js instance.
-  const turn = game.turn();
-  const board = useMemo(() => game.board(), [fen, game]);
-  const gameOver = game.isGameOver();
-  const inCheck = game.inCheck();
+  // Pick a random puzzle on mount (client only, no hydration mismatch).
+  useEffect(() => {
+    loadPuzzle(randomIndex());
+  }, [loadPuzzle]);
 
-  const legalTargets = useMemo(() => {
-    if (!selected) return new Set<string>();
-    const moves = game.moves({ square: selected, verbose: true });
-    return new Set(moves.map((m) => m.to));
-  }, [selected, fen, game]);
+  const reset = useCallback(() => {
+    loadPuzzle(randomIndex(index));
+  }, [index, loadPuzzle]);
 
-  const checkedKingSquare = useMemo<Square | null>(() => {
-    if (!inCheck) return null;
-    for (let row = 0; row < 8; row += 1) {
-      for (let col = 0; col < 8; col += 1) {
-        const piece = board[row][col];
-        if (piece && piece.type === "k" && piece.color === turn) {
-          return squareName(row, col);
-        }
-      }
-    }
-    return null;
-  }, [inCheck, board, turn]);
+  const board = useMemo(() => gameRef.current.board(), [fen]);
 
-  const status = (() => {
-    if (game.isCheckmate()) return turn === HUMAN ? "ai wins" : "you win";
-    if (game.isStalemate()) return "stalemate";
-    if (game.isDraw()) return "draw";
-    if (thinking) return "ai thinking…";
-    if (inCheck) return "check";
-    return "your move";
-  })();
-
-  const applyMove = useCallback(
-    (from: Square, to: Square, promotion?: string) => {
-      const move = game.move({ from, to, promotion });
-      if (!move) return false;
-      setLastMove({ from: move.from, to: move.to });
-      setSelected(null);
-      setFen(game.fen());
-      return true;
-    },
-    [game],
-  );
-
-  const handleSquareClick = useCallback(
-    (square: Square) => {
-      if (gameOver || thinking || turn !== HUMAN) return;
-
+  const clickSquare = useCallback(
+    (r: number, c: number) => {
+      if (solved) return;
+      const game = gameRef.current;
+      const square = squareName(r, c);
       const piece = game.get(square);
 
       if (selected) {
@@ -112,15 +89,32 @@ export function Chess_() {
           setSelected(null);
           return;
         }
-        if (legalTargets.has(square)) {
-          // Auto-promote to queen — by far the most common choice.
-          const verbose = game
-            .moves({ square: selected, verbose: true })
-            .find((m) => m.to === square);
-          applyMove(selected, square, verbose?.promotion ? "q" : undefined);
+
+        const verbose = game
+          .moves({ square: selected, verbose: true })
+          .find((m) => m.to === square);
+
+        if (verbose) {
+          game.move({
+            from: selected,
+            to: square,
+            promotion: verbose.promotion ? "q" : undefined,
+          });
+
+          if (game.isCheckmate()) {
+            setSolved(true);
+            setMessage("checkmate ✓");
+            setSelected(null);
+            setFen(game.fen());
+          } else {
+            game.undo();
+            setSelected(null);
+            setMessage("not mate — try again");
+          }
           return;
         }
-        if (piece && piece.color === HUMAN) {
+
+        if (piece && piece.color === "w") {
           setSelected(square);
           return;
         }
@@ -128,219 +122,78 @@ export function Chess_() {
         return;
       }
 
-      if (piece && piece.color === HUMAN) {
+      if (piece && piece.color === "w") {
         setSelected(square);
       }
     },
-    [applyMove, game, gameOver, legalTargets, selected, thinking, turn],
+    [selected, solved],
   );
 
-  const handleReset = useCallback(() => {
-    if (aiTimerRef.current) clearTimeout(aiTimerRef.current);
-    requestIdRef.current += 1; // invalidate any in-flight AI search
-    recordedRef.current = false;
-    gameRef.current = new Chess();
-    setFen(gameRef.current.fen());
-    setSelected(null);
-    setLastMove(null);
-    setThinking(false);
-  }, []);
-
-  // Spin up a Web Worker so deeper searches never block the main thread.
-  // Falls back to synchronous compute if workers aren't available.
-  useEffect(() => {
-    if (typeof Worker === "undefined") return;
-    let worker: Worker | null = null;
-    try {
-      worker = new Worker(
-        new URL("./chess/engine.worker.ts", import.meta.url),
-      );
-      workerRef.current = worker;
-    } catch {
-      workerRef.current = null;
-    }
-    return () => {
-      worker?.terminate();
-      workerRef.current = null;
-    };
-  }, []);
-
-  // AI turn — respond after a short, deliberate pause.
-  useEffect(() => {
-    if (turn !== AI || gameOver) return;
-
-    setThinking(true);
-    const requestId = (requestIdRef.current += 1);
-    const startFen = game.fen();
-    const startedAt = Date.now();
-
-    // Enforce a minimum "thinking" pause so instant replies still feel natural.
-    const settle = (choice: ReturnType<typeof chooseMove>) => {
-      const wait = Math.max(0, AI_THINK_MS - (Date.now() - startedAt));
-      aiTimerRef.current = setTimeout(() => {
-        if (requestId !== requestIdRef.current) return;
-        if (choice) {
-          applyMove(
-            choice.from as Square,
-            choice.to as Square,
-            choice.promotion,
-          );
-        }
-        setThinking(false);
-      }, wait);
-    };
-
-    const worker = workerRef.current;
-    if (worker) {
-      const onMessage = (event: MessageEvent) => {
-        if (event.data?.id !== requestId) return;
-        worker.removeEventListener("message", onMessage);
-        settle(event.data.move);
-      };
-      worker.addEventListener("message", onMessage);
-      worker.postMessage({ id: requestId, fen: startFen, difficulty });
-
-      return () => {
-        worker.removeEventListener("message", onMessage);
-        if (aiTimerRef.current) clearTimeout(aiTimerRef.current);
-      };
-    }
-
-    // No worker — compute on the main thread after the pause.
-    aiTimerRef.current = setTimeout(() => {
-      if (requestId !== requestIdRef.current) return;
-      const choice = chooseMove(startFen, difficulty);
-      if (choice) {
-        applyMove(choice.from as Square, choice.to as Square, choice.promotion);
-      }
-      setThinking(false);
-    }, AI_THINK_MS);
-
-    return () => {
-      if (aiTimerRef.current) clearTimeout(aiTimerRef.current);
-    };
-  }, [turn, gameOver, fen, difficulty, applyMove, game]);
-
-  // Tally the result exactly once per finished game.
-  useEffect(() => {
-    if (!gameOver || recordedRef.current) return;
-    recordedRef.current = true;
-
-    setScores((prev) => {
-      if (game.isCheckmate()) {
-        return turn === HUMAN
-          ? { ...prev, ai: prev.ai + 1 }
-          : { ...prev, you: prev.you + 1 };
-      }
-      return { ...prev, draws: prev.draws + 1 };
-    });
-  }, [gameOver, turn, game]);
-
-  useEffect(() => {
-    return () => {
-      if (aiTimerRef.current) clearTimeout(aiTimerRef.current);
-    };
-  }, []);
-
-  const interactionLocked = gameOver || thinking || turn !== HUMAN;
-
   return (
-    <div className="game-panel chess">
-      <div className="ttt-head">
-        <p className="mono ttt-status" aria-live="polite">
-          {status}
-        </p>
-        <button type="button" className="mono ttt-reset" onClick={handleReset}>
-          {gameOver ? "play again" : "reset"}
-        </button>
-      </div>
-
+    <div>
       <div
-        className="chess-board"
+        className="grid grid-cols-8 overflow-hidden rounded-[3px] border border-hair-2"
         role="grid"
         aria-label="chess board"
-        data-disabled={interactionLocked ? "true" : undefined}
       >
-        {board.map((rankCells, row) => (
-          <div className="chess-rank" role="row" key={row}>
-            {rankCells.map((cell, col) => {
-              const square = squareName(row, col);
-              const isLight = (row + col) % 2 === 0;
-              const isSelected = selected === square;
-              const isTarget = legalTargets.has(square);
-              const isCapture = isTarget && Boolean(cell);
-              const isLast =
-                lastMove?.from === square || lastMove?.to === square;
-              const isCheck = checkedKingSquare === square;
+        {board.flatMap((rankCells, r) =>
+          rankCells.map((piece, c) => {
+            const square = squareName(r, c);
+            const dark = (r + c) % 2 === 1;
+            const isSelected = selected === square;
+            const label = piece
+              ? `${piece.color === "w" ? "white" : "black"} ${
+                  PIECE_NAMES[piece.type]
+                } on ${square}`
+              : `${square} empty`;
 
-              const label = cell
-                ? `${cell.color === HUMAN ? "your" : "ai"} ${
-                    PIECE_NAMES[cell.type]
-                  } on ${square}`
-                : `${square} empty`;
-
-              return (
-                <button
-                  key={square}
-                  type="button"
-                  role="gridcell"
-                  className="chess-square"
-                  data-shade={isLight ? "light" : "dark"}
-                  data-selected={isSelected ? "true" : undefined}
-                  data-target={isTarget && !isCapture ? "true" : undefined}
-                  data-capture={isCapture ? "true" : undefined}
-                  data-last={isLast ? "true" : undefined}
-                  data-check={isCheck ? "true" : undefined}
-                  aria-label={label}
-                  aria-pressed={isSelected}
-                  disabled={interactionLocked && !isTarget && !cell}
-                  onClick={() => handleSquareClick(square)}
-                >
-                  {cell ? (
-                    <span
-                      className="chess-piece"
-                      data-color={cell.color}
-                      aria-hidden="true"
-                    >
-                      {GLYPHS[cell.color][cell.type]}
-                    </span>
-                  ) : null}
-                </button>
-              );
-            })}
-          </div>
-        ))}
+            return (
+              <div
+                key={`${r}-${c}`}
+                role="gridcell"
+                aria-label={label}
+                onClick={() => clickSquare(r, c)}
+                className={[
+                  "flex aspect-square items-center justify-center text-[21px] leading-none",
+                  solved ? "cursor-default" : "cursor-pointer",
+                  isSelected
+                    ? "bg-accent"
+                    : dark
+                      ? "bg-sq-dark"
+                      : "bg-sq-light",
+                  piece && piece.color === "w"
+                    ? "text-ink"
+                    : "text-piece-muted",
+                ].join(" ")}
+              >
+                {piece ? GLYPHS[piece.color][piece.type] : ""}
+              </div>
+            );
+          }),
+        )}
       </div>
 
-      <div className="chess-controls">
-        <div className="chess-levels" role="group" aria-label="difficulty">
-          {DIFFICULTIES.map((level) => (
-            <button
-              key={level}
-              type="button"
-              className="chess-level"
-              aria-pressed={difficulty === level}
-              onClick={() => setDifficulty(level)}
-            >
-              {level}
-            </button>
-          ))}
-        </div>
-
-        <dl className="mono ttt-scores chess-scores" aria-label="score">
-          <div className="ttt-score">
-            <dt>you</dt>
-            <dd>{scores.you}</dd>
-          </div>
-          <div className="ttt-score">
-            <dt>draws</dt>
-            <dd>{scores.draws}</dd>
-          </div>
-          <div className="ttt-score">
-            <dt>ai</dt>
-            <dd>{scores.ai}</dd>
-          </div>
-        </dl>
+      <div className="mt-3 flex justify-between font-mono text-[12px]">
+        <span
+          className={solved ? "text-accent" : "text-status"}
+          aria-live="polite"
+        >
+          {message}
+        </span>
+        <span
+          role="button"
+          tabIndex={0}
+          onClick={reset}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              reset();
+            }
+          }}
+          className="cursor-pointer text-muted-2 transition-colors hover:text-hover"
+        >
+          reset ↻
+        </span>
       </div>
     </div>
   );

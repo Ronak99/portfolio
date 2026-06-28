@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Archivo, IBM_Plex_Mono } from "next/font/google";
+import { Archivo, JetBrains_Mono } from "next/font/google";
 import Script from "next/script";
 import portfolioData from "@/data/portfolio.json";
 import "./globals.css";
@@ -11,10 +11,10 @@ const archivo = Archivo({
   display: "swap",
 });
 
-const ibmPlexMono = IBM_Plex_Mono({
+const jetBrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   weight: ["400", "500"],
-  variable: "--font-ibm-plex-mono",
+  variable: "--font-jetbrains-mono",
   display: "swap",
 });
 
@@ -35,7 +35,7 @@ export default function RootLayout({
           {`try { var _t = localStorage.getItem("portfolio-theme"); if (_t) document.documentElement.setAttribute("data-theme", _t); } catch (e) {}`}
         </Script>
       </head>
-      <body className={`${archivo.variable} ${ibmPlexMono.variable}`}>
+      <body className={`${archivo.variable} ${jetBrainsMono.variable}`}>
         <div className="bg-grid" aria-hidden="true" />
         <div className="pf-lamp-pool" aria-hidden="true" />
 

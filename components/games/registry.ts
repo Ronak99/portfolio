@@ -6,13 +6,13 @@ import { Wurdle } from "./Wurdle";
 export const GAMES: GameDefinition[] = [
   {
     id: "tic-tac-toe",
-    label: "tic tac toe",
+    label: "tic-tac-toe",
     status: "playable",
     Component: TicTacToe,
   },
   {
     id: "wurdle",
-    label: "wurdle",
+    label: "wordle",
     status: "playable",
     Component: Wurdle,
   },
