@@ -19,7 +19,7 @@ export const GAMES: GameDefinition[] = [
   {
     id: "chess",
     label: "chess",
-    status: "coming-soon",
+    status: "playable",
     Component: Chess,
   },
 ];
