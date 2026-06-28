@@ -440,6 +440,39 @@ html[data-theme="dark"] {
     outline-offset: -4px;
   }
 
+  .ttt-cell[data-mark="o"] {
+    color: var(--soft);
+  }
+
+  .ttt-cell[data-winning="true"] {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .ttt-grid[data-disabled="true"] .ttt-cell:not([data-mark]) {
+    cursor: default;
+  }
+
+  .ttt-scores {
+    display: flex;
+    gap: 22px;
+    margin-top: 16px;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: var(--dim);
+  }
+
+  .ttt-score {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+  }
+
+  .ttt-score dd {
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+
   @media (max-width: 960px) {
     .hero-layout {
       grid-template-columns: 1fr;
