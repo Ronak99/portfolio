@@ -142,9 +142,9 @@ export function TicTacToe() {
   }, []);
 
   return (
-    <div>
+    <div className="flex h-full items-stretch gap-5">
       <div
-        className="grid grid-cols-3 gap-px border border-hair bg-hair"
+        className="@container grid aspect-square h-full shrink-0 grid-cols-3 grid-rows-3 gap-px border border-hair bg-hair"
         role="grid"
         aria-label="tic-tac-toe board"
       >
@@ -161,8 +161,8 @@ export function TicTacToe() {
                 : `empty cell ${i + 1}`
             }
             className={[
-              "flex aspect-square items-center justify-center bg-cell",
-              "text-[34px] font-light leading-none",
+              "flex items-center justify-center bg-cell",
+              "text-[13cqw] font-light leading-none",
               v ? "cursor-default" : "cursor-pointer",
               v === "x" ? "text-ink-2" : "text-accent",
             ].join(" ")}
@@ -172,10 +172,21 @@ export function TicTacToe() {
         ))}
       </div>
 
-      <div className="mt-[14px] flex justify-between font-mono text-[12px] text-status">
-        <span className={youWin ? "text-accent" : undefined} aria-live="polite">
-          {status}
-        </span>
+      <div className="flex min-w-0 flex-1 flex-col justify-between py-0.5 font-mono">
+        <div className="flex flex-col gap-1.5">
+          <span
+            className={[
+              "text-[13px]",
+              youWin ? "text-accent" : "text-status",
+            ].join(" ")}
+            aria-live="polite"
+          >
+            {status}
+          </span>
+          <span className="text-[10px] tracking-[0.06em] text-faint-2">
+            you are × · ai is ○
+          </span>
+        </div>
         <span
           role="button"
           tabIndex={0}
@@ -186,7 +197,7 @@ export function TicTacToe() {
               reset();
             }
           }}
-          className="cursor-pointer text-muted-2 transition-colors hover:text-hover"
+          className="cursor-pointer self-start text-[12px] text-muted-2 transition-colors hover:text-hover"
         >
           reset ↻
         </span>

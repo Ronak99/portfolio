@@ -34,7 +34,7 @@ export function Hero({ hero }: { hero: PortfolioData["hero"] }) {
           </p>
         </div>
         <div className="hero-games">
-          <div className="inline-flex rounded-[5px]">
+          <div className="w-full rounded-[5px]">
             <GameHost />
           </div>
         </div>

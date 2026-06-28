@@ -341,7 +341,7 @@ html[data-theme="dark"] {
 
   .hero-layout {
     display: grid;
-    grid-template-columns: 1fr minmax(248px, 357px);
+    grid-template-columns: 1fr minmax(320px, 534px);
     align-items: center;
     gap: clamp(32px, 5vw, 72px);
     flex: 1;
@@ -356,7 +356,7 @@ html[data-theme="dark"] {
     display: flex;
     justify-content: flex-end;
     width: 100%;
-    max-width: 357px;
+    max-width: 534px;
   }
 
   .hero-label {
@@ -967,7 +967,7 @@ html[data-theme="dark"] {
     }
   }
 
-  @media (max-width: 960px) {
+  @media (max-width: 1080px) {
     .hero-layout {
       grid-template-columns: 1fr;
     }
@@ -975,7 +975,7 @@ html[data-theme="dark"] {
     .hero-games {
       justify-self: stretch;
       justify-content: flex-start;
-      max-width: none;
+      max-width: 534px;
       margin-top: clamp(24px, 4vh, 40px);
     }
   }

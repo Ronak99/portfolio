@@ -57,6 +57,35 @@ function tileClass(state: TileState): string {
   }
 }
 
+// Per-key coloring mirrors the tile feedback so the on-screen keyboard tracks
+// which letters have been ruled in/out across previous guesses.
+function keyClass(state: TileState | undefined): string {
+  switch (state) {
+    case "correct":
+      return "border border-transparent bg-[#5cb88a] text-[#0d1117]";
+    case "present":
+      return "border border-transparent bg-[#d4a843] text-[#0d1117]";
+    case "absent":
+      return "border border-transparent bg-[#2a2f3a] text-faint";
+    default:
+      return "border border-hair-2 bg-cell text-ink hover:border-hair-strong";
+  }
+}
+
+// "back" = backspace, "enter" = submit; everything else is a letter.
+const KEY_ROWS: string[][] = [
+  ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
+  ["a", "s", "d", "f", "g", "h", "j", "k", "l"],
+  ["back", "z", "x", "c", "v", "b", "n", "m", "enter"],
+];
+
+const STATE_RANK: Record<TileState, number> = {
+  empty: -1,
+  absent: 0,
+  present: 1,
+  correct: 2,
+};
+
 export function Wurdle() {
   const [answer, setAnswer] = useState("");
   const [guesses, setGuesses] = useState<string[]>([]);
@@ -109,6 +138,24 @@ export function Wurdle() {
     setNotice("");
   }, []);
 
+  // Single entry point for input — both the on-screen keys and the physical
+  // keyboard route through here so behaviour stays identical.
+  const handleKey = useCallback(
+    (key: string) => {
+      if (gameState !== "playing") return;
+      if (key === "enter") {
+        submitGuess();
+      } else if (key === "back") {
+        setCurrent((prev) => prev.slice(0, -1));
+        setNotice("");
+      } else if (/^[a-z]$/.test(key)) {
+        setCurrent((prev) => (prev.length < WORD_LENGTH ? prev + key : prev));
+        setNotice("");
+      }
+    },
+    [gameState, submitGuess],
+  );
+
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.metaKey || event.ctrlKey || event.altKey) return;
@@ -117,22 +164,32 @@ export function Wurdle() {
       const key = event.key.toLowerCase();
       if (key === "enter") {
         event.preventDefault();
-        submitGuess();
+        handleKey("enter");
       } else if (key === "backspace") {
         event.preventDefault();
-        setCurrent((prev) => prev.slice(0, -1));
-        setNotice("");
+        handleKey("back");
       } else if (/^[a-z]$/.test(key)) {
-        setCurrent((prev) =>
-          prev.length < WORD_LENGTH ? prev + key : prev,
-        );
-        setNotice("");
+        handleKey(key);
       }
     };
 
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [gameState, submitGuess]);
+  }, [gameState, handleKey]);
+
+  // Best-known status for each letter, used to tint the on-screen keys.
+  const letterStates = useMemo(() => {
+    const map: Record<string, TileState> = {};
+    guesses.forEach((guess, r) => {
+      guess.split("").forEach((ch, c) => {
+        const state = evaluations[r]?.[c];
+        if (!state || state === "empty") return;
+        const prev = map[ch];
+        if (!prev || STATE_RANK[state] > STATE_RANK[prev]) map[ch] = state;
+      });
+    });
+    return map;
+  }, [guesses, evaluations]);
 
   const solved = gameState === "won";
 
@@ -142,7 +199,7 @@ export function Wurdle() {
       ? "solved ✓"
       : gameState === "lost"
         ? `it was ${answer.toUpperCase()}`
-        : "type · enter · ⌫";
+        : "guess the 5-letter word";
 
   const rows = Array.from({ length: MAX_GUESSES }, (_, r) => {
     if (r < guesses.length) {
@@ -163,52 +220,111 @@ export function Wurdle() {
     }));
   });
 
+  const tiles = rows.flat();
+
   return (
-    <div>
-      <div className="flex flex-col gap-[5px]">
-        {rows.map((row, r) => (
-          <div key={r} className="grid grid-cols-5 gap-[5px]" role="row">
-            {row.map((tile, c) => (
-              <div
-                key={c}
-                role="gridcell"
-                aria-label={tile.ch ? `${tile.ch}, ${tile.state}` : "empty"}
-                className={[
-                  "flex aspect-square items-center justify-center rounded-[3px]",
-                  "text-[19px] font-medium uppercase",
-                  tileClass(tile.state),
-                ].join(" ")}
-              >
-                {tile.ch}
-              </div>
-            ))}
+    <div className="flex h-full items-stretch gap-5">
+      <div
+        className="@container grid aspect-square h-full shrink-0 grid-cols-5 grid-rows-5 gap-[5px]"
+        role="grid"
+        aria-label="wordle board"
+      >
+        {tiles.map((tile, i) => (
+          <div
+            key={i}
+            role="gridcell"
+            aria-label={tile.ch ? `${tile.ch}, ${tile.state}` : "empty"}
+            className={[
+              "flex items-center justify-center rounded-[3px]",
+              "text-[8.5cqw] font-medium uppercase",
+              tileClass(tile.state),
+            ].join(" ")}
+          >
+            {tile.ch}
           </div>
         ))}
       </div>
 
-      <div className="mt-[9px] flex justify-between font-mono text-[12px]">
+      <div className="flex min-w-0 flex-1 flex-col items-center justify-center gap-3 py-0.5 font-mono">
         <span
-          className={solved ? "text-accent" : "text-status"}
+          className={[
+            "text-[12px] tracking-[0.04em]",
+            solved ? "text-accent" : "text-status",
+          ].join(" ")}
           aria-live="polite"
         >
           {status}
         </span>
-        {gameState !== "playing" ? (
-          <span
-            role="button"
-            tabIndex={0}
-            onClick={reset}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault();
-                reset();
-              }
-            }}
-            className="cursor-pointer text-muted-2 transition-colors hover:text-hover"
-          >
-            new word ↻
-          </span>
-        ) : null}
+
+        <div
+          className="flex w-full max-w-[340px] flex-col gap-[5px]"
+          role="group"
+          aria-label="on-screen keyboard"
+        >
+          {KEY_ROWS.map((row, ri) => (
+            <div key={ri} className="flex justify-center gap-[5px]">
+              {row.map((key) => {
+                const isEnter = key === "enter";
+                const isBack = key === "back";
+                const isAction = isEnter || isBack;
+                const label = isEnter ? "↵" : isBack ? "⌫" : key;
+
+                const colorClass = isEnter
+                  ? "border border-transparent bg-accent text-accent-fg"
+                  : isBack
+                    ? "border border-hair-2 bg-cell text-ink hover:border-hair-strong"
+                    : keyClass(letterStates[key]);
+
+                return (
+                  <button
+                    key={key}
+                    type="button"
+                    onClick={() => handleKey(key)}
+                    disabled={gameState !== "playing"}
+                    aria-label={isEnter ? "enter" : isBack ? "delete" : key}
+                    className={[
+                      "flex h-9 items-center justify-center rounded-[3px] select-none",
+                      "font-medium uppercase transition-colors",
+                      "disabled:cursor-default disabled:opacity-60",
+                      gameState === "playing" ? "cursor-pointer" : "",
+                      isAction
+                        ? "min-w-0 flex-[1.5_1_0%] max-w-[52px] text-[13px]"
+                        : "min-w-0 flex-1 max-w-[30px] text-[11px]",
+                      colorClass,
+                    ].join(" ")}
+                  >
+                    {label}
+                  </button>
+                );
+              })}
+            </div>
+          ))}
+        </div>
+
+        {/* Always reserve this row so the keyboard never shifts when the game ends. */}
+        <span
+          role={gameState !== "playing" ? "button" : undefined}
+          tabIndex={gameState !== "playing" ? 0 : undefined}
+          onClick={gameState !== "playing" ? reset : undefined}
+          onKeyDown={
+            gameState !== "playing"
+              ? (e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    reset();
+                  }
+                }
+              : undefined
+          }
+          className={[
+            "h-[18px] text-[12px] leading-[18px]",
+            gameState !== "playing"
+              ? "cursor-pointer text-muted-2 transition-colors hover:text-hover"
+              : "invisible pointer-events-none",
+          ].join(" ")}
+        >
+          new word ↻
+        </span>
       </div>
     </div>
   );

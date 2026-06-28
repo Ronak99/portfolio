@@ -53,10 +53,10 @@ export function GameHost() {
   const ActiveComponent = activeGame.Component;
 
   return (
-    <div className="h-[494px] w-[357px]">
+    <div className="aspect-[16/9] w-full max-w-[534px]">
       {revealed ? (
         <div
-          className="game-reveal is-in rounded-[5px] bg-base
+          className="game-reveal is-in h-full w-full rounded-[5px] bg-base
                      transition-[background-color] duration-[450ms]
                      ease-[cubic-bezier(0.16,1,0.3,1)]"
         >

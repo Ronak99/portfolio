@@ -130,9 +130,9 @@ function Chess_() {
   );
 
   return (
-    <div>
+    <div className="flex h-full items-stretch gap-5">
       <div
-        className="grid grid-cols-8 overflow-hidden rounded-[3px] border border-hair-2"
+        className="@container grid aspect-square h-full shrink-0 grid-cols-8 grid-rows-8 overflow-hidden rounded-[3px] border border-hair-2"
         role="grid"
         aria-label="chess board"
       >
@@ -154,7 +154,7 @@ function Chess_() {
                 aria-label={label}
                 onClick={() => clickSquare(r, c)}
                 className={[
-                  "flex aspect-square items-center justify-center text-[21px] leading-none",
+                  "flex items-center justify-center text-[9cqw] leading-none",
                   solved ? "cursor-default" : "cursor-pointer",
                   isSelected
                     ? "bg-accent"
@@ -173,13 +173,21 @@ function Chess_() {
         )}
       </div>
 
-      <div className="mt-3 flex justify-between font-mono text-[12px]">
-        <span
-          className={solved ? "text-accent" : "text-status"}
-          aria-live="polite"
-        >
-          {message}
-        </span>
+      <div className="flex min-w-0 flex-1 flex-col justify-between py-0.5 font-mono">
+        <div className="flex flex-col gap-1.5">
+          <span
+            className={[
+              "text-[13px]",
+              solved ? "text-accent" : "text-status",
+            ].join(" ")}
+            aria-live="polite"
+          >
+            {message}
+          </span>
+          <span className="text-[10px] tracking-[0.06em] text-faint-2">
+            tap a white piece, then its target
+          </span>
+        </div>
         <span
           role="button"
           tabIndex={0}
@@ -190,9 +198,9 @@ function Chess_() {
               reset();
             }
           }}
-          className="cursor-pointer text-muted-2 transition-colors hover:text-hover"
+          className="cursor-pointer self-start text-[12px] text-muted-2 transition-colors hover:text-hover"
         >
-          reset ↻
+          new puzzle ↻
         </span>
       </div>
     </div>
