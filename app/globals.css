@@ -403,6 +403,55 @@ html[data-theme="dark"] {
     color: var(--ink);
   }
 
+  .ttt-controls {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 16px;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+  }
+
+  .ttt-controls-label {
+    color: var(--dim);
+  }
+
+  .ttt-toggle {
+    appearance: none;
+    background: none;
+    border: 0;
+    padding: 0 0 2px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: var(--dim);
+    cursor: pointer;
+    position: relative;
+    transition: color 0.3s ease;
+  }
+
+  .ttt-toggle[aria-pressed="true"] {
+    color: var(--ink);
+  }
+
+  .ttt-toggle::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.35s var(--ease);
+  }
+
+  .ttt-toggle[aria-pressed="true"]::after,
+  .ttt-toggle:hover::after {
+    transform: scaleX(1);
+  }
+
   .ttt-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -661,7 +710,9 @@ html[data-theme="dark"] {
     .game-selector-tab,
     .game-selector-tab::after,
     .ttt-cell,
-    .ttt-reset {
+    .ttt-reset,
+    .ttt-toggle,
+    .ttt-toggle::after {
       transition: none;
     }
   }

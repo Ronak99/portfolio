@@ -92,6 +92,7 @@ const EMPTY_SCORES: Scores = { you: 0, draws: 0, cpu: 0 };
 export function TicTacToe() {
   const [board, setBoard] = useState<Board>(EMPTY_BOARD);
   const [turn, setTurn] = useState<Player>(HUMAN);
+  const [firstPlayer, setFirstPlayer] = useState<Player>(HUMAN);
   const [scores, setScores] = useState<Scores>(EMPTY_SCORES);
 
   const win = getWinInfo(board);
@@ -136,12 +137,27 @@ export function TicTacToe() {
     [handleCellClick],
   );
 
-  const handleReset = useCallback(() => {
+  const startGame = useCallback((first: Player) => {
     if (cpuTimerRef.current) clearTimeout(cpuTimerRef.current);
     recordedRef.current = false;
     setBoard(EMPTY_BOARD);
-    setTurn(HUMAN);
+    setTurn(first);
   }, []);
+
+  const handleReset = useCallback(() => {
+    startGame(firstPlayer);
+  }, [firstPlayer, startGame]);
+
+  // Switching who opens the game starts a fresh round immediately so the choice
+  // always takes effect on the current board, never mid-game.
+  const handleSetFirst = useCallback(
+    (first: Player) => {
+      if (first === firstPlayer) return;
+      setFirstPlayer(first);
+      startGame(first);
+    },
+    [firstPlayer, startGame],
+  );
 
   // CPU turn — respond after a short, deliberate pause.
   useEffect(() => {
@@ -192,6 +208,30 @@ export function TicTacToe() {
         </p>
         <button type="button" className="mono ttt-reset" onClick={handleReset}>
           {gameOver ? "play again" : "reset"}
+        </button>
+      </div>
+
+      <div
+        className="mono ttt-controls"
+        role="group"
+        aria-label="who moves first"
+      >
+        <span className="ttt-controls-label">first</span>
+        <button
+          type="button"
+          className="ttt-toggle"
+          aria-pressed={firstPlayer === HUMAN}
+          onClick={() => handleSetFirst(HUMAN)}
+        >
+          you
+        </button>
+        <button
+          type="button"
+          className="ttt-toggle"
+          aria-pressed={firstPlayer === CPU}
+          onClick={() => handleSetFirst(CPU)}
+        >
+          cpu
         </button>
       </div>
 
