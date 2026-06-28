@@ -34,6 +34,30 @@
   --color-accent-fg: var(--game-accent-fg);
   --color-piece-muted: var(--game-piece-muted);
 
+  /* 2048 — coordinated slate→teal→sage tile ramp */
+  --color-t2: var(--game-t2);
+  --color-t2-fg: var(--game-t2-fg);
+  --color-t4: var(--game-t4);
+  --color-t4-fg: var(--game-t4-fg);
+  --color-t8: var(--game-t8);
+  --color-t8-fg: var(--game-t8-fg);
+  --color-t16: var(--game-t16);
+  --color-t16-fg: var(--game-t16-fg);
+  --color-t32: var(--game-t32);
+  --color-t32-fg: var(--game-t32-fg);
+  --color-t64: var(--game-t64);
+  --color-t64-fg: var(--game-t64-fg);
+  --color-t128: var(--game-t128);
+  --color-t128-fg: var(--game-t128-fg);
+  --color-t256: var(--game-t256);
+  --color-t256-fg: var(--game-t256-fg);
+  --color-t512: var(--game-t512);
+  --color-t512-fg: var(--game-t512-fg);
+  --color-t1024: var(--game-t1024);
+  --color-t1024-fg: var(--game-t1024-fg);
+  --color-t2048: var(--game-t2048);
+  --color-t2048-fg: var(--game-t2048-fg);
+
   --tracking-tightest: -0.025em;
   --tracking-wider2: 0.22em;
 }
@@ -84,6 +108,32 @@
   --game-hair-strong: rgba(10, 10, 10, 0.2);
   --game-accent-fg: #0b0b0c;
   --game-piece-muted: #6a6a70;
+
+  /* 2048 tile ramp — light. low tiles sit just above the board, sweeping
+     from cool slate through the accent teal to a deep sage at the milestones.
+     dark text up to 256, light text on the deep 512+ tiles. */
+  --game-t2: #e6e9ee;
+  --game-t2-fg: #2b3a35;
+  --game-t4: #d9e0ea;
+  --game-t4-fg: #2b3a35;
+  --game-t8: #c6d6e0;
+  --game-t8-fg: #233634;
+  --game-t16: #aecdd6;
+  --game-t16-fg: #1f3531;
+  --game-t32: #9bc8c8;
+  --game-t32-fg: #163029;
+  --game-t64: #84beb1;
+  --game-t64-fg: #123026;
+  --game-t128: #6cb59a;
+  --game-t128-fg: #0e2c20;
+  --game-t256: #57a585;
+  --game-t256-fg: #08251a;
+  --game-t512: #468f6f;
+  --game-t512-fg: #f1f6f2;
+  --game-t1024: #387a5c;
+  --game-t1024-fg: #f1f6f2;
+  --game-t2048: #2c684c;
+  --game-t2048-fg: #f4fbf6;
 }
 
 html[data-theme="dark"] {
@@ -120,6 +170,31 @@ html[data-theme="dark"] {
   --game-hair-strong: rgba(255, 255, 255, 0.18);
   --game-accent-fg: #0b0b0c;
   --game-piece-muted: #8a8a90;
+
+  /* 2048 tile ramp — dark. same slate→teal→sage arc, brightening as value
+     climbs. light text on the dim low tiles, dark text on the luminous 512+. */
+  --game-t2: #1c2026;
+  --game-t2-fg: #d7e3dd;
+  --game-t4: #232a35;
+  --game-t4-fg: #d7e3dd;
+  --game-t8: #2a3744;
+  --game-t8-fg: #dbe7e2;
+  --game-t16: #324a55;
+  --game-t16-fg: #dde9e4;
+  --game-t32: #3a5d62;
+  --game-t32-fg: #e0ece6;
+  --game-t64: #42726a;
+  --game-t64-fg: #e3efe9;
+  --game-t128: #4c8a76;
+  --game-t128-fg: #e6f2ec;
+  --game-t256: #589f86;
+  --game-t256-fg: #06140e;
+  --game-t512: #6bb597;
+  --game-t512-fg: #06140e;
+  --game-t1024: #80c8a8;
+  --game-t1024-fg: #07170f;
+  --game-t2048: #97dbba;
+  --game-t2048-fg: #07170f;
 }
 
 @layer base {
@@ -760,6 +835,35 @@ html[data-theme="dark"] {
     40% { transform: translateX(6px); }
     60% { transform: translateX(-4px); }
     80% { transform: translateX(4px); }
+  }
+
+  @keyframes tile-new {
+    from {
+      transform: scale(0);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+
+  @keyframes tile-merge {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.12);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  .animate-tile-new {
+    animation: tile-new 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .animate-tile-merge {
+    animation: tile-merge 150ms cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .ttt-cell[data-mark="o"] {

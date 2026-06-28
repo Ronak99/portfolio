@@ -1,4 +1,5 @@
 import { Chess } from "./Chess";
+import { Game2048 } from "./Game2048";
 import { TicTacToe } from "./TicTacToe";
 import type { GameDefinition } from "./types";
 import { Wurdle } from "./Wurdle";
@@ -9,6 +10,12 @@ export const GAMES: GameDefinition[] = [
     label: "tic-tac-toe",
     status: "playable",
     Component: TicTacToe,
+  },
+  {
+    id: "2048",
+    label: "2048",
+    status: "playable",
+    Component: Game2048,
   },
   {
     id: "wurdle",

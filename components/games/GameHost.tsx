@@ -33,14 +33,14 @@ export function GameHost() {
     setActiveId((current) => randomGameId(current));
   }, []);
 
-  // s shuffles to another game (skip while wurdle is active — s is a letter key).
+  // s shuffles to another game (skip while wurdle/2048 are active — they bind s).
   useEffect(() => {
     if (!revealed) return;
 
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key.toLowerCase() !== "s") return;
       if (event.metaKey || event.ctrlKey || event.altKey) return;
-      if (activeId === "wurdle") return;
+      if (activeId === "wurdle" || activeId === "2048") return;
 
       event.preventDefault();
       handleShuffle();
