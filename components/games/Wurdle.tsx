@@ -1,19 +1,15 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import {
-  ALLOWED_GUESSES,
-  ANSWER_WORDS,
-  WORD_LENGTH,
-} from "../../data/wurdleWords";
+import { ANSWER_WORDS, WORD_LENGTH } from "../../data/wurdleWords";
 
-const MAX_GUESSES = 6;
+const MAX_GUESSES = 5;
 
 type TileState = "empty" | "correct" | "present" | "absent";
 type GameState = "playing" | "won" | "lost";
 
-const ALLOWED_SET = new Set(ALLOWED_GUESSES);
-
+// The answer is always a real word from the curated list, but player guesses
+// are unrestricted — any 5-letter A–Z string is accepted (no dictionary check).
 function pickAnswer(): string {
   return ANSWER_WORDS[Math.floor(Math.random() * ANSWER_WORDS.length)] ?? "";
 }
@@ -43,14 +39,19 @@ function evaluateGuess(guess: string, answer: string): TileState[] {
   return result;
 }
 
+// Color encoding for tile feedback:
+//   correct → green (right letter, right spot)
+//   present → amber (letter in word, wrong spot)
+//   absent  → dark slate (letter not in word)
+//   empty   → board cell, slightly distinct from absent
 function tileClass(state: TileState): string {
   switch (state) {
     case "correct":
-      return "border border-transparent bg-accent text-accent-fg";
+      return "border border-transparent bg-[#5cb88a] text-[#0d1117]";
     case "present":
-      return "border border-transparent bg-wd-present-bg text-wd-present-fg";
+      return "border border-transparent bg-[#d4a843] text-[#0d1117]";
     case "absent":
-      return "border border-transparent bg-wd-absent-bg text-wd-absent-fg";
+      return "border border-transparent bg-[#2a2f3a] text-[#c9d1d9]";
     default:
       return "border border-hair-2 bg-cell text-ink";
   }
@@ -80,17 +81,14 @@ export function Wurdle() {
   const submitGuess = useCallback(() => {
     if (gameState !== "playing" || !answer) return;
 
+    // Only requirement: exactly 5 letters (A–Z). No dictionary validation —
+    // any 5-letter string is accepted and scored.
     if (current.length < WORD_LENGTH) {
       flash("not enough letters");
       return;
     }
 
     const guess = current.toLowerCase();
-    if (!ALLOWED_SET.has(guess)) {
-      flash("not in word list");
-      return;
-    }
-
     const nextGuesses = [...guesses, guess];
     setGuesses(nextGuesses);
     setCurrent("");
@@ -102,6 +100,14 @@ export function Wurdle() {
       setGameState("lost");
     }
   }, [answer, current, flash, gameState, guesses]);
+
+  const reset = useCallback(() => {
+    setAnswer(pickAnswer());
+    setGuesses([]);
+    setCurrent("");
+    setGameState("playing");
+    setNotice("");
+  }, []);
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -135,7 +141,7 @@ export function Wurdle() {
     : solved
       ? "solved ✓"
       : gameState === "lost"
-        ? `it was ${answer}`
+        ? `it was ${answer.toUpperCase()}`
         : "type · enter · ⌫";
 
   const rows = Array.from({ length: MAX_GUESSES }, (_, r) => {
@@ -180,8 +186,29 @@ export function Wurdle() {
         ))}
       </div>
 
-      <div className="mt-[9px] font-mono text-[12px]" aria-live="polite">
-        <span className={solved ? "text-accent" : "text-status"}>{status}</span>
+      <div className="mt-[9px] flex justify-between font-mono text-[12px]">
+        <span
+          className={solved ? "text-accent" : "text-status"}
+          aria-live="polite"
+        >
+          {status}
+        </span>
+        {gameState !== "playing" ? (
+          <span
+            role="button"
+            tabIndex={0}
+            onClick={reset}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                reset();
+              }
+            }}
+            className="cursor-pointer text-muted-2 transition-colors hover:text-hover"
+          >
+            new word ↻
+          </span>
+        ) : null}
       </div>
     </div>
   );
