@@ -1,47 +1,45 @@
-import "./globals.css";
 import type { Metadata } from "next";
-import { ThemeProvider } from "@/components/theme-provider";
-import { basePath } from "./util/constants";
-import { Syne, Inter } from "next/font/google";
-import { PageTransitionProvider } from "@/components/transition/page-transition-provider";
-import { PageTransition } from "@/components/transition/page-transition";
+import { Archivo, IBM_Plex_Mono } from "next/font/google";
+import Script from "next/script";
+import portfolioData from "@/data/portfolio.json";
+import "./globals.css";
 
-const syne = Syne({
-  variable: "--font-syne",
+const archivo = Archivo({
   subsets: ["latin"],
-  weight: ["400", "600", "700", "800"],
+  weight: ["400", "500", "600"],
+  variable: "--font-archivo",
+  display: "swap",
 });
 
-const inter = Inter({
-  variable: "--font-inter",
+const ibmPlexMono = IBM_Plex_Mono({
   subsets: ["latin"],
-  weight: ["300", "400", "500"],
+  weight: ["400", "500"],
+  variable: "--font-ibm-plex-mono",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Ronak Punase",
-  description: "AKA The CS Guy",
-  icons: `${basePath}/logo.png`,
+  title: portfolioData.meta.title,
+  description: portfolioData.hero.subtitle,
 };
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
-    <html lang="en" className="dark" suppressHydrationWarning>
-      <body className={`${syne.variable} ${inter.variable} antialiased bg-[#111111] text-white`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem={false}
-          disableTransitionOnChange
-        >
-          <PageTransitionProvider>
-            <PageTransition>{children}</PageTransition>
-          </PageTransitionProvider>
-        </ThemeProvider>
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <Script id="theme-bootstrap" strategy="beforeInteractive">
+          {`try { var _t = localStorage.getItem("portfolio-theme"); if (_t) document.documentElement.setAttribute("data-theme", _t); } catch (e) {}`}
+        </Script>
+      </head>
+      <body className={`${archivo.variable} ${ibmPlexMono.variable}`}>
+        <div className="bg-grid" aria-hidden="true" />
+        <div className="pf-lamp-pool" aria-hidden="true" />
+
+        {children}
       </body>
     </html>
   );
