@@ -2,11 +2,11 @@
 
 import {
   Chess as ChessEngine,
-  type Color,
   type PieceSymbol,
   type Square,
 } from "chess.js";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { ChessPiece } from "./ChessPieces";
 
 const DEFAULT_MESSAGE = "white to mate in one";
 
@@ -17,11 +17,6 @@ const PUZZLES: string[] = [
   "7k/8/6QK/8/8/8/8/8 w - - 0 1", // Qg7#
   "6k1/8/6K1/8/8/8/8/7R w - - 0 1", // Rh8#
 ];
-
-const GLYPHS: Record<Color, Record<PieceSymbol, string>> = {
-  w: { p: "♙", n: "♘", b: "♗", r: "♖", q: "♕", k: "♔" },
-  b: { p: "♟", n: "♞", b: "♝", r: "♜", q: "♛", k: "♚" },
-};
 
 const PIECE_NAMES: Record<PieceSymbol, string> = {
   p: "pawn",
@@ -154,19 +149,22 @@ function Chess_() {
                 aria-label={label}
                 onClick={() => clickSquare(r, c)}
                 className={[
-                  "flex items-center justify-center text-[9cqw] leading-none",
+                  "flex items-center justify-center",
                   solved ? "cursor-default" : "cursor-pointer",
                   isSelected
                     ? "bg-accent"
                     : dark
                       ? "bg-sq-dark"
                       : "bg-sq-light",
-                  piece && piece.color === "w"
-                    ? "text-ink"
-                    : "text-piece-muted",
                 ].join(" ")}
               >
-                {piece ? GLYPHS[piece.color][piece.type] : ""}
+                {piece ? (
+                  <ChessPiece
+                    color={piece.color}
+                    type={piece.type}
+                    className="h-[80%] w-[80%]"
+                  />
+                ) : null}
               </div>
             );
           }),

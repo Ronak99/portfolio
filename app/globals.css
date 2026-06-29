@@ -108,6 +108,12 @@
   --game-hair-strong: rgba(10, 10, 10, 0.2);
   --game-accent-fg: #0b0b0c;
   --game-piece-muted: #6a6a70;
+  /* chess pieces — light board. white = light fill + dark outline,
+     black = dark fill + dark outline (a clean silhouette on pale squares). */
+  --game-piece-white-fill: #f7f7f5;
+  --game-piece-white-line: #1b1b1e;
+  --game-piece-black-fill: #26262b;
+  --game-piece-black-line: #050507;
 
   /* 2048 tile ramp — light. low tiles sit just above the board, sweeping
      from cool slate through the accent teal to a deep sage at the milestones.
@@ -170,6 +176,12 @@ html[data-theme="dark"] {
   --game-hair-strong: rgba(255, 255, 255, 0.18);
   --game-accent-fg: #0b0b0c;
   --game-piece-muted: #8a8a90;
+  /* chess pieces — dark board. white = bright fill + near-black outline,
+     black = near-black fill + a light rim so it reads against dark squares. */
+  --game-piece-white-fill: #ededed;
+  --game-piece-white-line: #090909;
+  --game-piece-black-fill: #050507;
+  --game-piece-black-line: #b9b9bf;
 
   /* 2048 tile ramp — dark. same slate→teal→sage arc, brightening as value
      climbs. light text on the dim low tiles, dark text on the luminous 512+. */
