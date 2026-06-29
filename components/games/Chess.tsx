@@ -66,11 +66,34 @@ function Chess_() {
     loadPuzzle(randomIndex());
   }, [loadPuzzle]);
 
+  // After a successful mate, advance to another puzzle automatically.
+  useEffect(() => {
+    if (!solved) return;
+
+    const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const delay = reduced ? 400 : 1200;
+    const id = window.setTimeout(() => {
+      loadPuzzle(randomIndex(index));
+    }, delay);
+
+    return () => window.clearTimeout(id);
+  }, [solved, index, loadPuzzle]);
+
   const reset = useCallback(() => {
     loadPuzzle(randomIndex(index));
   }, [index, loadPuzzle]);
 
   const board = useMemo(() => gameRef.current.board(), [fen]);
+
+  const legalTargets = useMemo(() => {
+    if (!selected || solved) return new Map<Square, boolean>();
+    const moves = gameRef.current.moves({ square: selected, verbose: true });
+    const targets = new Map<Square, boolean>();
+    for (const move of moves) {
+      targets.set(move.to, Boolean(move.captured));
+    }
+    return targets;
+  }, [selected, fen, solved]);
 
   const clickSquare = useCallback(
     (r: number, c: number) => {
@@ -136,6 +159,8 @@ function Chess_() {
             const square = squareName(r, c);
             const dark = (r + c) % 2 === 1;
             const isSelected = selected === square;
+            const isCapture = legalTargets.get(square) ?? false;
+            const isMoveTarget = legalTargets.has(square);
             const label = piece
               ? `${piece.color === "w" ? "white" : "black"} ${
                   PIECE_NAMES[piece.type]
@@ -149,15 +174,30 @@ function Chess_() {
                 aria-label={label}
                 onClick={() => clickSquare(r, c)}
                 className={[
-                  "flex items-center justify-center",
+                  "relative flex items-center justify-center",
                   solved ? "cursor-default" : "cursor-pointer",
                   isSelected
-                    ? "bg-accent"
+                    ? dark
+                      ? "bg-sq-light ring-1 ring-inset ring-hair-2"
+                      : "bg-sq-dark ring-1 ring-inset ring-hair-2"
                     : dark
                       ? "bg-sq-dark"
                       : "bg-sq-light",
                 ].join(" ")}
               >
+                {isMoveTarget && !isSelected ? (
+                  isCapture ? (
+                    <span
+                      className="pointer-events-none absolute inset-[14%] rounded-full ring-[2.5px] ring-hair-strong"
+                      aria-hidden="true"
+                    />
+                  ) : (
+                    <span
+                      className="pointer-events-none absolute h-[22%] w-[22%] rounded-full bg-hair-strong"
+                      aria-hidden="true"
+                    />
+                  )
+                ) : null}
                 {piece ? (
                   <ChessPiece
                     color={piece.color}
