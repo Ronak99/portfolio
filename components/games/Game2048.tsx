@@ -161,10 +161,6 @@ const KEY_TO_DIR: Record<string, Direction> = {
   arrowdown: "down",
   arrowleft: "left",
   arrowright: "right",
-  w: "up",
-  s: "down",
-  a: "left",
-  d: "right",
 };
 
 function swipeDirection(dx: number, dy: number): Direction | null {
@@ -298,7 +294,7 @@ export function Game2048() {
     ? "2048 reached ✓"
     : gameState === "lost"
       ? "no moves left"
-      : "merge to 2048";
+      : "";
 
   const slideMs = reduceMotion ? 0 : 150;
 
@@ -324,36 +320,36 @@ export function Game2048() {
 
         {cellSize > 0
           ? tiles.map((tile) => (
+            <div
+              key={tile.id}
+              className="absolute left-0 top-0"
+              style={{
+                width: cellSize,
+                height: cellSize,
+                transform: `translate(${PAD + tile.col * (cellSize + GAP)}px, ${PAD + tile.row * (cellSize + GAP)}px)`,
+                transition:
+                  slideMs > 0
+                    ? `transform ${slideMs}ms cubic-bezier(0.16, 1, 0.3, 1)`
+                    : undefined,
+                zIndex: tile.justMerged ? 2 : 1,
+              }}
+            >
               <div
-                key={tile.id}
-                className="absolute left-0 top-0"
-                style={{
-                  width: cellSize,
-                  height: cellSize,
-                  transform: `translate(${PAD + tile.col * (cellSize + GAP)}px, ${PAD + tile.row * (cellSize + GAP)}px)`,
-                  transition:
-                    slideMs > 0
-                      ? `transform ${slideMs}ms cubic-bezier(0.16, 1, 0.3, 1)`
-                      : undefined,
-                  zIndex: tile.justMerged ? 2 : 1,
-                }}
+                role="gridcell"
+                aria-label={`${tile.value}`}
+                className={[
+                  "flex h-full w-full items-center justify-center rounded-[3px] tabular-nums",
+                  "font-medium leading-none",
+                  tileTextSize(tile.value),
+                  tileClass(tile.value),
+                  tile.isNew && !reduceMotion ? "animate-tile-new" : "",
+                  tile.justMerged && !reduceMotion ? "animate-tile-merge" : "",
+                ].join(" ")}
               >
-                <div
-                  role="gridcell"
-                  aria-label={`${tile.value}`}
-                  className={[
-                    "flex h-full w-full items-center justify-center rounded-[3px] tabular-nums",
-                    "font-medium leading-none",
-                    tileTextSize(tile.value),
-                    tileClass(tile.value),
-                    tile.isNew && !reduceMotion ? "animate-tile-new" : "",
-                    tile.justMerged && !reduceMotion ? "animate-tile-merge" : "",
-                  ].join(" ")}
-                >
-                  {tile.value}
-                </div>
+                {tile.value}
               </div>
-            ))
+            </div>
+          ))
           : null}
       </div>
 
@@ -385,7 +381,7 @@ export function Game2048() {
           </div>
 
           <span className="text-[10px] tracking-[0.06em] text-faint-2">
-            swipe or arrows / wasd
+            swipe or arrow keys
           </span>
         </div>
 

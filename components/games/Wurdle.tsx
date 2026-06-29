@@ -138,8 +138,7 @@ export function Wurdle() {
     setNotice("");
   }, []);
 
-  // Single entry point for input — both the on-screen keys and the physical
-  // keyboard route through here so behaviour stays identical.
+  // On-screen keyboard entry point.
   const handleKey = useCallback(
     (key: string) => {
       if (gameState !== "playing") return;
@@ -155,27 +154,6 @@ export function Wurdle() {
     },
     [gameState, submitGuess],
   );
-
-  useEffect(() => {
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.metaKey || event.ctrlKey || event.altKey) return;
-      if (gameState !== "playing") return;
-
-      const key = event.key.toLowerCase();
-      if (key === "enter") {
-        event.preventDefault();
-        handleKey("enter");
-      } else if (key === "backspace") {
-        event.preventDefault();
-        handleKey("back");
-      } else if (/^[a-z]$/.test(key)) {
-        handleKey(key);
-      }
-    };
-
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, [gameState, handleKey]);
 
   // Best-known status for each letter, used to tint the on-screen keys.
   const letterStates = useMemo(() => {
