@@ -1,4 +1,5 @@
-import { Chess } from "./Chess";
+import { ChessGame } from "./ChessGame";
+import { ChessPuzzles } from "./ChessPuzzles";
 import { Game2048 } from "./Game2048";
 import { TicTacToe } from "./TicTacToe";
 import type { GameDefinition } from "./types";
@@ -27,7 +28,13 @@ export const GAMES: GameDefinition[] = [
     id: "chess",
     label: "chess",
     status: "playable",
-    Component: Chess,
+    Component: ChessGame,
+  },
+  {
+    id: "chess-puzzles",
+    label: "chess puzzles",
+    status: "playable",
+    Component: ChessPuzzles,
   },
 ];
 
