@@ -59,6 +59,8 @@ export function ChessGame() {
   const [result, setResult] = useState<ChessGameResult>(null);
   const [resultReason, setResultReason] = useState("");
   const [difficulty, setDifficulty] = useState<ChessDifficulty>(2);
+  const [pendingDifficulty, setPendingDifficulty] =
+    useState<ChessDifficulty | null>(null);
   const [promotion, setPromotion] = useState<PromotionPending | null>(null);
   const difficultyRef = useRef(difficulty);
   const statusRef = useRef(status);
@@ -81,6 +83,7 @@ export function ChessGame() {
 
   const {
     gameRef,
+    fen,
     board,
     selected,
     legalTargets,
@@ -184,11 +187,29 @@ export function ChessGame() {
 
   const handleDifficultyChange = useCallback(
     (level: ChessDifficulty) => {
-      setDifficulty(level);
-      resetGame();
+      if (level === difficulty) return;
+
+      const gameInProgress = fen !== STARTING_FEN;
+      if (!gameInProgress) {
+        setDifficulty(level);
+        return;
+      }
+
+      setPendingDifficulty(level);
     },
-    [resetGame],
+    [difficulty, fen],
   );
+
+  const confirmDifficultyChange = useCallback(() => {
+    if (!pendingDifficulty) return;
+    setDifficulty(pendingDifficulty);
+    setPendingDifficulty(null);
+    resetGame();
+  }, [pendingDifficulty, resetGame]);
+
+  const cancelDifficultyChange = useCallback(() => {
+    setPendingDifficulty(null);
+  }, []);
 
   const handlePromotion = useCallback(
     (piece: PieceSymbol) => {
@@ -272,19 +293,43 @@ export function ChessGame() {
         </div>
 
         <div className="chess-controls !mt-0">
-          <div className="chess-levels" role="group" aria-label="difficulty">
-            {DIFFICULTIES.map(({ level, label }) => (
-              <button
-                key={level}
-                type="button"
-                className="chess-level"
-                aria-pressed={difficulty === level}
-                onClick={() => handleDifficultyChange(level)}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
+          {pendingDifficulty ? (
+            <div className="flex flex-col gap-1.5">
+              <span className="text-[10px] tracking-[0.04em] text-status">
+                changing difficulty resets your game
+              </span>
+              <div className="flex gap-3">
+                <button
+                  type="button"
+                  onClick={confirmDifficultyChange}
+                  className="cursor-pointer text-[11px] text-muted-2 transition-colors hover:text-hover"
+                >
+                  confirm
+                </button>
+                <button
+                  type="button"
+                  onClick={cancelDifficultyChange}
+                  className="cursor-pointer text-[11px] text-faint-2 transition-colors hover:text-muted-2"
+                >
+                  cancel
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="chess-levels" role="group" aria-label="difficulty">
+              {DIFFICULTIES.map(({ level, label }) => (
+                <button
+                  key={level}
+                  type="button"
+                  className="chess-level"
+                  aria-pressed={difficulty === level}
+                  onClick={() => handleDifficultyChange(level)}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          )}
           <span
             role="button"
             tabIndex={0}
