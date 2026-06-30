@@ -20,6 +20,19 @@ All portfolio content is in [`data/portfolio.json`](data/portfolio.json). Edit t
 
 Preview images live in [`public/assets/previews/`](public/assets/previews/).
 
+### Customizing the Wurdle game
+
+The hero games module includes **Wurdle**, a Wordle-style word game. All of its
+words live in one file — [`data/wurdleWords.ts`](data/wurdleWords.ts) — so they
+are easy to customize:
+
+- `WORD_LENGTH` — how many letters every word has.
+- `ANSWER_WORDS` — the pool the secret answer is randomly picked from.
+- `EXTRA_ALLOWED_GUESSES` — words accepted as guesses but never used as the answer.
+
+Use lowercase letters and keep every word exactly `WORD_LENGTH` letters long;
+the game adapts to the lists automatically.
+
 ## Scripts
 
 | Command | Description |

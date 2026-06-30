@@ -15,6 +15,9 @@
 /build
 /out
 
+# generated chess engine assets (copied via postinstall)
+/public/stockfish/
+
 # misc
 .DS_Store
 *.pem
