@@ -1,23 +1,84 @@
 {
   "meta": {
-    "title": "ronak punase — mobile engineer",
+    "title": "ronak punase, not your average SDE",
     "email": "punase.ronak99@gmail.com",
     "footerLine": "✲ ronak punase — 2026"
   },
   "hero": {
-    "label": "✲ mobile engineer — flutter",
+    "label": "✲ all things mobile.",
     "firstName": "ronak",
     "lastName": "punase",
-    "subtitle": "building polished mobile experiences for android & ios — six years of shipping apps, plugins and pipelines.",
+    "subtitle": "building beautiful mobile experiences for android & ios, six years of shipping native and hybrid apps, plugins and pipelines.",
     "current": "currently at farmako"
   },
   "socials": [
-    { "label": "youtube", "href": "https://www.youtube.com/@TheCSGuy" },
-    { "label": "x", "href": "https://x.com/The_RonakPunase" },
-    { "label": "github", "href": "https://github.com/Ronak99/" },
-    { "label": "linkedin", "href": "https://www.linkedin.com/in/ronak-punase/" }
+    {
+      "label": "youtube",
+      "href": "https://www.youtube.com/@TheCSGuy"
+    },
+    {
+      "label": "x",
+      "href": "https://x.com/The_RonakPunase"
+    },
+    {
+      "label": "github",
+      "href": "https://github.com/Ronak99/"
+    },
+    {
+      "label": "linkedin",
+      "href": "https://www.linkedin.com/in/ronak-punase/"
+    }
   ],
   "works": [
+    {
+      "id": "spendrift",
+      "title": "spendrift",
+      "date": "in active development",
+      "image": "/assets/previews/mymoney.png",
+      "glow": "hsl(152 70% 55%)",
+      "bullets": [
+        [
+          {
+            "type": "text",
+            "text": "tracking expenses should not feel like a chore."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "you say: 'spent 500 at petrol pump', spendrift logs it."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "industry standard expense tracker, with human standard accessibility."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "all features listed on "
+          },
+          {
+            "type": "link",
+            "href": "https://spendrift.ronakpunase.dev",
+            "text": "spendrift."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "live on "
+          },
+          {
+            "type": "link",
+            "href": "https://apps.apple.com/us/app/spendrift/id6761763507",
+            "text": "App Store."
+          }
+        ]
+      ]
+    },
     {
       "id": "majestic-ui",
       "title": "majestic ui",
@@ -26,39 +87,67 @@
       "glow": "hsl(268 70% 60%)",
       "bullets": [
         [
-          { "type": "link", "text": "shadcn", "href": "https://ui.shadcn.com/" },
-          { "type": "text", "text": " equivalent for flutter." }
+          {
+            "type": "link",
+            "text": "shadcn",
+            "href": "https://ui.shadcn.com/"
+          },
+          {
+            "type": "text",
+            "text": " equivalent for flutter."
+          }
         ],
         [
-          { "type": "text", "text": "developed an " },
-          { "type": "link", "text": "advanced cli", "href": "https://pub.dev/packages/majestic_ui" },
-          { "type": "text", "text": " tool for direct delivery to the user." }
+          {
+            "type": "text",
+            "text": "developed an "
+          },
+          {
+            "type": "link",
+            "text": "advanced cli",
+            "href": "https://pub.dev/packages/majestic_ui"
+          },
+          {
+            "type": "text",
+            "text": " tool for direct delivery to the user."
+          }
         ],
-        [{ "type": "text", "text": "built a reactjs website with hosted flutter webview." }],
         [
-          { "type": "text", "text": "integrated github's " },
-          { "type": "link", "text": "octokit", "href": "https://github.com/octokit" },
-          { "type": "text", "text": " sdk for the " },
-          { "type": "link", "text": "publish", "href": "https://majesticui.com/publish" },
-          { "type": "text", "text": " feature." }
+          {
+            "type": "text",
+            "text": "built a reactjs website with hosted flutter webview."
+          }
         ],
-        [{ "type": "text", "text": "next.js · tailwind css · dart · supabase" }]
-      ]
-    },
-    {
-      "id": "mymoney",
-      "title": "mymoney",
-      "date": "jan 2025",
-      "image": "/assets/previews/mymoney.png",
-      "glow": "hsl(152 70% 55%)",
-      "bullets": [
         [
-          { "type": "text", "text": "industry-ready expense tracker in flutter — " },
-          { "type": "link", "text": "github", "href": "https://github.com/Ronak99/MyMoney" },
-          { "type": "text", "text": "." }
+          {
+            "type": "text",
+            "text": "integrated github's "
+          },
+          {
+            "type": "link",
+            "text": "octokit",
+            "href": "https://github.com/octokit"
+          },
+          {
+            "type": "text",
+            "text": " sdk for the "
+          },
+          {
+            "type": "link",
+            "text": "publish",
+            "href": "https://majesticui.com/publish"
+          },
+          {
+            "type": "text",
+            "text": " feature."
+          }
         ],
-        [{ "type": "text", "text": "dynamic local bank-statement parsers; income, expense, categories, bank accounts." }],
-        [{ "type": "text", "text": "floor db · bloc · get" }]
+        [
+          {
+            "type": "text",
+            "text": "next.js · tailwind css · dart · supabase"
+          }
+        ]
       ]
     },
     {
@@ -68,15 +157,45 @@
       "image": "/assets/previews/inquirely.png",
       "glow": "hsl(222 70% 60%)",
       "bullets": [
-        [{ "type": "text", "text": "etl + retrieval-augmented-generation pipeline." }],
-        [{ "type": "text", "text": "supabase vectorstore for embeddings; openai embeddings to create and parse them." }],
-        [{ "type": "text", "text": "langchain to augment user queries." }],
         [
-          { "type": "text", "text": "published " },
-          { "type": "link", "text": "inquirely-chat", "href": "https://www.npmjs.com/package/inquirely-chat" },
-          { "type": "text", "text": " for businesses to incorporate." }
+          {
+            "type": "text",
+            "text": "etl + retrieval-augmented-generation pipeline."
+          }
         ],
-        [{ "type": "text", "text": "next.js · tailwind css · langchain · supabase" }]
+        [
+          {
+            "type": "text",
+            "text": "supabase vectorstore for embeddings; openai embeddings to create and parse them."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "langchain to augment user queries."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "published "
+          },
+          {
+            "type": "link",
+            "text": "inquirely-chat",
+            "href": "https://www.npmjs.com/package/inquirely-chat"
+          },
+          {
+            "type": "text",
+            "text": " for businesses to incorporate."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "next.js · tailwind css · langchain · supabase"
+          }
+        ]
       ]
     },
     {
@@ -86,20 +205,52 @@
       "image": "/assets/previews/skype-clone.png",
       "glow": "hsl(198 70% 58%)",
       "bullets": [
-        [{ "type": "text", "text": "fully functional skype clone in flutter — auth, search, chat, video-call." }],
         [
-          { "type": "text", "text": "video calls facilitated via " },
-          { "type": "link", "text": "agora sdk", "href": "https://www.agora.io" },
-          { "type": "text", "text": "." }
+          {
+            "type": "text",
+            "text": "fully functional skype clone in flutter — auth, search, chat, video-call."
+          }
         ],
         [
-          { "type": "text", "text": "demo on " },
-          { "type": "link", "text": "youtube", "href": "https://www.youtube.com/watch?v=01PUYvVoLa8&list=PLTHrJfrjCyJDlOLSIT3bm2xCCuPanUNX4&t=62s" },
-          { "type": "text", "text": "." }
+          {
+            "type": "text",
+            "text": "video calls facilitated via "
+          },
+          {
+            "type": "link",
+            "text": "agora sdk",
+            "href": "https://www.agora.io"
+          },
+          {
+            "type": "text",
+            "text": "."
+          }
         ],
         [
-          { "type": "link", "text": "github repository", "href": "https://github.com/Ronak99/Skype-Clone" },
-          { "type": "text", "text": " with 300+ stars." }
+          {
+            "type": "text",
+            "text": "demo on "
+          },
+          {
+            "type": "link",
+            "text": "youtube",
+            "href": "https://www.youtube.com/watch?v=01PUYvVoLa8&list=PLTHrJfrjCyJDlOLSIT3bm2xCCuPanUNX4&t=62s"
+          },
+          {
+            "type": "text",
+            "text": "."
+          }
+        ],
+        [
+          {
+            "type": "link",
+            "text": "github repository",
+            "href": "https://github.com/Ronak99/Skype-Clone"
+          },
+          {
+            "type": "text",
+            "text": " with 300+ stars."
+          }
         ]
       ]
     },
@@ -110,9 +261,24 @@
       "image": "/assets/previews/quickbytes.png",
       "glow": "hsl(42 80% 58%)",
       "bullets": [
-        [{ "type": "text", "text": "inshorts-inspired news application in flutter." }],
-        [{ "type": "text", "text": "minimalistic ui; on-point news with custom native notification design." }],
-        [{ "type": "text", "text": "flutter · firebase · cloud functions · kotlin" }]
+        [
+          {
+            "type": "text",
+            "text": "inshorts-inspired news application in flutter."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "minimalistic ui; on-point news with custom native notification design."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "flutter · firebase · cloud functions · kotlin"
+          }
+        ]
       ]
     },
     {
@@ -122,9 +288,24 @@
       "image": "/assets/previews/omegle-clone.png",
       "glow": "hsl(338 70% 60%)",
       "bullets": [
-        [{ "type": "text", "text": "matchmaking algorithm that connects two individuals actively searching." }],
-        [{ "type": "text", "text": "once matched, ui updates to render two live video blocks." }],
-        [{ "type": "text", "text": "flutter · firebase" }]
+        [
+          {
+            "type": "text",
+            "text": "matchmaking algorithm that connects two individuals actively searching."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "once matched, ui updates to render two live video blocks."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "flutter · firebase"
+          }
+        ]
       ]
     }
   ],
@@ -133,11 +314,36 @@
       "company": "farmako",
       "period": "2025 — now",
       "bullets": [
-        [{ "type": "text", "text": "built a new dynamic ui using advanced dart features (mixins, factory constructors, detailed enums), improving overall code quality." }],
-        [{ "type": "text", "text": "developed and stabilized multiple ci/cd workflows, reducing build failures by 40%." }],
-        [{ "type": "text", "text": "unified ci/cd pipeline for android, ios, firebase distribution and shorebird — cutting distribution time by ≈60–70%." }],
-        [{ "type": "text", "text": "replaced github-hosted runners with local runners, reducing infra costs and speeding up builds by 25%." }],
-        [{ "type": "text", "text": "re-implemented the cart as a local-first system for a noticeably smoother ux." }]
+        [
+          {
+            "type": "text",
+            "text": "built a new dynamic ui using advanced dart features (mixins, factory constructors, detailed enums), improving overall code quality."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "developed and stabilized multiple ci/cd workflows, reducing build failures by 40%."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "unified ci/cd pipeline for android, ios, firebase distribution and shorebird — cutting distribution time by ≈60–70%."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "replaced github-hosted runners with local runners, reducing infra costs and speeding up builds by 25%."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "re-implemented the cart as a local-first system for a noticeably smoother ux."
+          }
+        ]
       ]
     },
     {
@@ -145,55 +351,167 @@
       "period": "2021 — 2025",
       "bullets": [
         [
-          { "type": "text", "text": "worked on the " },
-          { "type": "link", "text": "pustack", "href": "https://apps.apple.com/us/app/pustack/id6444080075" },
-          { "type": "text", "text": ", " },
-          { "type": "link", "text": "pustack tutor", "href": "https://apps.apple.com/in/app/pustack-tutor/id6444847124" },
-          { "type": "text", "text": " and " },
-          { "type": "link", "text": "pustack gives", "href": "https://apps.apple.com/in/app/pustack-gives/id6449460885" },
-          { "type": "text", "text": " apps." }
+          {
+            "type": "text",
+            "text": "worked on the "
+          },
+          {
+            "type": "link",
+            "text": "pustack",
+            "href": "https://apps.apple.com/us/app/pustack/id6444080075"
+          },
+          {
+            "type": "text",
+            "text": ", "
+          },
+          {
+            "type": "link",
+            "text": "pustack tutor",
+            "href": "https://apps.apple.com/in/app/pustack-tutor/id6444847124"
+          },
+          {
+            "type": "text",
+            "text": " and "
+          },
+          {
+            "type": "link",
+            "text": "pustack gives",
+            "href": "https://apps.apple.com/in/app/pustack-gives/id6449460885"
+          },
+          {
+            "type": "text",
+            "text": " apps."
+          }
         ],
         [
-          { "type": "text", "text": "engineered an extremely reliable video-calling mechanism; implemented " },
-          { "type": "link", "text": "agora", "href": "https://www.agora.io/en" },
-          { "type": "text", "text": "'s native android and ios sdk into a flutter plugin." }
+          {
+            "type": "text",
+            "text": "engineered an extremely reliable video-calling mechanism; implemented "
+          },
+          {
+            "type": "link",
+            "text": "agora",
+            "href": "https://www.agora.io/en"
+          },
+          {
+            "type": "text",
+            "text": "'s native android and ios sdk into a flutter plugin."
+          }
         ],
-        [{ "type": "text", "text": "extracted whiteboard sdk native functionality into a flutter plugin." }],
-        [{ "type": "text", "text": "built pixel-perfect uis with dynamic layouts for mobile, tablet and ipad." }],
-        [{ "type": "text", "text": "stories-style feature with advanced caching in the tutor app." }],
-        [{ "type": "text", "text": "designed and implemented a resilient call-billing infrastructure." }],
-        [{ "type": "text", "text": "led revision and publication of the official apps on play store and app store." }]
+        [
+          {
+            "type": "text",
+            "text": "extracted whiteboard sdk native functionality into a flutter plugin."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "built pixel-perfect uis with dynamic layouts for mobile, tablet and ipad."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "stories-style feature with advanced caching in the tutor app."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "designed and implemented a resilient call-billing infrastructure."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "led revision and publication of the official apps on play store and app store."
+          }
+        ]
       ]
     },
     {
       "company": "intern · pustack",
       "period": "2020 — 2021",
       "bullets": [
-        [{ "type": "text", "text": "developed the live session controller and content management system." }],
-        [{ "type": "text", "text": "developed the customer care platform." }],
-        [{ "type": "text", "text": "built a central auth mechanism — like google, for all things pustack." }]
+        [
+          {
+            "type": "text",
+            "text": "developed the live session controller and content management system."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "developed the customer care platform."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "built a central auth mechanism — like google, for all things pustack."
+          }
+        ]
       ]
     }
   ],
   "about": {
     "copy": [
-      { "type": "strong", "text": "competitive when learning" },
-      { "type": "text", "text": ", " },
-      { "type": "strong", "text": "collaborative when building" },
-      { "type": "text", "text": ". i am a mobile dev with more than 6 years of experience, well versed in flutter and the ins and outs of the various caveats presented by both android and ios." }
+      {
+        "type": "strong",
+        "text": "competitive when learning"
+      },
+      {
+        "type": "text",
+        "text": ", "
+      },
+      {
+        "type": "strong",
+        "text": "collaborative when building"
+      },
+      {
+        "type": "text",
+        "text": ". i am a mobile dev with more than 6 years of experience, well versed in flutter and the ins and outs of the various caveats presented by both android and ios."
+      }
     ],
     "education": "rgpv university — b.tech in computer science, 8.5 cgpa (2018 — 2021)",
     "packages": [
-      { "label": "persistent_textfield", "href": "https://pub.dev/packages/persistent_textfield" },
-      { "label": "majestic_ui", "href": "https://pub.dev/packages/majestic_ui" },
-      { "label": "inquirely-chat", "href": "https://www.npmjs.com/package/inquirely-chat" }
+      {
+        "label": "persistent_textfield",
+        "href": "https://pub.dev/packages/persistent_textfield"
+      },
+      {
+        "label": "majestic_ui",
+        "href": "https://pub.dev/packages/majestic_ui"
+      },
+      {
+        "label": "inquirely-chat",
+        "href": "https://www.npmjs.com/package/inquirely-chat"
+      }
     ],
     "elsewhere": [
-      { "type": "text", "text": "i teach flutter on youtube as " },
-      { "type": "link", "text": "the cs guy", "href": "https://www.youtube.com/@TheCSGuy" },
-      { "type": "text", "text": " and write on " },
-      { "type": "link", "text": "medium", "href": "https://medium.com/@punase.ronak99" },
-      { "type": "text", "text": "." }
+      {
+        "type": "text",
+        "text": "i teach flutter on youtube as "
+      },
+      {
+        "type": "link",
+        "text": "the cs guy",
+        "href": "https://www.youtube.com/@TheCSGuy"
+      },
+      {
+        "type": "text",
+        "text": " and write on "
+      },
+      {
+        "type": "link",
+        "text": "medium",
+        "href": "https://medium.com/@punase.ronak99"
+      },
+      {
+        "type": "text",
+        "text": "."
+      }
     ]
   },
   "media": [
