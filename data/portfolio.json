@@ -34,6 +34,7 @@
       "id": "spendrift",
       "title": "spendrift",
       "date": "in active development",
+      "href": "https://spendrift.ronakpunase.dev",
       "image": "/assets/previews/spendrift.png",
       "glow": "hsl(152 70% 55%)",
       "bullets": [
@@ -83,6 +84,7 @@
       "id": "majestic-ui",
       "title": "majestic ui",
       "date": "jan 2025",
+      "href": "https://majesticui.com",
       "image": "/assets/previews/majestic-ui.png",
       "glow": "hsl(268 70% 60%)",
       "bullets": [
@@ -151,57 +153,10 @@
       ]
     },
     {
-      "id": "inquirely",
-      "title": "inquirely",
-      "date": "2024",
-      "image": "/assets/previews/inquirely.png",
-      "glow": "hsl(222 70% 60%)",
-      "bullets": [
-        [
-          {
-            "type": "text",
-            "text": "etl + retrieval-augmented-generation pipeline."
-          }
-        ],
-        [
-          {
-            "type": "text",
-            "text": "supabase vectorstore for embeddings; openai embeddings to create and parse them."
-          }
-        ],
-        [
-          {
-            "type": "text",
-            "text": "langchain to augment user queries."
-          }
-        ],
-        [
-          {
-            "type": "text",
-            "text": "published "
-          },
-          {
-            "type": "link",
-            "text": "inquirely-chat",
-            "href": "https://www.npmjs.com/package/inquirely-chat"
-          },
-          {
-            "type": "text",
-            "text": " for businesses to incorporate."
-          }
-        ],
-        [
-          {
-            "type": "text",
-            "text": "next.js · tailwind css · langchain · supabase"
-          }
-        ]
-      ]
-    },
-    {
       "id": "skype-clone",
       "title": "skype clone",
       "date": "2021",
+      "href": "https://github.com/Ronak99/Skype-Clone",
       "image": "/assets/previews/skype-clone.png",
       "glow": "hsl(198 70% 58%)",
       "bullets": [
@@ -250,60 +205,6 @@
           {
             "type": "text",
             "text": " with 300+ stars."
-          }
-        ]
-      ]
-    },
-    {
-      "id": "quickbytes",
-      "title": "quickbytes",
-      "date": "2020",
-      "image": "/assets/previews/quickbytes.png",
-      "glow": "hsl(42 80% 58%)",
-      "bullets": [
-        [
-          {
-            "type": "text",
-            "text": "inshorts-inspired news application in flutter."
-          }
-        ],
-        [
-          {
-            "type": "text",
-            "text": "minimalistic ui; on-point news with custom native notification design."
-          }
-        ],
-        [
-          {
-            "type": "text",
-            "text": "flutter · firebase · cloud functions · kotlin"
-          }
-        ]
-      ]
-    },
-    {
-      "id": "omegle-clone",
-      "title": "omegle clone",
-      "date": "2020",
-      "image": "/assets/previews/omegle-clone.png",
-      "glow": "hsl(338 70% 60%)",
-      "bullets": [
-        [
-          {
-            "type": "text",
-            "text": "matchmaking algorithm that connects two individuals actively searching."
-          }
-        ],
-        [
-          {
-            "type": "text",
-            "text": "once matched, ui updates to render two live video blocks."
-          }
-        ],
-        [
-          {
-            "type": "text",
-            "text": "flutter · firebase"
           }
         ]
       ]

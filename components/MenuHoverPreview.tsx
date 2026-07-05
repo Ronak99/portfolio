@@ -29,7 +29,7 @@ export function MenuHoverPreview({
   hoveredIndex: number | null;
 }) {
   const [cards, setCards] = useState<Card[]>([]);
-  const els = useRef(new Map<number, HTMLDivElement>());
+  const els = useRef(new Map<number, HTMLAnchorElement>());
   const phys = useRef(new Map<number, Phys>());
   const pointer = useRef({ x: 0, y: 0 });
   const nextId = useRef(1);
@@ -130,20 +130,25 @@ export function MenuHoverPreview({
       {cards.map((c) => {
         const work = works[c.idx];
         if (!work) return null;
+        const active = c.idx === hoveredIndex;
         return (
-          <div
+          <a
             key={c.id}
             ref={(node) => {
               if (node) els.current.set(c.id, node);
             }}
-            className="preview"
+            href={work.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`preview${active ? " preview-active" : ""}`}
             style={
               { "--accent": work.glow, visibility: "hidden" } as React.CSSProperties
             }
-            aria-hidden="true"
+            aria-label={`Visit ${work.title}`}
+            tabIndex={active ? 0 : -1}
           >
             <img src={work.image} alt="" />
-          </div>
+          </a>
         );
       })}
     </>

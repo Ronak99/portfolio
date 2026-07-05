@@ -22,11 +22,19 @@ export function Works({ works }: { works: Work[] }) {
               ))}
             </ul>
           </div>
-          <img
-            className="project-thumb"
-            src={work.image}
-            alt={`${work.title} preview`}
-          />
+          <a
+            className="project-thumb-link"
+            href={work.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`Visit ${work.title}`}
+          >
+            <img
+              className="project-thumb"
+              src={work.image}
+              alt={`${work.title} preview`}
+            />
+          </a>
         </article>
       ))}
     </section>

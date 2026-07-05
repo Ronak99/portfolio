@@ -160,11 +160,15 @@ export function OverlayMenuContent({
                     onMouseLeave={leave}
                     onFocus={() => enter(i)}
                     onBlur={leave}
-                    onClick={() =>
+                    onClick={(e) => {
+                      if ((e.target as HTMLElement).closest(".wi-thumb")) {
+                        window.open(work.href, "_blank", "noopener,noreferrer");
+                        return;
+                      }
                       menu.handleCloseMenu(() =>
                         menu.scrollToSection(`#${work.id}`)
-                      )
-                    }
+                      );
+                    }}
                   >
                     <img className="wi-thumb" src={work.image} alt="" />
                     <span className="wi-title">{work.title}</span>

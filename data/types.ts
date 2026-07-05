@@ -14,6 +14,7 @@ export type Work = {
   id: string;
   title: string;
   date: string;
+  href: string;
   image: string;
   glow: string;
   bullets: RichLine[];
