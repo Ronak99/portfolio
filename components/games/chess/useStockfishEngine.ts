@@ -1,8 +1,13 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
-import { StockfishClient } from "@/lib/stockfish/stockfishClient";
+import { useCallback, useRef, useState } from "react";
+import {
+  getEngineClient,
+  preloadEngine,
+  reportEngineFailure,
+} from "@/lib/stockfish/enginePool";
 import type { BestMove } from "@/lib/stockfish/stockfishClient";
+import { useEngineStatus } from "@/hooks/useEngineStatus";
 import type { ChessDifficulty } from "./types";
 
 const CPU_THINK_MS = 420;
@@ -15,49 +20,29 @@ type UseStockfishEngineResult = {
 };
 
 export function useStockfishEngine(): UseStockfishEngineResult {
-  const clientRef = useRef<StockfishClient | null>(null);
   const requestIdRef = useRef(0);
-  const [isReady, setIsReady] = useState(false);
   const [isThinking, setIsThinking] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const client = new StockfishClient();
-    clientRef.current = client;
-
-    client
-      .init()
-      .then(() => {
-        setIsReady(true);
-      })
-      .catch((initError) => {
-        setError(
-          initError instanceof Error
-            ? initError.message
-            : "Engine unavailable",
-        );
-      });
-
-    return () => {
-      requestIdRef.current += 1;
-      client.quit();
-      clientRef.current = null;
-    };
-  }, []);
+  const status = useEngineStatus();
+  const isReady = status === "ready";
+  const engineError = status === "failed" ? "engine unavailable" : error;
 
   const requestMove = useCallback(
     async (fen: string, difficulty: ChessDifficulty): Promise<BestMove> => {
-      const client = clientRef.current;
-      if (!client) {
-        throw new Error("Engine unavailable");
-      }
-
       const requestId = ++requestIdRef.current;
       setIsThinking(true);
       setError(null);
 
       try {
-        await client.ensureReady();
+        // The engine is preloaded before chess ever enters the pool, but call
+        // through preload once more so a warm client is guaranteed here.
+        await preloadEngine();
+        const client = getEngineClient();
+        if (!client) {
+          throw new Error("Engine unavailable");
+        }
+
         const move = await client.requestMove(fen, difficulty);
 
         if (requestId !== requestIdRef.current) {
@@ -77,6 +62,16 @@ export function useStockfishEngine(): UseStockfishEngineResult {
 
         return move;
       } catch (requestError) {
+        const isStale =
+          requestError instanceof Error &&
+          requestError.message === "Stale engine response";
+
+        // A genuine failure (worker crash, timeout) retires the engine for the
+        // session so the shuffle pool stops offering vs-AI chess. Stale
+        // responses from shuffling away must not retire a healthy engine.
+        if (!isStale) {
+          reportEngineFailure();
+        }
         if (requestId === requestIdRef.current) {
           setError(
             requestError instanceof Error
@@ -98,6 +93,6 @@ export function useStockfishEngine(): UseStockfishEngineResult {
     requestMove,
     isReady,
     isThinking,
-    error,
+    error: engineError,
   };
 }

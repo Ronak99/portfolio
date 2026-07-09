@@ -17,6 +17,7 @@ export const DIFFICULTY_CONFIG: Record<1 | 2 | 3, DifficultyConfig> = {
 };
 
 const ENGINE_PATH = "/stockfish/stockfish-18-lite-single.js";
+const INIT_TIMEOUT_MS = 45_000;
 
 function parseBestMove(line: string): BestMove | null {
   if (!line.startsWith("bestmove ")) return null;
@@ -38,6 +39,7 @@ export class StockfishClient {
   private initPromise: Promise<void> | null = null;
   private initResolve: (() => void) | null = null;
   private initReject: ((error: Error) => void) | null = null;
+  private initTimeout: ReturnType<typeof setTimeout> | null = null;
   private pendingGo: {
     resolve: (move: BestMove) => void;
     reject: (error: Error) => void;
@@ -49,6 +51,7 @@ export class StockfishClient {
 
     if (line === "uciok") {
       this.ready = true;
+      this.clearInitTimeout();
       this.initResolve?.();
       this.initResolve = null;
       this.initReject = null;
@@ -70,10 +73,18 @@ export class StockfishClient {
     const error = new Error(event.message || "Stockfish worker error");
     this.pendingGo?.reject(error);
     this.pendingGo = null;
+    this.clearInitTimeout();
     this.initReject?.(error);
     this.initResolve = null;
     this.initReject = null;
   };
+
+  private clearInitTimeout() {
+    if (this.initTimeout !== null) {
+      clearTimeout(this.initTimeout);
+      this.initTimeout = null;
+    }
+  }
 
   init(): Promise<void> {
     if (this.ready) return Promise.resolve();
@@ -95,6 +106,14 @@ export class StockfishClient {
       this.initReject = reject;
       this.worker.addEventListener("message", this.handleMessage);
       this.worker.addEventListener("error", this.handleError);
+      this.initTimeout = setTimeout(() => {
+        this.initTimeout = null;
+        const timeoutError = new Error("Stockfish initialization timed out");
+        this.initReject?.(timeoutError);
+        this.initResolve = null;
+        this.initReject = null;
+        this.quit();
+      }, INIT_TIMEOUT_MS);
       this.worker.postMessage("uci");
     });
 
@@ -150,6 +169,8 @@ export class StockfishClient {
   }
 
   quit(): void {
+    this.clearInitTimeout();
+
     if (!this.worker) return;
 
     this.worker.removeEventListener("message", this.handleMessage);

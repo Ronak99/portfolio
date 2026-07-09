@@ -1,40 +1,41 @@
-import { ChessGame } from "./ChessGame";
-import { ChessPuzzles } from "./ChessPuzzles";
-import { Game2048 } from "./Game2048";
-import { TicTacToe } from "./TicTacToe";
 import type { GameDefinition } from "./types";
-import { Wurdle } from "./Wurdle";
 
 export const GAMES: GameDefinition[] = [
   {
     id: "tic-tac-toe",
     label: "tic-tac-toe",
     status: "playable",
-    Component: TicTacToe,
+    engineRequirement: "none",
+    load: () => import("./TicTacToe").then((m) => ({ default: m.TicTacToe })),
   },
   {
     id: "2048",
     label: "2048",
     status: "playable",
-    Component: Game2048,
+    engineRequirement: "none",
+    load: () => import("./Game2048").then((m) => ({ default: m.Game2048 })),
   },
   {
     id: "wurdle",
     label: "wordle",
     status: "playable",
-    Component: Wurdle,
+    engineRequirement: "none",
+    load: () => import("./Wurdle").then((m) => ({ default: m.Wurdle })),
   },
   {
     id: "chess",
     label: "chess",
     status: "playable",
-    Component: ChessGame,
+    engineRequirement: "stockfish",
+    load: () => import("./ChessGame").then((m) => ({ default: m.ChessGame })),
   },
   {
     id: "chess-puzzles",
     label: "chess puzzles",
     status: "playable",
-    Component: ChessPuzzles,
+    engineRequirement: "none",
+    load: () =>
+      import("./ChessPuzzles").then((m) => ({ default: m.ChessPuzzles })),
   },
 ];
 
