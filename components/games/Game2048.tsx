@@ -314,7 +314,7 @@ export function Game2048() {
           aria-hidden
         >
           {Array.from({ length: CELLS }, (_, i) => (
-            <div key={`cell-${i}`} className="rounded-[3px] bg-cell" />
+            <div key={`cell-${i}`} className="rounded-[3px] bg-cell-2048" />
           ))}
         </div>
 

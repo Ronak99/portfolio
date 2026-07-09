@@ -11,6 +11,7 @@
   --color-base: var(--game-base);
   --color-panel: var(--game-panel);
   --color-cell: var(--game-cell);
+  --color-cell-2048: var(--game-cell-2048);
   --color-ink: var(--game-ink);
   --color-ink-2: var(--game-ink-2);
   --color-title: var(--game-title);
@@ -87,6 +88,7 @@
   --game-base: #f3f3f3;
   --game-panel: rgba(255, 255, 255, 0.94);
   --game-cell: #ececec;
+  --game-cell-2048: #fafafa;
   --game-ink: #0a0a0a;
   --game-ink-2: #141414;
   --game-title: #2a2a2a;
@@ -155,6 +157,7 @@ html[data-theme="dark"] {
   --game-base: #08080a;
   --game-panel: rgba(14, 14, 16, 0.92);
   --game-cell: #0c0c0e;
+  --game-cell-2048: #0c0c0e;
   --game-ink: #f0f0f0;
   --game-ink-2: #e8e8e8;
   --game-title: #cfcfcf;
