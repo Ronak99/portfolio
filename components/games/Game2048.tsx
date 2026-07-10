@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useGameScore } from "./GameScoreContext";
 
 const SIZE = 4;
 const CELLS = SIZE * SIZE;
@@ -174,6 +175,7 @@ function swipeDirection(dx: number, dy: number): Direction | null {
 }
 
 export function Game2048() {
+  const { setYou } = useGameScore();
   const [tiles, setTiles] = useState<Tile[]>([]);
   const [score, setScore] = useState(0);
   const [best, setBest] = useState(0);
@@ -217,6 +219,11 @@ export function Game2048() {
       return score;
     });
   }, [score]);
+
+  // Report the visitor's high score as YOU (`—` until they've scored).
+  useEffect(() => {
+    setYou(best > 0 ? best : null);
+  }, [best, setYou]);
 
   const applyMove = useCallback((dir: Direction) => {
     if (stateRef.current !== "playing" || animatingRef.current) return;

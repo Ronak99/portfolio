@@ -2,10 +2,12 @@
 
 import type { ComponentType } from "react";
 import { useCallback, useEffect, useState } from "react";
+import { ownerScoreFor } from "@/data/ownerScores";
 import { useEnginePreload } from "@/hooks/useEnginePreload";
 import { useEngineStatus } from "@/hooks/useEngineStatus";
 import { GameLoadingShell } from "./GameLoadingShell";
 import { GamePanel } from "./GamePanel";
+import { GameScoreProvider, useGameScore } from "./GameScoreContext";
 import { getPlayableGames } from "./playableGames";
 import { DEFAULT_GAME_ID, GAMES } from "./registry";
 import type { GameDefinition } from "./types";
@@ -52,7 +54,7 @@ function LazyGame({ game }: { game: GameDefinition }) {
                    tracking-[0.06em] text-faint-2"
         aria-live="polite"
       >
-        couldn&apos;t load {game.label} — press s for another
+        couldn&apos;t load {game.label} - press s for another
       </div>
     );
   }
@@ -113,11 +115,36 @@ export function GameHost() {
                      transition-[background-color] duration-[450ms]
                      ease-[cubic-bezier(0.16,1,0.3,1)]"
         >
-          <GamePanel name={activeGame.label} onShuffle={handleShuffle}>
-            <LazyGame key={activeId} game={activeGame} />
-          </GamePanel>
+          <GameScoreProvider>
+            <ActiveGamePanel game={activeGame} onShuffle={handleShuffle} />
+          </GameScoreProvider>
         </div>
       ) : null}
     </div>
+  );
+}
+
+function ActiveGamePanel({
+  game,
+  onShuffle,
+}: {
+  game: GameDefinition;
+  onShuffle: () => void;
+}) {
+  const { resetYou } = useGameScore();
+
+  // A fresh game means a fresh visitor score.
+  useEffect(() => {
+    resetYou();
+  }, [game.id, resetYou]);
+
+  return (
+    <GamePanel
+      name={game.label}
+      onShuffle={onShuffle}
+      mine={ownerScoreFor(game.id)}
+    >
+      <LazyGame key={game.id} game={game} />
+    </GamePanel>
   );
 }

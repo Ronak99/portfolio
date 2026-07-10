@@ -66,7 +66,7 @@ export function OverlayMenuContent({
           className="ov-view ov-view-nav"
           id="navView"
           ref={navViewRef}
-          data-screen-label="menu — nav"
+          data-screen-label="menu - nav"
         >
           <ul className="ov-nav">
             <li className="rv-mask">
@@ -128,7 +128,7 @@ export function OverlayMenuContent({
         <div
           className="ov-view ov-view-works"
           id="worksView"
-          data-screen-label="menu — works list"
+          data-screen-label="menu - works list"
         >
           <span className="rv-mask">
             <span className="rv" style={{ "--d": 0 } as React.CSSProperties}>

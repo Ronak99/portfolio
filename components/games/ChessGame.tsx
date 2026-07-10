@@ -14,6 +14,7 @@ import type {
 } from "./chess/types";
 import { useChessInteraction } from "./chess/useChessInteraction";
 import { useStockfishEngine } from "./chess/useStockfishEngine";
+import { useGameScore } from "./GameScoreContext";
 
 const DIFFICULTIES: { level: ChessDifficulty; label: string }[] = [
   { level: 1, label: "easy" },
@@ -39,22 +40,23 @@ function statusMessage(
   if (!isReady && status !== "game-over") return "loading engine…";
 
   if (status === "game-over") {
-    if (result === "win") return "checkmate — you win";
-    if (result === "loss") return "checkmate — you lose";
+    if (result === "win") return "checkmate - you win";
+    if (result === "loss") return "checkmate - you lose";
     if (result === "draw") {
-      if (resultReason === "stalemate") return "stalemate — draw";
-      return `${resultReason} — draw`;
+      if (resultReason === "stalemate") return "stalemate - draw";
+      return `${resultReason} - draw`;
     }
     return "game over";
   }
 
   if (status === "promotion") return "choose promotion";
   if (status === "ai-thinking") return "engine thinking…";
-  if (inCheck) return "check — your move";
+  if (inCheck) return "check - your move";
   return "your move";
 }
 
 export function ChessGame() {
+  const { setYou } = useGameScore();
   const [status, setStatus] = useState<ChessGameStatus>("player-turn");
   const [result, setResult] = useState<ChessGameResult>(null);
   const [resultReason, setResultReason] = useState("");
@@ -62,8 +64,23 @@ export function ChessGame() {
   const [pendingDifficulty, setPendingDifficulty] =
     useState<ChessDifficulty | null>(null);
   const [promotion, setPromotion] = useState<PromotionPending | null>(null);
+  const [, setWins] = useState(0);
   const difficultyRef = useRef(difficulty);
   const statusRef = useRef(status);
+  const recordedRef = useRef(false);
+
+  // Count each win over the engine once and report it as YOU.
+  useEffect(() => {
+    if (status !== "game-over" || result !== "win" || recordedRef.current) {
+      return;
+    }
+    recordedRef.current = true;
+    setWins((prev) => {
+      const next = prev + 1;
+      setYou(next);
+      return next;
+    });
+  }, [status, result, setYou]);
 
   const { requestMove, isThinking, isReady, error: engineError } =
     useStockfishEngine();
@@ -178,6 +195,7 @@ export function ChessGame() {
   }, [finishIfGameOver, runAiTurn]);
 
   const resetGame = useCallback(() => {
+    recordedRef.current = false;
     loadPosition(STARTING_FEN);
     setStatus("player-turn");
     setResult(null);

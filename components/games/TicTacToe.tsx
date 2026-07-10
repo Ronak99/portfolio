@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useGameScore } from "./GameScoreContext";
 
 type Player = "x" | "o";
 type Cell = Player | null;
@@ -37,7 +38,7 @@ function isFull(board: Board): boolean {
   return board.every(Boolean);
 }
 
-// Minimax — the CPU ("o") maximizes; with perfect play it can never be beaten.
+// Minimax - the CPU ("o") maximizes; with perfect play it can never be beaten.
 function minimax(board: Board, depth: number, cpuToMove: boolean): number {
   const win = winnerOf(board);
   if (win) return win === CPU ? 10 - depth : depth - 10;
@@ -78,14 +79,28 @@ function chooseCpuMove(board: Board): number {
 }
 
 export function TicTacToe() {
+  const { setYou } = useGameScore();
   const [board, setBoard] = useState<Board>(EMPTY_BOARD);
   const [turn, setTurn] = useState<Player>(HUMAN);
+  const [, setWins] = useState(0);
   const cpuTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const recordedRef = useRef(false);
 
   const win = winnerOf(board);
   const draw = !win && isFull(board);
   const gameOver = Boolean(win) || draw;
   const youWin = win === HUMAN;
+
+  // Beating a perfect minimax CPU is a draw at best, so any win is worth a lot.
+  useEffect(() => {
+    if (!youWin || recordedRef.current) return;
+    recordedRef.current = true;
+    setWins((prev) => {
+      const next = prev + 1;
+      setYou(next);
+      return next;
+    });
+  }, [youWin, setYou]);
 
   const status = win
     ? youWin
@@ -112,6 +127,7 @@ export function TicTacToe() {
 
   const reset = useCallback(() => {
     if (cpuTimerRef.current) clearTimeout(cpuTimerRef.current);
+    recordedRef.current = false;
     setBoard(EMPTY_BOARD);
     setTurn(HUMAN);
   }, []);

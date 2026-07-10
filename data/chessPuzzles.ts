@@ -1,4 +1,4 @@
-// Mate-in-one puzzles — white to move and deliver checkmate.
+// Mate-in-one puzzles - white to move and deliver checkmate.
 // Each puzzle was verified with chess.js (exactly one mating move).
 // Back-rank mates excluded for variety.
 

@@ -1,10 +1,11 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { CHESS_PUZZLES, randomPuzzleIndex } from "@/data/chessPuzzles";
 import { ChessBoard } from "./chess/ChessBoard";
 import { useChessInteraction } from "./chess/useChessInteraction";
 import type { MovePolicyContext, MovePolicyResult } from "./chess/types";
+import { useGameScore } from "./GameScoreContext";
 
 const DEFAULT_MESSAGE = "white to mate in one";
 
@@ -15,9 +16,11 @@ function puzzleMovePolicy({ game }: MovePolicyContext): MovePolicyResult {
 }
 
 export function ChessPuzzles() {
+  const { setYou } = useGameScore();
   const [index, setIndex] = useState(0);
   const [solved, setSolved] = useState(false);
   const [message, setMessage] = useState(DEFAULT_MESSAGE);
+  const streakRef = useRef(0);
 
   const {
     board,
@@ -36,9 +39,14 @@ export function ChessPuzzles() {
     onMoveAccepted: () => {
       setSolved(true);
       setMessage("checkmate ✓");
+      streakRef.current += 1;
+      setYou(streakRef.current);
     },
     onMoveRejected: () => {
-      setMessage("not mate — try again");
+      setMessage("not mate - try again");
+      // A wrong move ends the run - reset the streak.
+      streakRef.current = 0;
+      setYou(null);
     },
   });
 

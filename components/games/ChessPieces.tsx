@@ -3,7 +3,7 @@ import type { Color, PieceSymbol } from "chess.js";
 
 // Two-tone Cburnett geometry (the classic chess SVG set). Every shape is drawn
 // from one piece of geometry and coloured through two CSS variables so the same
-// component renders either side — ready for a full game, not just the puzzle.
+// component renders either side - ready for a full game, not just the puzzle.
 const FILL = "var(--piece-fill)";
 const LINE = "var(--piece-line)";
 

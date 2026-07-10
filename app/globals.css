@@ -35,7 +35,7 @@
   --color-accent-fg: var(--game-accent-fg);
   --color-piece-muted: var(--game-piece-muted);
 
-  /* 2048 — coordinated slate→teal→sage tile ramp */
+  /* 2048 - coordinated slate→teal→sage tile ramp */
   --color-t2: var(--game-t2);
   --color-t2-fg: var(--game-t2-fg);
   --color-t4: var(--game-t4);
@@ -64,11 +64,11 @@
 }
 
 /* ───────────────────────────────────────────
-   ronak punase — portfolio
+   ronak punase - portfolio
    theme tokens + bespoke animation layers
 ─────────────────────────────────────────── */
 :root {
-  /* mini-games accent — desaturated teal (default).
+  /* mini-games accent - desaturated teal (default).
      alternates: #8a8f5f · #7e7fa6 · #a68a7e */
   --accent: #5f9c8a;
   --ink: #0a0a0a;
@@ -84,7 +84,7 @@
   --pad: clamp(20px, 4vw, 56px);
   color-scheme: light;
 
-  /* mini-games — light */
+  /* mini-games - light */
   --game-base: #f3f3f3;
   --game-panel: rgba(255, 255, 255, 0.94);
   --game-cell: #ececec;
@@ -110,14 +110,14 @@
   --game-hair-strong: rgba(10, 10, 10, 0.2);
   --game-accent-fg: #0b0b0c;
   --game-piece-muted: #6a6a70;
-  /* chess pieces — light board. white = light fill + dark outline,
+  /* chess pieces - light board. white = light fill + dark outline,
      black = dark fill + dark outline (a clean silhouette on pale squares). */
   --game-piece-white-fill: #f7f7f5;
   --game-piece-white-line: #1b1b1e;
   --game-piece-black-fill: #26262b;
   --game-piece-black-line: #050507;
 
-  /* 2048 tile ramp — light. low tiles sit just above the board, sweeping
+  /* 2048 tile ramp - light. low tiles sit just above the board, sweeping
      from cool slate through the accent teal to a deep sage at the milestones.
      dark text up to 256, light text on the deep 512+ tiles. */
   --game-t2: #e6e9ee;
@@ -153,7 +153,7 @@ html[data-theme="dark"] {
   --line: rgba(237, 237, 237, 0.055);
   color-scheme: dark;
 
-  /* mini-games — dark */
+  /* mini-games - dark */
   --game-base: #08080a;
   --game-panel: rgba(14, 14, 16, 0.92);
   --game-cell: #0c0c0e;
@@ -179,14 +179,14 @@ html[data-theme="dark"] {
   --game-hair-strong: rgba(255, 255, 255, 0.18);
   --game-accent-fg: #0b0b0c;
   --game-piece-muted: #8a8a90;
-  /* chess pieces — dark board. white = bright fill + near-black outline,
+  /* chess pieces - dark board. white = bright fill + near-black outline,
      black = near-black fill + a light rim so it reads against dark squares. */
   --game-piece-white-fill: #ededed;
   --game-piece-white-line: #090909;
   --game-piece-black-fill: #050507;
   --game-piece-black-line: #b9b9bf;
 
-  /* 2048 tile ramp — dark. same slate→teal→sage arc, brightening as value
+  /* 2048 tile ramp - dark. same slate→teal→sage arc, brightening as value
      climbs. light text on the dim low tiles, dark text on the luminous 512+. */
   --game-t2: #1c2026;
   --game-t2-fg: #d7e3dd;
@@ -437,6 +437,7 @@ html[data-theme="dark"] {
     align-items: center;
     gap: clamp(32px, 5vw, 72px);
     flex: 1;
+    padding-bottom: clamp(28px, 5vh, 56px);
   }
 
   .hero-copy {
@@ -473,7 +474,8 @@ html[data-theme="dark"] {
 
   .hero-foot {
     margin-top: auto;
-    padding-bottom: 32px;
+    margin-bottom: clamp(12px, 2vh, 24px);
+    padding-bottom: clamp(28px, 4vh, 40px);
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
@@ -1026,7 +1028,7 @@ html[data-theme="dark"] {
     background: var(--dim);
   }
 
-  /* legal capture marker — ring around the targeted piece */
+  /* legal capture marker - ring around the targeted piece */
   .chess-square[data-capture="true"]::after {
     content: "";
     position: absolute;
@@ -1314,7 +1316,7 @@ html[data-theme="dark"] {
   }
 
   .xp li::before {
-    content: "—";
+    content: "-";
     position: absolute;
     left: 0;
     color: var(--dim);

@@ -2,7 +2,7 @@
   "meta": {
     "title": "ronak punase, not your average SDE",
     "email": "punase.ronak99@gmail.com",
-    "footerLine": "✲ ronak punase — 2026"
+    "footerLine": "✲ ronak punase, 2026"
   },
   "hero": {
     "label": "✲ all things mobile.",
@@ -163,7 +163,7 @@
         [
           {
             "type": "text",
-            "text": "fully functional skype clone in flutter — auth, search, chat, video-call."
+            "text": "fully functional skype clone in flutter - auth, search, chat, video-call."
           }
         ],
         [
@@ -213,7 +213,7 @@
   "experience": [
     {
       "company": "farmako",
-      "period": "2025 — now",
+      "period": "2025 - now",
       "bullets": [
         [
           {
@@ -230,7 +230,7 @@
         [
           {
             "type": "text",
-            "text": "unified ci/cd pipeline for android, ios, firebase distribution and shorebird — cutting distribution time by ≈60–70%."
+            "text": "unified ci/cd pipeline for android, ios, firebase distribution and shorebird - cutting distribution time by ≈60-70%."
           }
         ],
         [
@@ -249,7 +249,7 @@
     },
     {
       "company": "pustack",
-      "period": "2021 — 2025",
+      "period": "2021 - 2025",
       "bullets": [
         [
           {
@@ -333,7 +333,7 @@
     },
     {
       "company": "intern · pustack",
-      "period": "2020 — 2021",
+      "period": "2020 - 2021",
       "bullets": [
         [
           {
@@ -350,7 +350,7 @@
         [
           {
             "type": "text",
-            "text": "built a central auth mechanism — like google, for all things pustack."
+            "text": "built a central auth mechanism - like google, for all things pustack."
           }
         ]
       ]
@@ -375,7 +375,7 @@
         "text": ". i am a mobile dev with more than 6 years of experience, well versed in flutter and the ins and outs of the various caveats presented by both android and ios."
       }
     ],
-    "education": "rgpv university — b.tech in computer science, 8.5 cgpa (2018 — 2021)",
+    "education": "rgpv university - b.tech in computer science, 8.5 cgpa (2018 - 2021)",
     "packages": [
       {
         "label": "persistent_textfield",

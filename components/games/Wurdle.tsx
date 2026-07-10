@@ -1,7 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ANSWER_WORDS, WORD_LENGTH } from "../../data/wurdleWords";
+import { useGameScore } from "./GameScoreContext";
 
 const MAX_GUESSES = 5;
 
@@ -9,7 +10,7 @@ type TileState = "empty" | "correct" | "present" | "absent";
 type GameState = "playing" | "won" | "lost";
 
 // The answer is always a real word from the curated list, but player guesses
-// are unrestricted — any 5-letter A–Z string is accepted (no dictionary check).
+// are unrestricted - any 5-letter A-Z string is accepted (no dictionary check).
 function pickAnswer(): string {
   return ANSWER_WORDS[Math.floor(Math.random() * ANSWER_WORDS.length)] ?? "";
 }
@@ -87,15 +88,29 @@ const STATE_RANK: Record<TileState, number> = {
 };
 
 export function Wurdle() {
+  const { setYou } = useGameScore();
   const [answer, setAnswer] = useState("");
   const [guesses, setGuesses] = useState<string[]>([]);
   const [current, setCurrent] = useState("");
   const [gameState, setGameState] = useState<GameState>("playing");
   const [notice, setNotice] = useState("");
+  const [, setWins] = useState(0);
+  const recordedRef = useRef(false);
 
   useEffect(() => {
     setAnswer(pickAnswer());
   }, []);
+
+  // Tally each solve once and report the session win count as YOU.
+  useEffect(() => {
+    if (gameState !== "won" || recordedRef.current) return;
+    recordedRef.current = true;
+    setWins((prev) => {
+      const next = prev + 1;
+      setYou(next);
+      return next;
+    });
+  }, [gameState, setYou]);
 
   const evaluations = useMemo(
     () => guesses.map((guess) => evaluateGuess(guess, answer)),
@@ -110,7 +125,7 @@ export function Wurdle() {
   const submitGuess = useCallback(() => {
     if (gameState !== "playing" || !answer) return;
 
-    // Only requirement: exactly 5 letters (A–Z). No dictionary validation —
+    // Only requirement: exactly 5 letters (A-Z). No dictionary validation.
     // any 5-letter string is accepted and scored.
     if (current.length < WORD_LENGTH) {
       flash("not enough letters");
@@ -131,6 +146,7 @@ export function Wurdle() {
   }, [answer, current, flash, gameState, guesses]);
 
   const reset = useCallback(() => {
+    recordedRef.current = false;
     setAnswer(pickAnswer());
     setGuesses([]);
     setCurrent("");

@@ -1,19 +1,18 @@
 /* ───────────────────────────────────────────
-   wurdle — word lists
+   wurdle - word lists
    ---------------------------------------------
    Everything the wurdle game knows about lives here, so the words are easy
    to customise without touching any game logic.
 
-   • WORD_LENGTH        — how many letters every word has.
-   • ANSWER_WORDS       — the pool the secret answer is randomly picked from.
-   • EXTRA_ALLOWED_GUESSES
-                        — words that are accepted as valid guesses but are
-                          never chosen as the answer (e.g. obscure words).
+   • WORD_LENGTH - how many letters every word has.
+   • ANSWER_WORDS - the pool the secret answer is randomly picked from.
+   • EXTRA_ALLOWED_GUESSES - words that are accepted as valid guesses but are
+     never chosen as the answer (e.g. obscure words).
 
    Rules for editing:
-   • Use lowercase letters only (a–z).
+   • Use lowercase letters only (a-z).
    • Every word must be exactly WORD_LENGTH letters long.
-   • Add or remove entries freely — the game adapts automatically.
+   • Add or remove entries freely - the game adapts automatically.
 ─────────────────────────────────────────── */
 
 export const WORD_LENGTH = 5;
