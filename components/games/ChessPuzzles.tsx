@@ -28,7 +28,7 @@ export function ChessPuzzles() {
     loadPosition,
     clickSquare,
   } = useChessInteraction({
-    initialFen: CHESS_PUZZLES[0],
+    initialFen: CHESS_PUZZLES[0].fen,
     playableColor: "w",
     disabled: solved,
     autoQueenPromotion: true,
@@ -44,7 +44,7 @@ export function ChessPuzzles() {
 
   const loadPuzzle = useCallback(
     (i: number) => {
-      loadPosition(CHESS_PUZZLES[i]);
+      loadPosition(CHESS_PUZZLES[i].fen);
       setIndex(i);
       setSolved(false);
       setMessage(DEFAULT_MESSAGE);

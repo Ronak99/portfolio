@@ -144,7 +144,7 @@ export function TicTacToe() {
   return (
     <div className="flex h-full items-stretch gap-5">
       <div
-        className="@container grid aspect-square h-full shrink-0 grid-cols-3 grid-rows-3 gap-px border border-hair bg-hair"
+        className="@container grid aspect-square h-full shrink-0 grid-cols-3 grid-rows-3 gap-px border border-hair-2 bg-hair-strong"
         role="grid"
         aria-label="tic-tac-toe board"
       >
