@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Archivo, JetBrains_Mono } from "next/font/google";
 import Script from "next/script";
+import { Analytics } from "@vercel/analytics/next";
 import portfolioData from "@/data/portfolio.json";
 import "./globals.css";
 
@@ -40,6 +41,7 @@ export default function RootLayout({
         <div className="pf-lamp-pool" aria-hidden="true" />
 
         {children}
+        <Analytics />
       </body>
     </html>
   );
